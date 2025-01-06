@@ -14,18 +14,36 @@ import Cart from "./pages/shopping/cart";
 import Checkout from "./pages/shopping/checkout";
 import Listings from "./pages/shopping/listings";
 import Account from "./pages/shopping/account";
+import AuthCheck from "./components/common/authCheck";
 export default function App() {
+  const isAuth = true;
+  const user = { role: "admin" };
+
   return (
     <Router>
       <Routes>
         {/* Auth Routes  */}
-        <Route path="/auth" element={<Layout></Layout>}>
+        <Route
+          path="/auth"
+          element={
+            <AuthCheck isAuth={isAuth} user={user}>
+              <Layout></Layout>
+            </AuthCheck>
+          }
+        >
           <Route path="login" element={<Login></Login>} />
           <Route path="register" element={<Register />} />
         </Route>
 
         {/* Admin Routes  */}
-        <Route path="/admin" element={<AdminLayout></AdminLayout>}>
+        <Route
+          path="/admin"
+          element={
+            <AuthCheck isAuth={isAuth} user={user}>
+              <AdminLayout></AdminLayout>
+            </AuthCheck>
+          }
+        >
           <Route path="dashboard" element={<Dashboard />}></Route>
           <Route path="product-list" element={<ProductList />}></Route>
           <Route path="orders" element={<Orders />}></Route>
@@ -33,8 +51,14 @@ export default function App() {
         </Route>
 
         {/* Shopping Routes  */}
-        <Route path="/shopping" element={<ShoppingLayout />}>
-          
+        <Route
+          path="/shopping"
+          element={
+            <AuthCheck isAuth={isAuth} user={user}>
+              <ShoppingLayout />
+            </AuthCheck>
+          }
+        >
           <Route path="home" element={<Home />} />
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
