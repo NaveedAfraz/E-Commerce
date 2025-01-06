@@ -44,18 +44,22 @@ export const CommonForm = ({
   return (
     <div>
       <form onSubmit={onSubmit}>
-        {formComponentDetails.map((formDetail) => {
-          return (
-            <>
-              <div className="grid w-full gap-1.5" key={formDetail.name}>
-                <Label className="mb-1 text-l">{formDetail.label}</Label>
-                <br />
-                {renderComponentType(formDetail)}
-              </div>
-              <Button type="submit" className="w-full mt-4">{buttonText}</Button>
-            </>
-          );
-        })}
+        <div className="flex flex-col gap-3">
+          {formComponentDetails.map((formDetail) => {
+            return (
+              <>
+                <div className="grid w-full gap-1.5" key={formDetail.name}>
+                  <Label className="mb-1 text-l">{formDetail.label}</Label>
+              
+                  {renderComponentType(formDetail)}
+                </div>
+              </>
+            );
+          })}
+          <Button type="submit" className="w-full mt-4">
+            {buttonText}
+          </Button>{" "}
+        </div>
       </form>
     </div>
   );
