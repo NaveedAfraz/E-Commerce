@@ -11,7 +11,6 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 console.log("DB_USER:", process.env.DB_USER); // Check if DB_USER is being loaded correctly
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
 
 pool.getConnection((err, connection) => {
   if (err) {
