@@ -16,8 +16,8 @@ import Listings from "./pages/shopping/listings";
 import Account from "./pages/shopping/account";
 import AuthCheck from "./components/common/authCheck";
 export default function App() {
-  const isAuth = true;
-  const user = { role: "admin" };
+  const isAuth = false;
+  const user = { role: "user" };
 
   return (
     <Router>

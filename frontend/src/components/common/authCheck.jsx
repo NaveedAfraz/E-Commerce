@@ -5,8 +5,18 @@ export default function AuthCheck({ isAuth, user, children }) {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isAuth && location.pathname.includes("shopping")) {
-      navigate("/auth/login");
+    // if (!isAuth && location.pathname.includes("shopping")) {
+    //   navigate("/auth/login");
+    // }
+
+    if (
+      !isAuth &&
+      !(
+        location.pathname.includes("/login") ||
+        location.pathname.includes("/register")
+      )
+    ) {
+      navigate("/auth/register");
     }
 
     if (

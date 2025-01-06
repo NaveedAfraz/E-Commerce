@@ -18,33 +18,43 @@ export const CommonForm = ({
   buttonText,
 }) => {
   const renderComponentType = (formComponentDetail) => {
+    const value = formData[formComponentDetail.value];
     switch (formComponentDetail.componentType) {
       case "input": {
-        <Input
-          name={formComponentDetail.name}
-          placeholder={formComponentDetail.placeholder}
-          id={formComponentDetail.name}
-          type={formComponentDetail.type}
-          value={value}
-          onChange={() => {
-            setFormData({
-              ...formData,
-              [formComponentDetail.name]: e.target.value,
-            });
-          }}
-        />;
+        return (
+          <Input
+            name={formComponentDetail.name}
+            placeholder={formComponentDetail.placeholder}
+            id={formComponentDetail.name}
+            type={formComponentDetail.type}
+            value={value}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                [formComponentDetail.name]: e.target.value,
+              });
+            }}
+          />
+        );
       }
+      default:
+        return <p>Invalid component type</p>;
     }
   };
   return (
     <div>
       <form onSubmit={onSubmit}>
         {formComponentDetails.map((formDetail) => {
-          <div className="grid w-full gap-1.5" key={formDetail.name}>
-            <Label className="mb-1">{formDetail.label}</Label>
-            <br />
-            {renderComponentType(formDetail)}
-          </div>;
+          return (
+            <>
+              <div className="grid w-full gap-1.5" key={formDetail.name}>
+                <Label className="mb-1 text-l">{formDetail.label}</Label>
+                <br />
+                {renderComponentType(formDetail)}
+              </div>
+              <Button type="submit" className="w-full mt-4">{buttonText}</Button>
+            </>
+          );
         })}
       </form>
     </div>
