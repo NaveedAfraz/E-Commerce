@@ -25,4 +25,4 @@ dist/
 *.sln
 *.sw?
 
-backend/.env
+.env
