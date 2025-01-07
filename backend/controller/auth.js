@@ -1,26 +1,41 @@
-const  promisePool  = require("../db");
+const promisePool = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // login
-// const Login = async (req, res) => {
-//   const { formData } = req.body;
-//   console.log(formData);
-//   const { username, password } = formData;
+const Login = async (req, res) => {
+  const { userName, password, email } = req.query;
+  console.log(userName, password, email);
+  // const { userName, password } = data;
+  if (!userName || !password || !email) {
+    return res.status(400).json({ message: "Missing username or password" });
+  }
+  const q = `SELECT * FROM userAuth WHERE userName = ? AND Email = ?`;
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-//   const q = `SELECT * FROM users WHERE username = ${username} AND password = ${password}`;
-//   try {
-//     const [data] = pool.execute(q, [username, password]);
-//     if (data.length > 0) {
-//       console.log(err);
-//       res.status(404).json({ message: "User not found" });
-//     } else {
-//       res.status(200).json({ data: results, message: "User found" });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ message: "error logging in" });
-//   }
-// };
+  try {
+    const [data] = await promisePool.execute(q, [userName, email]);
+    console.log(data);
+    if (data.length === 0) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    const match = await bcrypt.compare(password, data[0].password);
+    if (!match) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
+    // Create a JWT token
+    const token = jwt.sign(
+      { id: data[0].id, userName: data[0].userName },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+    res.status(200).json({ message: "Logged in", token });
+  } catch (error) {
+    res.status(500).json({ message: "error logging in" });
+  }
+};
 
 // register
 const Register = async (req, res) => {
@@ -28,7 +43,12 @@ const Register = async (req, res) => {
   console.log("Form Data:", formData);
 
   // Validate formData
-  if (!formData || !formData.userName || !formData.password || !formData.email) {
+  if (
+    !formData ||
+    !formData.userName ||
+    !formData.password ||
+    !formData.email
+  ) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -45,7 +65,11 @@ const Register = async (req, res) => {
 
   try {
     // Execute the query
-    const [result] = await promisePool.execute(q, [userName, hashedPassword, email]);
+    const [result] = await promisePool.execute(q, [
+      userName,
+      hashedPassword,
+      email,
+    ]);
     console.log("Query Result:", result);
 
     // Check if the query was successful
@@ -56,11 +80,13 @@ const Register = async (req, res) => {
     }
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json({ message: "Error registering user", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error registering user", error: error.message });
   }
 };
 //logout
 
 //reCheckAuth
 
-module.exports = { Register };
+module.exports = { Register, Login };
