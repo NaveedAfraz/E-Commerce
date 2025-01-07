@@ -23,6 +23,16 @@ export default function App() {
     <Router>
       <Routes>
         {/* Auth Routes  */}
+        {/* <Route
+          path="/"
+          element={
+            <AuthCheck>
+              <Layout />
+            </AuthCheck>
+          }
+        >
+          <Route path="/" element={<Login />} />
+        </Route> */}
         <Route
           path="/auth"
           element={

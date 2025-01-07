@@ -18,10 +18,12 @@ export default function AuthCheck({ isAuth, user, children }) {
     ) {
       navigate("/auth/register");
     }
-
+    if(!isAuth && location.pathname == "/") {
+      navigate("/auth/login");
+    }
     if (
       (isAuth && location.pathname.includes("login")) ||
-      location.pathname.includes("register")
+      location.pathname.includes("register") && isAuth
     ) {
       if (user?.role === "admin") {
         navigate("/admin/dashboard");
@@ -39,7 +41,7 @@ export default function AuthCheck({ isAuth, user, children }) {
 
     if (
       isAuth &&
-      user?.role !== "user" &&
+      user?.role !== "user" &&  
       location.pathname.includes("shopping")
     ) {
       navigate("/admin/dashboard");

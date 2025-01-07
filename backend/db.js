@@ -1,4 +1,4 @@
-require("dotenv").config(require("dotenv").config({ path: "../.env" }));
+require("dotenv").config({ path: "../frontend/.env" });
 const mysql = require("mysql2");
 const pool = mysql.createPool({
   host: process.env.DB_HOST,

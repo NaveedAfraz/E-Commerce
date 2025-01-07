@@ -18,7 +18,8 @@ export const CommonForm = ({
   buttonText,
 }) => {
   const renderComponentType = (formComponentDetail) => {
-    const value = formData[formComponentDetail.value];
+    console.log(formComponentDetail);
+    const value = formData[formComponentDetail.name] || "";
     switch (formComponentDetail.componentType) {
       case "input": {
         return (
@@ -50,7 +51,7 @@ export const CommonForm = ({
               <>
                 <div className="grid w-full gap-1.5" key={formDetail.name}>
                   <Label className="mb-1 text-l">{formDetail.label}</Label>
-              
+
                   {renderComponentType(formDetail)}
                 </div>
               </>
@@ -58,7 +59,7 @@ export const CommonForm = ({
           })}
           <Button type="submit" className="w-full mt-4">
             {buttonText}
-          </Button>{" "}
+          </Button>
         </div>
       </form>
     </div>
