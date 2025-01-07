@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../frontend/.env" });
+require("dotenv").config({ path: "./.env" });
 const mysql = require("mysql2");
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -14,19 +14,19 @@ console.log("DB_USER:", process.env.DB_USER); // Check if DB_USER is being loade
 
 pool.getConnection((err, connection) => {
   if (err) {
-    console.error("Error connecting to the database:", err.message);
-    return;
-  }
-  if (connection) {
-    console.log("Connected to the database");
-    connection.query("SELECT DATABASE() AS dbName", (err, results) => {
-      if (err) {
-        console.error("Error executing query:", err.message);
+    console.error("Database connection failed:", err.message);
+  } else {
+    console.log("Connected to the MySQL database successfully.");
+    connection.query("SELECT DATABASE();", (queryErr, results) => {
+      if (queryErr) {
+        console.error("Error executing query:", queryErr.message);
       } else {
-        console.log("Connected to database:", results[0].dbName);
+        console.log("Connected to the database:", results[0]["DATABASE()"]);
       }
       connection.release(); // Release the connection back to the pool
     });
   }
 });
-module.exports = pool.promise();
+
+const promisePool = pool.promise();
+module.exports = promisePool;

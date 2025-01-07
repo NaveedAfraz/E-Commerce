@@ -1,5 +1,6 @@
 import { CommonForm } from "@/components/common/commonForm";
 import { registerFormControls } from "@/config/config";
+import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -10,9 +11,20 @@ export default function Register() {
     password: "",
   };
   const [formData, setFormData] = useState(intialState);
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+
     console.log(formData);
+    try {
+      const res = await axios.post("http://localhost:3006/auth/Register", {
+        formData,
+        withCredentials: true,
+      });
+      console.log(res.data);
+      console.log("Form Submitted");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
