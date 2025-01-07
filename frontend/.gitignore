@@ -25,4 +25,4 @@ dist/
 *.sln
 *.sw?
 
-.env
+./.env
