@@ -42,7 +42,7 @@ const Login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.status(200).json({ message: "Logged in", token });
+    res.status(200).json({ message: "Logged in", userInfo : data[0],  token : token });
   } catch (error) {
     res.status(500).json({ message: "error logging in" });
   }

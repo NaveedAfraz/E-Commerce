@@ -82,9 +82,12 @@ const authSlice = createSlice({
       state.loggedIn = false;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
+      console.log(action);
+      const { message } = action.payload;
+
       state.loading = false;
-      state.user = action.payload;
-      state.isAuthenticated = true;
+      state.user = message ? action?.payload?.userInfo?.userName : null;
+      state.isAuthenticated = message;
       state.error = null;
       state.loggedIn = true;
     });

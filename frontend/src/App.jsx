@@ -15,10 +15,12 @@ import Checkout from "./pages/shopping/checkout";
 import Listings from "./pages/shopping/listings";
 import Account from "./pages/shopping/account";
 import AuthCheck from "./components/common/authCheck";
+import { useSelector } from "react-redux";
 export default function App() {
-  const isAuth = false;
-  const user = { role: "user" };
-
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  // const role = useSelector((state) => state.auth.role);
+  const user = useSelector((state) => state.auth.user);
+  console.log(isAuth, user);
   return (
     <Router>
       <Routes>

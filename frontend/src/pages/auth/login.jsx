@@ -31,7 +31,7 @@ function login() {
           title: "Success",
           description: "User logged in successfully.",
           status: "success",
-          duration: 3000, // Customize duration if needed
+          duration: 3000, 
           isclosable: true, // Optional: add a close button for the toast
         });
       } else {
