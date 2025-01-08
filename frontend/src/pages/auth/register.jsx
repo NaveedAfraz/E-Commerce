@@ -1,8 +1,13 @@
 import { CommonForm } from "@/components/common/commonForm";
+import { Toast } from "@/components/ui/toast";
 import { registerFormControls } from "@/config/config";
+import { useToast } from "@/hooks/use-toast";
+;
+import { registerUser } from "@/store/auth-Slice/auth-slice";
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const intialState = {
@@ -10,21 +15,32 @@ export default function Register() {
     email: "",
     password: "",
   };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [formData, setFormData] = useState(intialState);
   const onSubmit = async (e) => {
     e.preventDefault();
 
     console.log(formData);
-    try {
-      const res = await axios.post("http://localhost:3006/auth/Register", {
-        formData,
-        withCredentials: true,
-      });
-      console.log(res.data);
-      console.log("Form Submitted");
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const res = await axios.post("http://localhost:3006/auth/Register", {
+    //     formData,
+    //     withCredentials: true,
+    //   });
+    //   console.log(res.data);
+    //   console.log("Form Submitted");
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    dispatch(registerUser(formData)).then((res) => {
+      console.log(res);
+      if (res?.meta?.requestStatus == "fulfilled") {
+        console.log("Form Submitted");
+        toast({ title: "registerd successfully" });
+        // navigate("/auth/login");
+      }
+    });
   };
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
