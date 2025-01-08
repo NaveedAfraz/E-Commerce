@@ -16,7 +16,7 @@ const intialState = {
 function login() {
   const [formData, setFormData] = useState(intialState);
   console.log(formData);
-
+  const { toast } = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const data = useSelector((state) => state.auth);
@@ -27,16 +27,24 @@ function login() {
     dispatch(loginUser(formData)).then((res) => {
       console.log(res);
       if (res?.payload?.message === "Logged in") {
-        console.log("Logged in");
+        toast({
+          title: "Success",
+          description: "User logged in successfully.",
+          status: "success",
+          duration: 3000, // Customize duration if needed
+          isclosable: true, // Optional: add a close button for the toast
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to log in. Please check your credentials.",
+          status: "error",
+          duration: 3000, // Customize duration if needed
+          isclosable: true, // Optional: add a close button for the toast
+        });
       }
     });
   };
-  const toast = useToast();
-  useEffect(() => {
-    if (data?.isAuthenticated) {
-      toast("User logged in successfully.");
-    }
-  }, [data?.isAuthenticated]);
 
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
