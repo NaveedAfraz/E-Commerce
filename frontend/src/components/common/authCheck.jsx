@@ -10,7 +10,7 @@ export default function AuthCheck({ isAuth, user, children }) {
     // }
     console.log(isAuth, user, location.pathname);
 
-    if (location.pathname === "/") {
+    if (location.pathname == "/") {
       if (!isAuthenticated) {
         navigate("/auth/login");
       } else {
