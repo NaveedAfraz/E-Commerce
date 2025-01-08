@@ -17,6 +17,8 @@ export default function Register() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [formData, setFormData] = useState(intialState);
+  console.log(formData);
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -35,9 +37,16 @@ export default function Register() {
       console.log(res);
       if (res?.meta?.requestStatus == "fulfilled") {
         console.log("Form Submitted");
-        toast({ title: "registerd successfully" });
+        toast({
+          title: "registerd successfully",
+          status: "success",
+          duration: 3000,
+        });
         // navigate("/auth/login");
       }
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 3000);
     });
   };
   return (

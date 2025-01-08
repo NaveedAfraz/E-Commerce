@@ -39,7 +39,23 @@ export const CommonForm = ({
         );
       }
       default:
-        return <p>Invalid component type</p>;
+        element = (
+          <Input
+            name={getControlItem.name}
+            placeholder={getControlItem.placeholder}
+            id={getControlItem.name}
+            type={getControlItem.type}
+            value={value}
+            onChange={(event) =>
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              })
+            }
+          />
+        );
+        break;
+    }
     }
   };
   return (

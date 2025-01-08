@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 // login
 const Login = async (req, res) => {
-  const { userName, password, email } = req.body
+  const { userName, password, email } = req.body;
   console.log(userName, password, email);
   // const { userName, password } = data;
   if (!userName || !password || !email) {
@@ -42,7 +42,9 @@ const Login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
-    res.status(200).json({ message: "Logged in", userInfo : data[0],  token : token });
+    res
+      .status(200)
+      .json({ message: "Logged in", userInfo: data[0], token: token });
   } catch (error) {
     res.status(500).json({ message: "error logging in" });
   }
@@ -50,20 +52,15 @@ const Login = async (req, res) => {
 
 // register
 const Register = async (req, res) => {
-  const { formData } = req.body;
-  console.log("Form Data:", formData);
+  // const { formData } = req.body;
+  const { userName, password, email } = req.body;
+  // console.log("Form Data:", formData);
 
   // Validate formData
-  if (
-    !formData ||
-    !formData.userName ||
-    !formData.password ||
-    !formData.email
-  ) {
+  if (!userName || !password || !email) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  const { userName, password, email } = formData;
   console.log("User Data:", userName, password, email);
 
   // Hash the password

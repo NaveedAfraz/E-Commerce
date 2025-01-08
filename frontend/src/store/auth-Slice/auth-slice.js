@@ -12,6 +12,8 @@ const initialState = {
 export const registerUser = createAsyncThunk(
   "/auth/Register",
   async (formData, { rejectWithValue }) => {
+    console.log("formData:", formData)
+
     try {
       const res = await axios.post(
         "http://localhost:3006/auth/Register",
