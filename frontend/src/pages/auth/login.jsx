@@ -1,9 +1,9 @@
 import { CommonForm } from "@/components/common/commonForm";
 import { LoginFormControls, registerFormControls } from "@/config/config";
+import { useToast } from "@/hooks/use-toast";
 import { loginUser } from "@/store/auth-Slice/auth-slice";
 import axios from "axios";
-import React, { useState } from "react";
-import { use } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -23,6 +23,7 @@ function login() {
   console.log(data);
   const onSubmit = async (e) => {
     e.preventDefault();
+
     dispatch(loginUser(formData)).then((res) => {
       console.log(res);
       if (res?.payload?.message === "Logged in") {
@@ -30,6 +31,13 @@ function login() {
       }
     });
   };
+  const toast = useToast();
+  useEffect(() => {
+    if (data?.isAuthenticated) {
+      toast("User logged in successfully.");
+    }
+  }, [data?.isAuthenticated]);
+
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="text-center">
