@@ -15,13 +15,13 @@ const intialState = {
 
 function login() {
   const [formData, setFormData] = useState(intialState);
+  console.log(formData)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
     dispatch(loginUser(formData)).then((res) => {
-      console.log(res.message);
-
+      console.log(res);
       if (res?.payload?.message === "Logged in") {
         console.log("Logged in");
       }

@@ -1,36 +1,43 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const intialState = {
+
+const initialState = {
   isAuthenticated: false,
   user: null,
   loggedIn: false,
   loading: false,
+  error: null,
 };
 
 export const registerUser = createAsyncThunk(
-  "auth/Register",
-  async (formData) => {
+  "/auth/Register",
+  async (formData, { rejectWithValue }) => {
     const res = await axios.post(
       "http://localhost:3006/auth/Register",
-
-      { formData, withCredentials: true }
+      formData,
+      { withCredentials: true }
     );
     return res.data;
   }
 );
 
-export const loginUser = createAsyncThunk("auth/login", async (formData) => {
-  const response = await axios.post("http://localhost:3006/auth/login", {
-    formData: formData,
-    withCredentials: true,
-  });
-  // const data = await res.json();
-  return response.data;
-});
+export const loginUser = createAsyncThunk(
+  "/auth/Login",
+  async (formData, { rejectWithValue }) => {
+    const response = await axios.post(
+      "http://localhost:3006/auth/login",
+      formData,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  }
+);
 
-const counterSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
-  initialState: intialState,
+  initialState,
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
@@ -55,10 +62,11 @@ const counterSlice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = false;
     });
-    builder.addCase(registerUser.rejected, (state) => {
+    builder.addCase(registerUser.rejected, (state, action) => {
       state.loading = false;
       state.loggedIn = false;
       state.user = null;
+      state.error = action.payload;
     });
 
     builder.addCase(loginUser.pending, (state) => {
@@ -70,13 +78,21 @@ const counterSlice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = true;
     });
-    builder.addCase(loginUser.rejected, (state) => {
+    builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
       state.loggedIn = false;
       state.user = null;
       state.isAuthenticated = false;
+      if (action.error.message) {
+        state.error = action.error.message;
+      } else if (action.error.response?.data?.message) {
+        state.error = action.error.response.data.message; // Fallback for server message
+      } else {
+        state.error = "An unknown error occurred.";
+      }
     });
   },
 });
-const { setUser, setAuth, setLoggedIn, setLoading } = counterSlice.actions;
-export default counterSlice.reducer;
+
+export const { setUser, setAuth, setLoggedIn, setLoading } = authSlice.actions;
+export default authSlice.reducer;
