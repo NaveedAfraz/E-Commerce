@@ -12,26 +12,30 @@ const initialState = {
 export const registerUser = createAsyncThunk(
   "/auth/Register",
   async (formData, { rejectWithValue }) => {
-    const res = await axios.post(
-      "http://localhost:3006/auth/Register",
-      formData,
-      { withCredentials: true }
-    );
-    return res.data;
+    try {
+      const res = await axios.post(
+        "http://localhost:3006/auth/Register",
+        formData,
+        { withCredentials: true }
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
   }
 );
 
 export const loginUser = createAsyncThunk(
   "/auth/Login",
   async (formData, { rejectWithValue }) => {
-    const response = await axios.post(
-      "http://localhost:3006/auth/login",
-      formData,
-      {
+    try {
+      const response = await axios.post("http://localhost:3006/auth/login", formData, {
         withCredentials: true,
-      }
-    );
-    return response.data;
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
   }
 );
 
@@ -83,13 +87,7 @@ const authSlice = createSlice({
       state.loggedIn = false;
       state.user = null;
       state.isAuthenticated = false;
-      if (action.error.message) {
-        state.error = action.error.message;
-      } else if (action.error.response?.data?.message) {
-        state.error = action.error.response.data.message; // Fallback for server message
-      } else {
-        state.error = "An unknown error occurred.";
-      }
+      state.error = action.payload;
     });
   },
 });
