@@ -1,31 +1,31 @@
 import { CommonForm } from "@/components/common/commonForm";
 import { LoginFormControls, registerFormControls } from "@/config/config";
+import { loginUser } from "@/store/auth-Slice/auth-slice";
 import axios from "axios";
 import React, { useState } from "react";
 import { use } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 const intialState = {
   userName: "",
   password: "",
   email: "",
 };
+
 function login() {
   const [formData, setFormData] = useState(intialState);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.get("http://localhost:3006/auth/login", {
-        params : formData,
-      });
-      // const data = await res.json();
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-    console.log(formData);
-    console.log("Form Submitted");
+    dispatch(loginUser(formData)).then((res) => {
+      console.log(res.message);
+
+      if (res?.payload?.message === "Logged in") {
+        console.log("Logged in");
+      }
+    });
   };
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
