@@ -2,19 +2,17 @@ import { CommonForm } from "@/components/common/commonForm";
 import { Toast } from "@/components/ui/toast";
 import { registerFormControls } from "@/config/config";
 import { useToast } from "@/hooks/use-toast";
-;
 import { registerUser } from "@/store/auth-Slice/auth-slice";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
+const intialState = {
+  userName: "",
+  email: "",
+  password: "",
+};
 export default function Register() {
-  const intialState = {
-    userName: "",
-    email: "",
-    password: "",
-  };
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();

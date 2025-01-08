@@ -18,7 +18,7 @@ export const CommonForm = ({
   buttonText,
 }) => {
   const renderComponentType = (formComponentDetail) => {
-    console.log(formComponentDetail);
+    // console.log(formComponentDetail);
     const value = formData[formComponentDetail.name] || "";
     switch (formComponentDetail.componentType) {
       case "input": {
