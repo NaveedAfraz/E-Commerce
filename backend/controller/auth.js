@@ -18,7 +18,7 @@ const Login = async (req, res) => {
 
   try {
     const [data] = await promisePool.execute(q, [email]);
-    console.log(data);
+    console.log("detsils", data);
     if (data.length === 0) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -36,6 +36,7 @@ const Login = async (req, res) => {
       console.log("Invalid password");
       return res.status(403).json({ message: "Invalid password" });
     }
+    console.log(data[0]?.role)
     // Create a JWT token
     const token = jwt.sign(
       { id: data[0].id, userName: data[0].userName },

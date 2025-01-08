@@ -11,7 +11,7 @@ export default function AuthCheck({ isAuth, user, children }) {
     console.log(isAuth, user, location.pathname);
 
     if (location.pathname == "/") {
-      if (!isAuthenticated) {
+      if (!isAuth) {
         navigate("/auth/login");
       } else {
         if (user?.role === "admin") {
@@ -21,6 +21,7 @@ export default function AuthCheck({ isAuth, user, children }) {
         }
       }
     }
+
     if (
       !isAuth &&
       !(
@@ -50,7 +51,7 @@ export default function AuthCheck({ isAuth, user, children }) {
     ) {
       navigate("/unauthorized");
     }
-
+console.log(user?.role)
     if (
       isAuth &&
       user?.role == "admin" &&
