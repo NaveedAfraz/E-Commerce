@@ -107,7 +107,7 @@ const authSlice = createSlice({
       state.error = action.payload;
     });
   },
-});
+});   
 
 export const { setUser, setAuth, setLoggedIn, setLoading } = authSlice.actions;
 export default authSlice.reducer;
