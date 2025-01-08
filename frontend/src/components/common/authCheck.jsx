@@ -41,9 +41,10 @@ export default function AuthCheck({ isAuth, user, children }) {
 
     if (
       isAuth &&
-      user?.role !== "user" &&
+      user?.role == "admin" &&
       location.pathname.includes("shopping")
     ) {
+      console.log("running")
       navigate("/admin/dashboard");
     }
   }, [isAuth, user, location.pathname, navigate]);
