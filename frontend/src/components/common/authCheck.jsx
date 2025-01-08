@@ -12,12 +12,12 @@ export default function AuthCheck({ isAuth, user, children }) {
 
     if (location.pathname === "/") {
       if (!isAuthenticated) {
-        return <Navigate to="/auth/login" />;
+        navigate("/auth/login");
       } else {
         if (user?.role === "admin") {
-          return <Navigate to="/admin/dashboard" />;
+          navigate("/admin/dashboard");
         } else {
-          return <Navigate to="/shop/home" />;
+          navigate("shopping/home");
         }
       }
     }
