@@ -24,13 +24,6 @@ export const registerFormControls = [
 
 export const LoginFormControls = [
   {
-    name: "userName",
-    label: "User Name",
-    placeholder: "Enter your user name",
-    componentType: "input",
-    type: "text",
-  },
-  {
     name: "email",
     label: "Email",
     placeholder: "Enter your email",

@@ -21,23 +21,26 @@ export const CommonForm = ({
     // console.log(formComponentDetail);
     const value = formData[formComponentDetail.name] || "";
     switch (formComponentDetail.componentType) {
-      case "input": {
-        return (
-          <Input
-            name={formComponentDetail.name}
-            placeholder={formComponentDetail.placeholder}
-            id={formComponentDetail.name}
-            type={formComponentDetail.type}
-            value={value}
-            onChange={(e) => {
-              setFormData({
-                ...formData,
-                [formComponentDetail.name]: e.target.value,
-              });
-            }}
-          />
-        );
-      }
+      case "input":
+        {
+          return (
+            <Input
+              name={formComponentDetail.name}
+              placeholder={formComponentDetail.placeholder}
+              id={formComponentDetail.name}
+              type={formComponentDetail.type}
+              value={value}
+              onChange={(e) => {
+                setFormData({
+                  ...formData,
+                  [formComponentDetail.name]: e.target.value,
+                });
+              }}
+            />
+          );
+        }
+        break;
+
       default:
         element = (
           <Input
@@ -55,7 +58,6 @@ export const CommonForm = ({
           />
         );
         break;
-    }
     }
   };
   return (

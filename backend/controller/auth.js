@@ -4,20 +4,20 @@ const jwt = require("jsonwebtoken");
 
 // login
 const Login = async (req, res) => {
-  const { userName, password, email } = req.body;
-  console.log(userName, password, email);
+  const { password, email } = req.body;
+  console.log( password, email);
   // const { userName, password } = data;
-  if (!userName || !password || !email) {
-    return res.status(400).json({ message: "Missing username or password" });
+  if ( !password || !email) {
+    return res.status(400).json({ message: "Missing email or password" });
   }
-  const q = `SELECT * FROM userAuth WHERE userName = ? AND Email = ?`;
+  const q = `SELECT * FROM userAuth WHERE Email = ?`;
   // const saltRounds = 10;
   // const hashedPassword = await bcrypt.hash(password, saltRounds);
   // cant compare hashed password with hashed password due to unique salt value in each hash function
   // console.log(hashedPassword)
 
   try {
-    const [data] = await promisePool.execute(q, [userName, email]);
+    const [data] = await promisePool.execute(q, [email]);
     console.log(data);
     if (data.length === 0) {
       return res.status(404).json({ message: "User not found" });
@@ -27,7 +27,7 @@ const Login = async (req, res) => {
       return res.status(400).json({ message: "Multiple users found" });
     }
 
-    if (data[0].userName !== userName || data[0].Email !== email) {
+    if (data[0].Email !== email) {
       return res.status(404).json({ message: "Invalid username or email" });
     }
 

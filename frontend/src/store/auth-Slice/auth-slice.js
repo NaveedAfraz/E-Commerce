@@ -12,12 +12,15 @@ const initialState = {
 export const registerUser = createAsyncThunk(
   "/auth/Register",
   async (formData, { rejectWithValue }) => {
-    console.log("formData:", formData)
-
+    console.log("formData:", formData);
+    const lowerCasedFormData = {
+      ...formData,
+      email: formData.email.toLowerCase(),
+    };
     try {
       const res = await axios.post(
         "http://localhost:3006/auth/Register",
-        formData,
+        lowerCasedFormData,
         { withCredentials: true }
       );
       return res.data;
@@ -30,10 +33,14 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "/auth/Login",
   async (formData, { rejectWithValue }) => {
+    const lowerCasedFormData = {
+      ...formData,
+      email: formData.email.toLowerCase(),
+    };
     try {
       const response = await axios.post(
         "http://localhost:3006/auth/login",
-        formData,
+        lowerCasedFormData,
         {
           withCredentials: true,
         }
