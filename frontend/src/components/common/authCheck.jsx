@@ -9,6 +9,18 @@ export default function AuthCheck({ isAuth, user, children }) {
     //   navigate("/auth/login");
     // }
     console.log(isAuth, user, location.pathname);
+
+    if (location.pathname === "/") {
+      if (!isAuthenticated) {
+        return <Navigate to="/auth/login" />;
+      } else {
+        if (user?.role === "admin") {
+          return <Navigate to="/admin/dashboard" />;
+        } else {
+          return <Navigate to="/shop/home" />;
+        }
+      }
+    }
     if (
       !isAuth &&
       !(
@@ -44,7 +56,7 @@ export default function AuthCheck({ isAuth, user, children }) {
       user?.role == "admin" &&
       location.pathname.includes("shopping")
     ) {
-      console.log("running")
+      console.log("running");
       navigate("/admin/dashboard");
     }
   }, [isAuth, user, location.pathname, navigate]);
