@@ -4,7 +4,7 @@ import { loginUser } from "@/store/auth-Slice/auth-slice";
 import axios from "axios";
 import React, { useState } from "react";
 import { use } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const intialState = {
@@ -15,9 +15,11 @@ const intialState = {
 
 function login() {
   const [formData, setFormData] = useState(intialState);
-  console.log(formData)
+  console.log(formData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const data = useSelector((state) => state.auth);
+  console.log(data);
   const onSubmit = async (e) => {
     e.preventDefault();
     dispatch(loginUser(formData)).then((res) => {

@@ -4,26 +4,37 @@ const jwt = require("jsonwebtoken");
 
 // login
 const Login = async (req, res) => {
-  const { userName, password, email } = req.query;
+  const { userName, password, email } = req.body
   console.log(userName, password, email);
   // const { userName, password } = data;
   if (!userName || !password || !email) {
     return res.status(400).json({ message: "Missing username or password" });
   }
   const q = `SELECT * FROM userAuth WHERE userName = ? AND Email = ?`;
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  // const saltRounds = 10;
+  // const hashedPassword = await bcrypt.hash(password, saltRounds);
+  // cant compare hashed password with hashed password due to unique salt value in each hash function
+  // console.log(hashedPassword)
 
   try {
     const [data] = await promisePool.execute(q, [userName, email]);
     console.log(data);
     if (data.length === 0) {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (data.length > 1) {
+      return res.status(400).json({ message: "Multiple users found" });
+    }
+
+    if (data[0].userName !== userName || data[0].Email !== email) {
+      return res.status(404).json({ message: "Invalid username or email" });
     }
 
     const match = await bcrypt.compare(password, data[0].password);
     if (!match) {
-      return res.status(400).json({ message: "Invalid password" });
+      console.log("Invalid password");
+      return res.status(403).json({ message: "Invalid password" });
     }
     // Create a JWT token
     const token = jwt.sign(

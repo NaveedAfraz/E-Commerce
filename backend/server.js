@@ -3,9 +3,8 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const cookieParser = require("cookie-parser");
-const { Login, Register } = require("./controller/auth");
-const { router } = require("./routes/auth");
 
+const { router: authRouter } = require("./routes/auth");
 require("dotenv").config(require("dotenv").config({ path: "../.env" }));
 app.use(
   cors({
@@ -25,7 +24,8 @@ app.get("/", (req, res) => {
 // app.get("/auth",Register)
 // app.post("/auth",Login)
 
-app.use("/auth", router);
+app.use("/auth", authRouter);
+
 app.listen(3006, () => {
   console.log("Server is running on http://localhost:3006");
 });
