@@ -111,8 +111,9 @@ const authCheck = async (req, res) => {
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+    res.status(200).json({ message: "Authorized" });
   } catch (error) {
-    return res.status(404).json({ error : error.message , message : "Not Found"})
+    return res.status(404).json({ error: error.message, message: "Not Found" });
   }
 };
-module.exports = { Register, Login, logout ,authCheck};
+module.exports = { Register, Login, logout, authCheck };
