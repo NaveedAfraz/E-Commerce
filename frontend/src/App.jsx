@@ -23,8 +23,8 @@ export default function App() {
   // const role = useSelector((state) => state.auth.role);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  console.log(isAuth, user , location.pathname);
-   useEffect(() => {
+  console.log(isAuth, user, location.pathname);
+  useEffect(() => {
     dispatch(authCheck()).then((res) => {
       console.log(res);
       if (res?.payload?.message === "Logged in") {
@@ -43,8 +43,7 @@ export default function App() {
               <Layout />
             </AuthCheck>
           }
-        >
-        </Route>
+        ></Route>
         <Route
           path="/auth"
           element={
