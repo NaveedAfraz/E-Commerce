@@ -113,7 +113,6 @@ const authCheck = async (req, res) => {
     }
   } catch (error) {
     return res.status(404).json({ error : error.message , message : "Not Found"})
-
   }
 };
 module.exports = { Register, Login, logout ,authCheck};
