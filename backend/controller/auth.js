@@ -18,7 +18,8 @@ const Login = async (req, res) => {
 
   try {
     const [data] = await promisePool.execute(q, [email]);
-    console.log("detsils", data);
+    //console.log("detsils", data);
+    console.log("running login ");
     if (data.length === 0) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -106,14 +107,17 @@ const logout = async (req, res) => {
 };
 //reCheckAuth
 const authCheck = async (req, res) => {
-
+  const { userName, password, email } = req.body;
+  console.log(userName, password, email);
   try {
     const token = req.cookies.authToken;
-  console.log(token);
+    console.log(token);
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    res.status(200).json({ message: "Authorized" });
+    res
+      .status(200)
+      .json({ message: "Authorized", userInfo: userName, password, email });
   } catch (error) {
     return res.status(404).json({ error: error.message, message: "Not Found" });
   }
