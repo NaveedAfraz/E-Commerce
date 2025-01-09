@@ -10,5 +10,5 @@ const { Login } = require("../controller/auth");
 router.post("/Login", Login);
 router.post("/Register", Register);
 router.post("/logout", logout);
-router.post("/authCheck",authCheck)
+router.get("/authCheck",authCheck)
 exports.router = router;

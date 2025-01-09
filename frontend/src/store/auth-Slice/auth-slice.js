@@ -54,7 +54,7 @@ export const loginUser = createAsyncThunk(
 
 export const authCheck = createAsyncThunk(
   "auth/authCheck",
-  async ({ rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get("http://localhost:3006/auth/authCheck", {
         withCredentials: true,
@@ -143,7 +143,6 @@ const authSlice = createSlice({
     //authCheck
     builder.addCase(authCheck.pending, (state) => {
       state.loading = true;
-      
     });
     builder.addCase(authCheck.fulfilled, (state, action) => {
       state.loading = false;

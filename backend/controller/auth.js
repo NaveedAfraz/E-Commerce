@@ -106,8 +106,10 @@ const logout = async (req, res) => {
 };
 //reCheckAuth
 const authCheck = async (req, res) => {
+
   try {
     const token = req.cookies.authToken;
+  console.log(token);
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
