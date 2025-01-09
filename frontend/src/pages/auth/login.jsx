@@ -1,7 +1,7 @@
 import { CommonForm } from "@/components/common/commonForm";
 import { LoginFormControls, registerFormControls } from "@/config/config";
 import { useToast } from "@/hooks/use-toast";
-import { loginUser } from "@/store/auth-Slice/auth-slice";
+import { authCheck, loginUser } from "@/store/auth-Slice/auth-slice";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -46,7 +46,14 @@ function login() {
       }
     });
   };
-
+  useEffect(() => {
+    dispatch(authCheck()).then((res) => {
+      console.log(res);
+      if (res?.payload?.message === "Logged in") {
+        console.log("logged in successfully");
+      }
+    });
+  }, [formData]);
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="text-center">
