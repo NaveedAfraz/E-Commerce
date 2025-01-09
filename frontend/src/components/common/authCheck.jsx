@@ -1,24 +1,18 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React from "react";
+import { useLocation, Navigate } from "react-router-dom";
 
 export default function AuthCheck({ isAuth, user, children }) {
   const location = useLocation();
-  const navigate = useNavigate();
 
-  console.log(isAuth, user, `location ${location.pathname}`);
-
+  // Redirect logic
   if (location.pathname === "/") {
-    console.log("running");
     if (!isAuth) {
-      navigate("/auth/login");
-      return;
+      return <Navigate to="/auth/login" />;
     } else {
       if (user?.role === "admin") {
-        navigate("/admin/dashboard");
-        return;
+        return <Navigate to="/admin/dashboard" />;
       } else {
-        navigate("/shopping/home");
-        return;
+        return <Navigate to="/shopping/home" />;
       }
     }
   }
@@ -27,13 +21,10 @@ export default function AuthCheck({ isAuth, user, children }) {
     (isAuth && location.pathname.includes("login")) ||
     (location.pathname.includes("register") && isAuth)
   ) {
-    console.log("running3");
     if (user?.role === "admin") {
-      navigate("/admin/dashboard");
-      return;
+      return <Navigate to="/admin/dashboard" />;
     } else {
-      navigate("/shopping/home");
-      return;
+      return <Navigate to="/shopping/home" />;
     }
   }
 
@@ -44,31 +35,21 @@ export default function AuthCheck({ isAuth, user, children }) {
       location.pathname.includes("/register")
     )
   ) {
-    console.log("running2");
-    navigate("/auth/login");
-    return;
+    return <Navigate to="/auth/login" />;
   }
 
   if (!isAuth && location.pathname === "/") {
-    navigate("/auth/login");
-    return;
+    return <Navigate to="/auth/login" />;
   }
 
   if (isAuth && user?.role !== "admin" && location.pathname.includes("admin")) {
-    console.log("running4");
-    navigate("/unauthorized");
-    return;
+    return <Navigate to="/unauthorized" />;
   }
 
-  if (
-    isAuth &&
-    user?.role === "admin" &&
-    location.pathname.includes("shopping")
-  ) {
-    console.log("running5");
-    navigate("/admin/dashboard");
-    return;
+  if (isAuth && user?.role === "admin" && location.pathname.includes("shopping")) {
+    return <Navigate to="/admin/dashboard" />;
   }
 
+  // Render children if no redirect conditions are met
   return <div>{children}</div>;
 }
