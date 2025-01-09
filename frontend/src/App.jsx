@@ -18,9 +18,12 @@ import AuthCheck from "./components/common/authCheck";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { authCheck } from "./store/auth-Slice/auth-slice";
+import { Skeleton } from "@/components/ui/skeleton";
+
 export default function App() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   // const role = useSelector((state) => state.auth.role);
+  const { loading } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   console.log(isAuth, user, location.pathname);
@@ -32,17 +35,15 @@ export default function App() {
       }
     });
   }, []);
+  console.log(loading, user);
+  if (loading) return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
   return (
     <Router>
       <Routes>
         {/* Auth Routes  */}
         <Route
           path="/"
-          element={
-            <AuthCheck>
-              <Layout />
-            </AuthCheck>
-          }
+          element={<AuthCheck isAuthenticated={isAuth} user={user}></AuthCheck>}
         ></Route>
         <Route
           path="/auth"
