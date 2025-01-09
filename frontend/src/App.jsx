@@ -36,7 +36,7 @@ export default function App() {
     });
   }, []);
   console.log(loading, user);
-  if (loading) return <Skeleton className="w-[100px] h-[20px] rounded-full" />;
+  if (loading) return <Skeleton className="w-[800px] bg-black h-[300px] rounded-full" />;
   return (
     <Router>
       <Routes>

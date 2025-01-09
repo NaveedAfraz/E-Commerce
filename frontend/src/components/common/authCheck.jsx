@@ -48,7 +48,7 @@ export default function AuthCheck({ isAuth, user, children }) {
   //   if (!isAuth && location.pathname == "/") {
   //     navigate("/auth/login");
   //   }
-  
+
   if (
     isAuth &&
     (location.pathname.includes("/login") ||
@@ -73,7 +73,7 @@ export default function AuthCheck({ isAuth, user, children }) {
   if (isAuth && user?.role !== "admin" && location.pathname.includes("admin")) {
     return <Navigate to="/unauth-page" />;
   }
-
+console.log(user)
   if (
     isAuth &&
     user?.role === "admin" &&
