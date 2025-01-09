@@ -38,9 +38,15 @@ const Login = async (req, res) => {
       return res.status(403).json({ message: "Invalid password" });
     }
     console.log(data[0]?.role);
+    console.log(data[0]);
     // Create a JWT token
     const token = jwt.sign(
-      { id: data[0].id, userName: data[0].userName },
+      {
+        id: data[0].id,
+        userName: data[0].userName,
+        role: data[0].role,
+        // email: data[0].Email,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -111,9 +117,20 @@ const authCheck = async (req, res) => {
   console.log(userName, password, email);
   try {
     const token = req.cookies.authToken;
-    console.log(token);
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
+    }
+    console.log(token);
+    const decoded = token && jwt.verify(token, process.env.JWT_SECRET);
+    if (decoded) {
+      console.log(decoded)
+      return res.status(200).json({
+        message: "Authorized",
+        userInfo: decoded.userName,
+        role: decoded.role,
+        password: decoded.password,
+        email: decoded.email,
+      });
     }
     res
       .status(200)
