@@ -141,17 +141,24 @@ const authSlice = createSlice({
     });
 
     //authCheck
-    builder.addCase(authCheck.pending, (state){
-
-    })
+    builder.addCase(authCheck.pending, (state) => {
+      state.loading = true;
+      
+    });
     builder.addCase(authCheck.fulfilled, (state, action) => {
-      state.loading = false
-      state.user = action.payload
-      state.isAuthenticated = true
-      state.error = null
-      state.loggedIn = true
-    })
-    builder.addCase()
+      state.loading = false;
+      state.user = action.payload;
+      state.isAuthenticated = true;
+      state.error = null;
+      state.loggedIn = true;
+    });
+    builder.addCase(authCheck.rejected, (state, action) => {
+      state.loading = false;
+      state.loggedIn = false;
+      state.user = null;
+      state.isAuthenticated = false;
+      state.error = action.payload;
+    });
     //logoutOutUser
   },
 });
