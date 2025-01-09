@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken");
 // login
 const Login = async (req, res) => {
   const { password, email } = req.body;
-  console.log( password, email);
+  console.log(password, email);
   // const { userName, password } = data;
-  if ( !password || !email) {
+  if (!password || !email) {
     return res.status(400).json({ message: "Missing email or password" });
   }
   const q = `SELECT * FROM userAuth WHERE Email = ?`;
@@ -36,7 +36,7 @@ const Login = async (req, res) => {
       console.log("Invalid password");
       return res.status(403).json({ message: "Invalid password" });
     }
-    console.log(data[0]?.role)
+    console.log(data[0]?.role);
     // Create a JWT token
     const token = jwt.sign(
       { id: data[0].id, userName: data[0].userName },
@@ -44,8 +44,13 @@ const Login = async (req, res) => {
       { expiresIn: "1h" }
     );
     res
+      .cookie("authToken", token, {
+        httpOnly: true, // Makes the cookie inaccessible to client-side JavaScript
+        sameSite: "Strict",
+        maxAge: 60 * 60 * 1000,
+      })
       .status(200)
-      .json({ message: "Logged in", userInfo: data[0], token: token });
+      .json({ message: "Logged in", userInfo: data[0] });
   } catch (error) {
     res.status(500).json({ message: "error logging in" });
   }
@@ -96,6 +101,10 @@ const Register = async (req, res) => {
 };
 //logout
 
+const logout = async (req, res) => {
+  res.clearCookie("authToken")
+  res.status(200).json({ message: "Logged out" })
+};
 //reCheckAuth
 
-module.exports = { Register, Login };
+module.exports = { Register, Login ,logout};
