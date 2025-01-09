@@ -15,12 +15,23 @@ import Checkout from "./pages/shopping/checkout";
 import Listings from "./pages/shopping/listings";
 import Account from "./pages/shopping/account";
 import AuthCheck from "./components/common/authCheck";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { authCheck } from "./store/auth-Slice/auth-slice";
 export default function App() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   // const role = useSelector((state) => state.auth.role);
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   console.log(isAuth, user , location.pathname);
+   useEffect(() => {
+    dispatch(authCheck()).then((res) => {
+      console.log(res);
+      if (res?.payload?.message === "Logged in") {
+        console.log("logged in successfully");
+      }
+    });
+  }, []);
   return (
     <Router>
       <Routes>

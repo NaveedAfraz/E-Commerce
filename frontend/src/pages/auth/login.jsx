@@ -46,14 +46,7 @@ function login() {
       }
     });
   };
-  useEffect(() => {
-    dispatch(authCheck()).then((res) => {
-      console.log(res);
-      if (res?.payload?.message === "Logged in") {
-        console.log("logged in successfully");
-      }
-    });
-  }, [formData]);
+ 
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="text-center">
