@@ -52,6 +52,20 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const authCheck = createAsyncThunk(
+  "auth/authCheck",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("http://localhost:3006/auth/authCheck", {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -107,7 +121,7 @@ const authSlice = createSlice({
       state.error = action.payload;
     });
   },
-});   
+});
 
 export const { setUser, setAuth, setLoggedIn, setLoading } = authSlice.actions;
 export default authSlice.reducer;
