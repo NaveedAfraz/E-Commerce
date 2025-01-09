@@ -116,4 +116,4 @@ const authCheck = async (req, res) => {
 
   }
 };
-module.exports = { Register, Login, logout };
+module.exports = { Register, Login, logout ,authCheck};

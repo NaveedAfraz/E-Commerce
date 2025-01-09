@@ -4,7 +4,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { Register, logout } = require("../controller/auth");
+const { Register, logout, authCheck } = require("../controller/auth");
 const { Login } = require("../controller/auth");
 
 router.post("/Login", Login);
