@@ -16,7 +16,7 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [formData, setFormData] = useState(intialState);
+   const [formData, setFormData] = useState(intialState);
   console.log(formData);
 
   const onSubmit = async (e) => {

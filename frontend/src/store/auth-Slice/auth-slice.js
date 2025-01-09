@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { formToJSON } from "axios";
+import axios from "axios";
 
 const initialState = {
   isAuthenticated: false,
   user: null,
   loggedIn: false,
-  loading: true,
+  loading: true ,
   error: null,
 };
 
@@ -54,15 +54,11 @@ export const loginUser = createAsyncThunk(
 
 export const authCheck = createAsyncThunk(
   "auth/authCheck",
-  async (formData, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3006/auth/authCheck",
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get("http://localhost:3006/auth/authCheck", {
+        withCredentials: true,
+      });
       return response.data;
     } catch (err) {
       console.log(err);
@@ -149,7 +145,7 @@ const authSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(authCheck.fulfilled, (state, action) => {
-      console.log(action);
+      console.log(action)
       state.loading = false;
       state.user = action.payload;
       state.isAuthenticated = true;

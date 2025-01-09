@@ -73,7 +73,7 @@ export default function AuthCheck({ isAuth, user, children }) {
   if (isAuth && user?.role !== "admin" && location.pathname.includes("admin")) {
     return <Navigate to="/unauth-page" />;
   }
-console.log(user)
+  console.log(user);
   if (
     isAuth &&
     user?.role === "admin" &&
