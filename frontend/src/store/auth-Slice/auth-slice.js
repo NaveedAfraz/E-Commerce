@@ -54,7 +54,7 @@ export const loginUser = createAsyncThunk(
 
 export const authCheck = createAsyncThunk(
   "auth/authCheck",
-  async (formData, { rejectWithValue }) => {
+  async ({ rejectWithValue }) => {
     try {
       const response = await axios.get("http://localhost:3006/auth/authCheck", {
         withCredentials: true,
@@ -67,6 +67,20 @@ export const authCheck = createAsyncThunk(
   }
 );
 
+// export const logout = createAsyncThunk(
+//   "auth/logout",
+//   async (formData, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get("http://localhost:3006/auth/authCheck", {
+//         withCredentials: true,
+//       });
+//       return response.data;
+//     } catch (err) {
+//       console.log(err);
+//       return rejectWithValue(err.response?.data);
+//     }
+//   }
+// );
 
 
 const authSlice = createSlice({

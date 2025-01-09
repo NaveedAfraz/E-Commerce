@@ -101,9 +101,19 @@ const Register = async (req, res) => {
 };
 //logout
 const logout = async (req, res) => {
-  res.clearCookie("authToken")
-  res.status(200).json({ message: "Logged out" })
+  res.clearCookie("authToken");
+  res.status(200).json({ message: "Logged out" });
 };
 //reCheckAuth
+const authCheck = async (req, res) => {
+  try {
+    const token = req.cookies.authToken;
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+  } catch (error) {
+    return res.status(404).json({ error : error.message , message : "Not Found"})
 
-module.exports = { Register, Login ,logout};
+  }
+};
+module.exports = { Register, Login, logout };
