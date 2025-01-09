@@ -23,16 +23,17 @@ function login() {
   console.log(data);
   const onSubmit = async (e) => {
     e.preventDefault();
-   
+
     dispatch(loginUser(formData)).then((res) => {
       console.log(res);
       if (res?.payload?.message === "Logged in") {
+        console.log("logged in successfully");
         toast({
           title: "Success",
           description: "User logged in successfully.",
           status: "success",
-          duration: 3000, 
-         // isclosable: true, // Optional: add a close button for the toast
+          duration: 3000,
+          // isclosable: true, // Optional: add a close button for the toast
         });
       } else {
         toast({
@@ -40,7 +41,7 @@ function login() {
           description: "Failed to log in. Please check your credentials.",
           status: "error",
           duration: 3000, // Customize duration if needed
-         // isclosable: true, // Optional: add a close button for the toast
+          // isclosable: true, // Optional: add a close button for the toast
         });
       }
     });

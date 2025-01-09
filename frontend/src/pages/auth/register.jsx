@@ -43,10 +43,10 @@ export default function Register() {
           duration: 3000,
         });
         // navigate("/auth/login");
+        setTimeout(() => {
+          navigate("/auth/login");
+        }, 3000);
       }
-      setTimeout(() => {
-        navigate("/auth/login");
-      }, 3000);
     });
   };
   return (

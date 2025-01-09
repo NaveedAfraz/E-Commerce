@@ -20,12 +20,12 @@ export default function App() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   // const role = useSelector((state) => state.auth.role);
   const user = useSelector((state) => state.auth.user);
-  console.log(isAuth, user);
+  console.log(isAuth, user , location.pathname);
   return (
     <Router>
       <Routes>
         {/* Auth Routes  */}
-        {/* <Route
+        <Route
           path="/"
           element={
             <AuthCheck>
@@ -33,8 +33,7 @@ export default function App() {
             </AuthCheck>
           }
         >
-          <Route path="/" element={<Login />} />
-        </Route> */}
+        </Route>
         <Route
           path="/auth"
           element={
