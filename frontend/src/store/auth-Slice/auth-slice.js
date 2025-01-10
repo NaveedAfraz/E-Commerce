@@ -67,20 +67,20 @@ export const authCheck = createAsyncThunk(
   }
 );
 
-// export const logout = createAsyncThunk(
-//   "auth/logout",
-//   async (formData, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.get("http://localhost:3006/auth/authCheck", {
-//         withCredentials: true,
-//       });
-//       return response.data;
-//     } catch (err) {
-//       console.log(err);
-//       return rejectWithValue(err.response?.data);
-//     }
-//   }
-// );
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("http://localhost:3006/auth/logout", {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.response?.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
@@ -160,6 +160,25 @@ const authSlice = createSlice({
       state.error = action.payload;
     });
     //logoutOutUser
+
+    builder.addCase(logout.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(logout.fulfilled, (state, action) => {
+      console.log(action)
+      state.loading = false;
+      state.user = action.payload;
+      state.isAuthenticated = true;
+      state.error = null;
+      state.loggedIn = true;
+    });
+    builder.addCase(logout.rejected, (state, action) => {
+      state.loading = false;
+      state.loggedIn = false;
+      state.user = null;
+      state.isAuthenticated = false;
+      state.error = action.payload;
+    });
   },
 });
 

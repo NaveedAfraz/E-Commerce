@@ -1,13 +1,14 @@
 import { AlignJustify, LogOut } from "lucide-react";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "@/store/auth-slice";
+import { logout } from "@/store/auth-Slice/auth-slice";
+// import { logoutUser } from "@/store/auth-slice";
 
 function Header({ setOpen }) {
   const dispatch = useDispatch();
 
   function handleLogout() {
-    dispatch(logoutUser());
+    dispatch(logout());
   }
 
   return (
