@@ -18,48 +18,75 @@ export const CommonForm = ({
   buttonText,
 }) => {
   const renderComponentType = (formComponentDetail) => {
-    // console.log(formComponentDetail);
+    console.log(formComponentDetail);
+
     const value = formData[formComponentDetail.name] || "";
+    let element;
     switch (formComponentDetail.componentType) {
       case "input":
-        {
-          return (
-            <Input
-              name={formComponentDetail.name}
-              placeholder={formComponentDetail.placeholder}
-              id={formComponentDetail.name}
-              type={formComponentDetail.type}
-              value={value}
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  [formComponentDetail.name]: e.target.value,
-                });
-              }}
-            />
-          );
-        }
+        element = (
+          <Input
+            name={formComponentDetail.name}
+            placeholder={formComponentDetail.placeholder}
+            id={formComponentDetail.name}
+            type={formComponentDetail.type}
+            value={value}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                [formComponentDetail.name]: e.target.value,
+              });
+            }}
+          />
+        );
         break;
-
+      case "select":
+        element = (
+          <Select
+            onValueChange={(value) =>
+              setFormData({
+                ...formData,
+                [formComponentDetail.name]: value,
+              })
+            }
+            value={value}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={formComponentDetail.label} />
+            </SelectTrigger>
+            <SelectContent>
+              {formComponentDetail.options && formComponentDetail.options.length > 0
+                ? formComponentDetail.options.map((optionItem) => (
+                    <SelectItem key={optionItem.id} value={optionItem.id}>
+                      {optionItem.label}
+                    </SelectItem>
+                  ))
+                : null}
+            </SelectContent>
+          </Select>
+        );
+        break;
       default:
         element = (
           <Input
-            name={getControlItem.name}
-            placeholder={getControlItem.placeholder}
-            id={getControlItem.name}
-            type={getControlItem.type}
+            name={formComponentDetail.name}
+            placeholder={formComponentDetail.placeholder}
+            id={formComponentDetail.name}
+            type={formComponentDetail.type}
             value={value}
             onChange={(event) =>
               setFormData({
                 ...formData,
-                [getControlItem.name]: event.target.value,
+                [formComponentDetail.name]: event.target.value,
               })
             }
           />
         );
         break;
     }
+    return element;
   };
+  console.log(formComponentDetails);
   return (
     <div>
       <form onSubmit={onSubmit}>
