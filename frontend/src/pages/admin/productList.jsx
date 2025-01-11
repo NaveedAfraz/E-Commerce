@@ -8,7 +8,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config/config";
-import { getAllProducts } from "@/store/admin-Slice/admin-slice";
+import { useToast } from "@/hooks/use-toast";
+import { addNewProduct, getAllProducts } from "@/store/admin-Slice/admin-slice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,16 +32,40 @@ function ProductList() {
   const [imageLoadingState, setImageLoadingState] = useState(false);
   const dispacth = useDispatch();
   const { productList } = useSelector((state) => state.adminProducts);
-
+  const { toast } = useToast();
   const onSubmit = (e) => {
     e.preventDefault();
     //dispacth(getAllProducts())
     const formDataToSend = {
       ...formData,
+      name: "productname",
       image: uploadedImageUrl,
-    };console.log(formDataToSend);
-    dispacth(addProduct(formDataToSend));
-    
+    };
+    console.log(formDataToSend);
+    dispacth(addNewProduct(formDataToSend)).then(async (response) => {
+      // console.log(response)
+
+      if (response?.payload?.success === true) {
+        console.log(response);
+        dispacth(getAllProducts());
+        setFormData(initialFormData);
+        setImageFile(null);
+        setUploadedImageUrl("");
+        toast({
+          title: "Product Added Successfully.",
+          description: "Your product has been added successfully.",
+          duration: 3000,
+        });
+        setOpenCreateProductsDialog(false);
+      } else if (response.payload.success === false) {
+        toast({
+          title: "Product Addition Failed.",
+          description: "Your product could not be added.",
+          duration: 3000,
+        });
+      }
+    });
+
     // console.log(formData);
     // console.log(imageFile);
     console.log("form submitted");

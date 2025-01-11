@@ -32,12 +32,20 @@ const addProduct = async (req, res) => {
     price,
     salePrice,
     totalStock,
-    averageReview,
   } = req.body;
-  console.log(req.body);
+  console.log(
+    image,
+    title,
+    description,
+    category,
+    brand,
+    price,
+    salePrice,
+    totalStock
+    // averageReview
+  );
   try {
-    const q =
-      "INSERT INTO products (image, title, desC, cat, brand, price, salePrice, totalStock, averageReview) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    const q = `INSERT INTO productsAdmin (image, title, \`desc\`, cat, brand, price, salePrice, totalStock) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
       image,
@@ -48,22 +56,32 @@ const addProduct = async (req, res) => {
       price,
       salePrice,
       totalStock,
-      averageReview,
     ];
 
     const [rows] = await promisePool.execute(q, values);
     console.log(rows);
     if (rows.affectedRows === 1) {
+      const Data = {
+        image,
+        title,
+        description, // Map description correctly
+        category,
+        brand,
+        price,
+        salePrice,
+        totalStock,
+      };
       res.status(200).json({
         success: true,
         message: "Product added successfully",
-        data: rows,
+        data: Data,
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "Product not added",
       });
     }
-    return res.status(404).json({
-      success: false,
-      message: "Product not added",
-    });
   } catch (error) {
     console.log(error);
     res.status(404).json({
