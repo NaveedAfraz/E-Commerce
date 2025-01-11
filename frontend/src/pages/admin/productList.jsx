@@ -1,3 +1,4 @@
+import ProductImageUpload from "@/components/AdminLayout/img-upload";
 import { CommonForm } from "@/components/common/commonForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +32,7 @@ function ProductList() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
-
+  
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
