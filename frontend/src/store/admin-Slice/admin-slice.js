@@ -24,9 +24,10 @@ export const addNewProduct = createAsyncThunk(
 );
 export const updateProduct = createAsyncThunk(
   "/products/updateProduct",
-  async (id) => {
-    const res = await axios.post(
+  async ({ id, formData }) => {
+    const res = await axios.put(
       `http://localhost:3006/admin/editProduct/${id}`,
+      formData,
       {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
@@ -38,12 +39,8 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "/products/deleteProduct",
   async (id) => {
-    const res = await axios.post(
-      `http://localhost:3006/admin/deleteProduct/${id}`,
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }
+    const res = await axios.delete(
+      `http://localhost:3006/admin/deleteProduct/${id}`
     );
     return res.data;
   }
@@ -51,10 +48,7 @@ export const deleteProduct = createAsyncThunk(
 export const getAllProducts = createAsyncThunk(
   "/products/getAllproducts",
   async () => {
-    const res = await axios.get("http://localhost:3006/admin/fetchProducts", {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    });
+    const res = await axios.get("http://localhost:3006/admin/fetchProducts");
     return res.data;
   }
 );
@@ -63,16 +57,21 @@ const adminProductSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAdminProducts.pending, (state) => {
+    builder.addCase(getAllProducts.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(getAdminProducts.fulfilled, (state, action) => {
-      (state.loading = false), (state.productList = action.payload.products);
+    builder.addCase(getAllProducts.fulfilled, (state, action) => {
+      console.log(action.payload);
+      state.loading = false;
+      state.productList = action.payload.products;
     });
-    builder.addCase(getAdminProducts.rejected, (state, action) => {
+    builder.addCase(getAllProducts.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
+      state.productList = [];
     });
   },
 });
+ 
+export default adminProductSlice.reducer
