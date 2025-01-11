@@ -76,13 +76,14 @@ const addProduct = async (req, res) => {
 //get all products
 const fetchAllProducts = async (req, res) => {
   try {
-    const [rows] = await promisePool.execute("SELECT * FROM products");
+    const [rows] = await promisePool.execute("SELECT * FROM productsAdmin");
     console.log(rows);
 
     if (rows.length > 0) {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Products fetched successfully",
+        data: rows,
       });
     }
     return res.status(404).json({
@@ -150,7 +151,7 @@ const editProduct = async (req, res) => {
       } else {
         return res
           .status(404)
-          .json({ success: false, message: "No product updated"});
+          .json({ success: false, message: "No product updated" });
       }
     }
   } catch (error) {

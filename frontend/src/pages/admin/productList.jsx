@@ -8,7 +8,9 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config/config";
-import React, { useState } from "react";
+import { getAllProducts } from "@/store/admin-Slice/admin-slice";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const initialFormData = {
   name: "",
@@ -27,14 +29,27 @@ function ProductList() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
+  const dispacth = useDispatch();
+  const { productList } = useSelector((state) => state.adminProducts);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    console.log(imageFile);
+    //dispacth(getAllProducts())
+    const formDataToSend = {
+      ...formData,
+      image: uploadedImageUrl,
+    };console.log(formDataToSend);
+    dispacth(addProduct(formDataToSend));
+    
+    // console.log(formData);
+    // console.log(imageFile);
     console.log("form submitted");
   };
 
+  useEffect(() => {
+    dispacth(getAllProducts());
+    console.log(uploadedImageUrl);
+  }, [dispacth, uploadedImageUrl]);
   return (
     <>
       <div className="mb-5 w-full flex justify-end">

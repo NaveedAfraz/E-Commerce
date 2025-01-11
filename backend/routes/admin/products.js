@@ -5,6 +5,7 @@ const {
   addProduct,
   fetchAllProducts,
   editProduct,
+  deleteProduct,
 } = require("../../controller/admin/products");
 const { upload } = require("../../helper/image-upload");
 

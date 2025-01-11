@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const { createSlice } = require("@reduxjs/toolkit");
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   productList: [],
@@ -64,7 +64,7 @@ const adminProductSlice = createSlice({
     builder.addCase(getAllProducts.fulfilled, (state, action) => {
       console.log(action.payload);
       state.loading = false;
-      state.productList = action.payload.products;
+      state.productList = action?.payload?.data;
     });
     builder.addCase(getAllProducts.rejected, (state, action) => {
       state.loading = false;
@@ -73,5 +73,5 @@ const adminProductSlice = createSlice({
     });
   },
 });
- 
-export default adminProductSlice.reducer
+
+export default adminProductSlice.reducer;
