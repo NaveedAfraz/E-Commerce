@@ -1,4 +1,5 @@
 import ProductImageUpload from "@/components/AdminLayout/img-upload";
+import AdminProductTile from "@/components/AdminLayout/productDisplay";
 import { CommonForm } from "@/components/common/commonForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -75,6 +76,11 @@ function ProductList() {
     dispacth(getAllProducts());
     console.log(uploadedImageUrl);
   }, [dispacth, uploadedImageUrl]);
+
+  const handleDelete=()=>{
+
+  }
+
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
@@ -87,7 +93,7 @@ function ProductList() {
           Add New Product
         </Button>
       </div>
-      {/* <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {productList && productList.length > 0
           ? productList.map((productItem) => (
               <AdminProductTile
@@ -99,7 +105,7 @@ function ProductList() {
               />
             ))
           : null}
-      </div> */}
+      </div>
       <Sheet
         open={openCreateProductsDialog}
         onOpenChange={() => {
@@ -111,7 +117,7 @@ function ProductList() {
         <SheetContent side="right" className="overflow-auto">
           <SheetHeader>
             <SheetTitle>
-              {/* {currentEditedId !== null ? "Edit Product" : "Add New Product"} */}
+              {currentEditedId !== null ? "Edit Product" : "Add New Product"}
               Add New product
             </SheetTitle>
           </SheetHeader>
