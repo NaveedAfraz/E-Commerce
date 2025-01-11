@@ -1,4 +1,4 @@
-const promisePool = require("../db");
+const promisePool = require("../../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 

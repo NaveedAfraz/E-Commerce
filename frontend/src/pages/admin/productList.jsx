@@ -21,18 +21,20 @@ const initialFormData = {
 function ProductList() {
   const [openCreateProductsDialog, setOpenCreateProductsDialog] =
     useState(false);
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-    console.log("form submitted");
-  };
+
   const [formData, setFormData] = useState(initialFormData);
   const [currentEditedId, setCurrentEditedId] = useState(null);
-  const [productList, setProductList] = useState([]);
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
-  
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    console.log(imageFile);
+    console.log("form submitted");
+  };
+
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
@@ -74,14 +76,14 @@ function ProductList() {
             </SheetTitle>
           </SheetHeader>
           <ProductImageUpload
-          imageFile={imageFile}
-          setImageFile={setImageFile}
-          uploadedImageUrl={uploadedImageUrl}
-          setUploadedImageUrl={setUploadedImageUrl}
-          setImageLoadingState={setImageLoadingState}
-          imageLoadingState={imageLoadingState}
-          isEditMode={currentEditedId !== null}
-        />
+            imageFile={imageFile}
+            setImageFile={setImageFile}
+            uploadedImageUrl={uploadedImageUrl}
+            setUploadedImageUrl={setUploadedImageUrl}
+            setImageLoadingState={setImageLoadingState}
+            imageLoadingState={imageLoadingState}
+            isEditMode={currentEditedId !== null}
+          />
           <div className="py-6">
             <CommonForm
               onSubmit={onSubmit}

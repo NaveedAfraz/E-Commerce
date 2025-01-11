@@ -19,7 +19,7 @@ export const CommonForm = ({
 }) => {
   const renderComponentType = (formComponentDetail) => {
     console.log(formComponentDetail);
-
+    console.log(formData);
     const value = formData[formComponentDetail.name] || "";
     let element;
     switch (formComponentDetail.componentType) {
@@ -55,7 +55,8 @@ export const CommonForm = ({
               <SelectValue placeholder={formComponentDetail.label} />
             </SelectTrigger>
             <SelectContent>
-              {formComponentDetail.options && formComponentDetail.options.length > 0
+              {formComponentDetail.options &&
+              formComponentDetail.options.length > 0
                 ? formComponentDetail.options.map((optionItem) => (
                     <SelectItem key={optionItem.id} value={optionItem.id}>
                       {optionItem.label}

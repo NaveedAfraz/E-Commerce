@@ -4,11 +4,11 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const { Register, logout, authCheck } = require("../controller/auth");
-const { Login } = require("../controller/auth");
+// const { } = require("../auth/auth");
+const { Login , Register, logout, authCheck} = require("../../controller/auth/auth");
 
 router.post("/Login", Login);
 router.post("/Register", Register);
 router.post("/logout", logout);
 router.get("/authCheck",authCheck)
-exports.router = router;
+module.exports = router;
