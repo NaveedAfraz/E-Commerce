@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config/config";
 import { useToast } from "@/hooks/use-toast";
-import { addNewProduct, getAllProducts } from "@/store/admin-Slice/admin-slice";
+import {
+  addNewProduct,
+  getAllProducts,
+  updateProduct,
+} from "@/store/admin-Slice/admin-slice";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -45,30 +49,42 @@ function ProductList() {
       image: uploadedImageUrl,
     };
     console.log(formDataToSend);
-    dispacth(addNewProduct(formDataToSend)).then(async (response) => {
-      // console.log(response)
-
-      if (response?.payload?.success === true) {
-        console.log(response);
-        dispacth(getAllProducts());
-        setFormData(initialFormData);
-        setImageFile(null);
-        setUploadedImageUrl("");
-        toast({
-          title: "Product Added Successfully.",
-          description: "Your product has been added successfully.",
-          duration: 3000,
-        });
-        setOpenCreateProductsDialog(false);
-      } else if (response.payload.success === false) {
-        toast({
-          title: "Product Addition Failed.",
-          description: "Your product could not be added.",
-          duration: 3000,
-        });
-      }
-    });
-
+    if (currentEditedId !== null) {
+      console.log(imageFile)
+      console.log(currentEditedId);
+      dispacth(
+        updateProduct({ Id: currentEditedId, formdata: formDataToSend })
+      ).then(async (response) => {
+        if (response?.payload?.success === true) {
+          setOpenCreateProductsDialog(false);
+          setFormData(initialFormData);
+          console.log(response);
+        }
+      });
+    } else {
+      dispacth(addNewProduct(formDataToSend)).then(async (response) => {
+        // console.log(response)
+        if (response?.payload?.success === true) {
+          console.log(response);
+          dispacth(getAllProducts());
+          setFormData(initialFormData);
+          setImageFile(null);
+          setUploadedImageUrl("");
+          toast({
+            title: "Product Added Successfully.",
+            description: "Your product has been added successfully.",
+            duration: 3000,
+          });
+          setOpenCreateProductsDialog(false);
+        } else if (response.payload.success === false) {
+          toast({
+            title: "Product Addition Failed.",
+            description: "Your product could not be added.",
+            duration: 3000,
+          });
+        }
+      });
+    }
     // console.log(formData);
     // console.log(imageFile);
     console.log("form submitted");
@@ -106,7 +122,7 @@ function ProductList() {
               />
             ))
           : null}
-          {console.log(currentEditedId)}
+        {console.log(currentEditedId)}
       </div>
       <Sheet
         open={openCreateProductsDialog}

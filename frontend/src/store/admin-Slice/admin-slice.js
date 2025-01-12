@@ -24,10 +24,11 @@ export const addNewProduct = createAsyncThunk(
 );
 export const updateProduct = createAsyncThunk(
   "/products/updateProduct",
-  async ({ id, formData }) => {
+  async ({ Id, formdata }) => {
+    console.log(Id,formdata)
     const res = await axios.put(
-      `http://localhost:3006/admin/editProduct/${id}`,
-      formData,
+      `http://localhost:3006/admin/editProduct/${Id}`,
+      formdata,
       {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,

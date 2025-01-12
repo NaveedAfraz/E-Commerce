@@ -118,8 +118,9 @@ const fetchAllProducts = async (req, res) => {
 };
 //edit a prodcut
 const editProduct = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
   try {
-    const { id } = req.params;
     if (!id)
       return res
         .status(404)
@@ -137,7 +138,7 @@ const editProduct = async (req, res) => {
       averageReview,
     } = req.body;
 
-    const q = "SELECT * FROM products WHERE id = ?";
+    const q = "SELECT * FROM productsAdmin WHERE ProductID = ?";
     const [rows] = await promisePool.execute(q, [id]);
     if (rows.length === 0)
       return res
@@ -149,19 +150,19 @@ const editProduct = async (req, res) => {
       const values = [
         image,
         title,
-        description,
-        category,
+        description, // Use description for 'desc'
+        category, // Use category for 'cat'
         brand,
         price,
         salePrice,
         totalStock,
         averageReview,
       ];
-
+      console.log(values);
       const q2 =
-        "UPDATE products SET image = ?, title = ?, desc = ?, cat = ?, brand = ?, price = ?, salePrice = ?, totalStock = ?, averageReview = ? WHERE id = ?";
+        "UPDATE productsAdmin SET image = ?, title = ?, `desc` = ?, `cat` = ?, brand = ?, price = ?, salePrice = ?, totalStock = ?, averageReview = ? WHERE ProductID = ?";
 
-      const [rows2] = await promisePool.execute(q2, [values, id]);
+      const [rows2] = await promisePool.execute(q2, [...values, id]); 
       if (rows2.affectedRows > 0) {
         return res
           .status(200)
@@ -189,7 +190,7 @@ const deleteProduct = async (req, res) => {
         .status(404)
         .json({ success: false, message: "No id provided" });
 
-    const q = "DELETE FROM products WHERE id = ?";
+    const q = "DELETE FROM productsAdmin WHERE id = ?";
     const [rows] = await promisePool.execute(q, [id]);
 
     if (rows.affectedRows > 0) {
