@@ -10,8 +10,6 @@ function AdminProductTile({
   handleDelete,
   currentEditedId,
 }) {
-   
- 
   //console.log("currentedited ID", currentEditedId);
   console.log(product);
   const nameChanged = {
@@ -21,7 +19,7 @@ function AdminProductTile({
   };
   delete nameChanged.cat;
   delete nameChanged.desc;
-   console.log(nameChanged);
+  console.log(nameChanged);
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div>
@@ -47,7 +45,6 @@ function AdminProductTile({
             ) : null}
           </div>
         </CardContent>
-
         <CardFooter className="flex justify-between items-center">
           <Button
             onClick={() => {
@@ -58,7 +55,9 @@ function AdminProductTile({
           >
             Edit
           </Button>
-          <Button onClick={() => handleDelete(product?.id)}>Delete</Button>
+          <Button onClick={() => handleDelete(product?.productID)}>
+            Delete
+          </Button>
         </CardFooter>
       </div>
     </Card>

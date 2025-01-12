@@ -100,12 +100,14 @@ function ProductList() {
     console.log(uploadedImageUrl);
   }, [dispacth, uploadedImageUrl]);
 
-  const handleDelete = () => {};
-  const isFormValid = () => {
-    const { salePrice, description, averageReview, ...formData } = data;
-    console.log(formData);
-  };
-  console.log(isFormValid);
+ 
+  function isFormValid() {
+    return Object.keys(formData)
+      .filter((currentKey) => currentKey !== "averageReview")
+      .map((key) => formData[key] !== "")
+      .every((item) => item);
+  }
+
   return (
     <>
       <div className="mb-5 w-full flex justify-end">

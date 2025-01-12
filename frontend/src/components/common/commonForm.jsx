@@ -17,6 +17,7 @@ export const CommonForm = ({
   setFormData,
   onSubmit,
   buttonText,
+  isBtnDisabled,
 }) => {
   const renderComponentType = (formComponentDetail) => {
     //  console.log(formComponentDetail);
@@ -115,7 +116,7 @@ export const CommonForm = ({
               </>
             );
           })}
-          <Button type="submit" className="w-full mt-4">
+          <Button type="submit" disabled={isBtnDisabled} className="w-full mt-4">
             {buttonText}
           </Button>
         </div>
