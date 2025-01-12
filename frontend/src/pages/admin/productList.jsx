@@ -8,6 +8,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
 import { addProductFormElements } from "@/config/config";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -42,15 +43,17 @@ function ProductList() {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
     //dispacth(getAllProducts())
     const formDataToSend = {
       ...formData,
       name: "productname",
-      image: uploadedImageUrl,
     };
     console.log(formDataToSend);
     if (currentEditedId !== null) {
-      console.log(imageFile)
+      console.log(imageFile);
+      console.log(uploadedImageUrl);
+
       console.log(currentEditedId);
       dispacth(
         updateProduct({ Id: currentEditedId, formdata: formDataToSend })
@@ -59,6 +62,8 @@ function ProductList() {
           setOpenCreateProductsDialog(false);
           setFormData(initialFormData);
           console.log(response);
+          setCurrentEditedId(null);
+          dispacth(getAllProducts());
         }
       });
     } else {
@@ -96,7 +101,11 @@ function ProductList() {
   }, [dispacth, uploadedImageUrl]);
 
   const handleDelete = () => {};
-
+  const isFormValid = () => {
+    const { salePrice, description, averageReview, ...formData } = data;
+    console.log(formData);
+  };
+  console.log(isFormValid);
   return (
     <>
       <div className="mb-5 w-full flex justify-end">
@@ -121,7 +130,9 @@ function ProductList() {
                 currentEditedId={currentEditedId}
               />
             ))
-          : null}
+          : Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton key={index} className="w-full h-[300px] rounded-md" />
+            ))}
         {console.log(currentEditedId)}
       </div>
       <Sheet
@@ -156,7 +167,7 @@ function ProductList() {
                 currentEditedId !== null ? "Edit Product" : "Add New Product"
               }
               formComponentDetails={addProductFormElements}
-              // isBtnDisabled={!isFormValid()}
+              isBtnDisabled={!isFormValid()}
             />
           </div>
         </SheetContent>

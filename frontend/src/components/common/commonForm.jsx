@@ -20,7 +20,7 @@ export const CommonForm = ({
 }) => {
   const renderComponentType = (formComponentDetail) => {
     //  console.log(formComponentDetail);
-    // console.log(formData); 
+     console.log(formData); 
     // const nameChanged = {
     //   ...formData,
     //   category: formData.cat,
@@ -109,7 +109,7 @@ export const CommonForm = ({
               <>
                 <div className="grid w-full gap-1.5" key={formDetail.name}>
                   <Label className="mb-1 text-l">{formDetail.label}</Label>
-
+               
                   {renderComponentType(formDetail)}
                 </div>
               </>

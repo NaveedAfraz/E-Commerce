@@ -65,6 +65,7 @@ function ProductImageUpload({
             ref={inputref}
             disabled={isEditMode} 
           />
+          {console.log(isEditMode, "isEditMode")}
           {!imageFile ? (
             <Label
               htmlFor="image"

@@ -1,5 +1,6 @@
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
 
 function AdminProductTile({
   product,
@@ -9,16 +10,18 @@ function AdminProductTile({
   handleDelete,
   currentEditedId,
 }) {
+   
+ 
   //console.log("currentedited ID", currentEditedId);
-  // console.log(product);
+  console.log(product);
   const nameChanged = {
     ...product,
     category: product?.cat,
     description: product?.desc,
   };
-  delete nameChanged.cat; // Remove the old cat field if needed
+  delete nameChanged.cat;
   delete nameChanged.desc;
-  // console.log(nameChanged);
+   console.log(nameChanged);
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div>
@@ -44,7 +47,7 @@ function AdminProductTile({
             ) : null}
           </div>
         </CardContent>
-       
+
         <CardFooter className="flex justify-between items-center">
           <Button
             onClick={() => {
@@ -55,7 +58,7 @@ function AdminProductTile({
           >
             Edit
           </Button>
-          <Button onClick={() => handleDelete(product?._id)}>Delete</Button>
+          <Button onClick={() => handleDelete(product?.id)}>Delete</Button>
         </CardFooter>
       </div>
     </Card>

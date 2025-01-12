@@ -159,14 +159,27 @@ const editProduct = async (req, res) => {
         averageReview,
       ];
       console.log(values);
+      if (salePrice === "") values[6] = 0;
+      if (averageReview === "") values[8] = 0;
+      if (description === "") values[2] = "";
+
       const q2 =
         "UPDATE productsAdmin SET image = ?, title = ?, `desc` = ?, `cat` = ?, brand = ?, price = ?, salePrice = ?, totalStock = ?, averageReview = ? WHERE ProductID = ?";
 
-      const [rows2] = await promisePool.execute(q2, [...values, id]); 
+      const [rows2] = await promisePool.execute(q2, [...values, id]);
       if (rows2.affectedRows > 0) {
-        return res
-          .status(200)
-          .json({ success: true, message: "Product updated successfully" });
+        // console.log(rows2.changedRows) 
+        const updatedProductQuery =
+          "SELECT * FROM productsAdmin WHERE ProductID = ?";
+        const [updatedProduct] = await promisePool.execute(
+          updatedProductQuery,
+          [id]
+        );
+        return res.status(200).json({
+          success: true,
+          message: "Product updated successfully",
+          data: updatedProduct,
+        });
       } else {
         return res
           .status(404)
