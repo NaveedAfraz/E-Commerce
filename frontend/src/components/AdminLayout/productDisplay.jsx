@@ -8,6 +8,7 @@ function AdminProductTile({
   setCurrentEditedId,
   handleDelete,
 }) {
+  console.log(product.image);
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div>
