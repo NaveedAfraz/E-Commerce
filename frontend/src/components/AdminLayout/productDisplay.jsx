@@ -1,17 +1,19 @@
+import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
+import { deleteProduct, getAllProducts } from "@/store/admin-Slice/admin-slice";
 
 function AdminProductTile({
   product,
   setFormData,
   setOpenCreateProductsDialog,
   setCurrentEditedId,
-  handleDelete,
   currentEditedId,
 }) {
   //console.log("currentedited ID", currentEditedId);
   console.log(product);
+  const dispatch = useDispatch();
   const nameChanged = {
     ...product,
     category: product?.cat,
@@ -55,7 +57,16 @@ function AdminProductTile({
           >
             Edit
           </Button>
-          <Button onClick={() => handleDelete(product?.productID)}>
+          <Button
+            onClick={() =>
+              dispatch(deleteProduct(product?.productID)).then((res) => {
+                console.log(res);
+                if (res.payload.success === true) {
+                  dispatch(getAllProducts());
+                }
+              })
+            }
+          >
             Delete
           </Button>
         </CardFooter>

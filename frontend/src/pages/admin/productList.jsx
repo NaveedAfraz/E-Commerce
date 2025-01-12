@@ -128,7 +128,7 @@ function ProductList() {
                 setOpenCreateProductsDialog={setOpenCreateProductsDialog}
                 setCurrentEditedId={setCurrentEditedId}
                 product={productItem}
-                handleDelete={handleDelete}
+                // handleDelete={handleDelete}
                 currentEditedId={currentEditedId}
               />
             ))

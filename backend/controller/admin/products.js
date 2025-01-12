@@ -203,7 +203,7 @@ const deleteProduct = async (req, res) => {
         .status(404)
         .json({ success: false, message: "No id provided" });
 
-    const q = "DELETE FROM productsAdmin WHERE id = ?";
+    const q = "DELETE FROM productsAdmin WHERE productID = ?";
     const [rows] = await promisePool.execute(q, [id]);
 
     if (rows.affectedRows > 0) {
