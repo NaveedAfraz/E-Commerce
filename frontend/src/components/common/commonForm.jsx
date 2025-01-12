@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Description } from "@radix-ui/react-dialog";
 export const CommonForm = ({
   formComponentDetails,
   formData,
@@ -20,6 +21,11 @@ export const CommonForm = ({
   const renderComponentType = (formComponentDetail) => {
     console.log(formComponentDetail);
     console.log(formData);
+    // const nameChanged = {
+    //   ...formData,
+    //   category: formData.cat,
+    //   description: formData.desc,
+    // };
     const value = formData[formComponentDetail.name] || "";
     let element;
     switch (formComponentDetail.componentType) {
@@ -41,15 +47,18 @@ export const CommonForm = ({
         );
         break;
       case "select":
+        console.log(formComponentDetail);
+        console.log(formData);
         element = (
           <Select
-            onValueChange={(value) =>
-              setFormData({
-                ...formData,
-                [formComponentDetail.name]: value,
-              })
-            }
-            value={value}
+          onValueChange={(value) =>
+            setFormData({
+              ...formData,
+              cat :
+              [formComponentDetail.name]: value, // Dynamically update the correct field
+            })
+          }
+          value={formData[formComponentDetail.name]}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder={formComponentDetail.label} />
@@ -83,11 +92,13 @@ export const CommonForm = ({
             }
           />
         );
-        break;
+      break;
     }
+    console.log(formData);
     return element;
   };
-  console.log(formComponentDetails);
+  // console.log(formComponentDetails);
+
   return (
     <div>
       <form onSubmit={onSubmit}>
