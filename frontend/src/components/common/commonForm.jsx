@@ -19,8 +19,8 @@ export const CommonForm = ({
   buttonText,
 }) => {
   const renderComponentType = (formComponentDetail) => {
-    console.log(formComponentDetail);
-    console.log(formData);
+    //  console.log(formComponentDetail);
+    // console.log(formData); 
     // const nameChanged = {
     //   ...formData,
     //   category: formData.cat,
@@ -28,6 +28,7 @@ export const CommonForm = ({
     // };
     const value = formData[formComponentDetail.name] || "";
     let element;
+    // console.log("currentedited ID", formData);
     switch (formComponentDetail.componentType) {
       case "input":
         element = (
@@ -47,18 +48,18 @@ export const CommonForm = ({
         );
         break;
       case "select":
-        console.log(formComponentDetail);
-        console.log(formData);
+        //   console.log(formComponentDetail);
+        //   console.log(formData);
         element = (
           <Select
-          onValueChange={(value) =>
-            setFormData({
-              ...formData,
-              cat :
-              [formComponentDetail.name]: value, // Dynamically update the correct field
-            })
-          }
-          value={formData[formComponentDetail.name]}
+            onValueChange={(value) =>
+              setFormData({
+                ...formData,
+
+                [formComponentDetail.name]: value,
+              })
+            }
+            value={formData[formComponentDetail.name]}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder={formComponentDetail.label} />
@@ -92,9 +93,9 @@ export const CommonForm = ({
             }
           />
         );
-      break;
+        break;
     }
-    console.log(formData);
+   // console.log(formData);
     return element;
   };
   // console.log(formComponentDetails);

@@ -34,6 +34,8 @@ function ProductList() {
   const dispacth = useDispatch();
   const { productList } = useSelector((state) => state.adminProducts);
   const { toast } = useToast();
+  console.log("currentedited ID", currentEditedId);
+
   const onSubmit = (e) => {
     e.preventDefault();
     //dispacth(getAllProducts())
@@ -77,9 +79,7 @@ function ProductList() {
     console.log(uploadedImageUrl);
   }, [dispacth, uploadedImageUrl]);
 
-  const handleDelete=()=>{
-
-  }
+  const handleDelete = () => {};
 
   return (
     <>
@@ -87,7 +87,7 @@ function ProductList() {
         <Button
           onClick={() => {
             setOpenCreateProductsDialog(true);
-            console.log(addProductFormElements);
+            // console.log(addProductFormElements);
           }}
         >
           Add New Product
@@ -102,9 +102,11 @@ function ProductList() {
                 setCurrentEditedId={setCurrentEditedId}
                 product={productItem}
                 handleDelete={handleDelete}
+                currentEditedId={currentEditedId}
               />
             ))
           : null}
+          {console.log(currentEditedId)}
       </div>
       <Sheet
         open={openCreateProductsDialog}
@@ -118,7 +120,6 @@ function ProductList() {
           <SheetHeader>
             <SheetTitle>
               {currentEditedId !== null ? "Edit Product" : "Add New Product"}
-              Add New product
             </SheetTitle>
           </SheetHeader>
           <ProductImageUpload
@@ -135,7 +136,9 @@ function ProductList() {
               onSubmit={onSubmit}
               formData={formData}
               setFormData={setFormData}
-              buttonText={"Add"}
+              buttonText={
+                currentEditedId !== null ? "Edit Product" : "Add New Product"
+              }
               formComponentDetails={addProductFormElements}
               // isBtnDisabled={!isFormValid()}
             />

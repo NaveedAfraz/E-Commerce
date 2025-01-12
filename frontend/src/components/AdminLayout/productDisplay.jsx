@@ -7,8 +7,18 @@ function AdminProductTile({
   setOpenCreateProductsDialog,
   setCurrentEditedId,
   handleDelete,
+  currentEditedId,
 }) {
-  console.log(product.image);
+  //console.log("currentedited ID", currentEditedId);
+  // console.log(product);
+  const nameChanged = {
+    ...product,
+    category: product?.cat,
+    description: product?.desc,
+  };
+  delete nameChanged.cat; // Remove the old cat field if needed
+  delete nameChanged.desc;
+  // console.log(nameChanged);
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div>
@@ -34,12 +44,13 @@ function AdminProductTile({
             ) : null}
           </div>
         </CardContent>
+       
         <CardFooter className="flex justify-between items-center">
           <Button
             onClick={() => {
               setOpenCreateProductsDialog(true);
-              setCurrentEditedId(product?._id);
-              setFormData(product);
+              setCurrentEditedId(product?.productID);
+              setFormData(nameChanged);
             }}
           >
             Edit
