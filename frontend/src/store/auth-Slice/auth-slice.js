@@ -168,7 +168,7 @@ const authSlice = createSlice({
       console.log(action)
       state.loading = false;
       state.user = action.payload;
-      state.isAuthenticated = true;
+      state.isAuthenticated = false;
       state.error = null;
       state.loggedIn = true;
     });
