@@ -27,16 +27,16 @@ export default function App() {
   const { loading } = useSelector((state) => state.auth);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  console.log(isAuth, user, location.pathname);
+ // console.log(isAuth, user, location.pathname);
   useEffect(() => {
     dispatch(authCheck()).then((res) => {
-      console.log(res);
+     // console.log(res);
       if (res?.payload?.message === "Logged in") {
         console.log("logged in successfully");
       }
     });
   }, []);
-  console.log(loading, user);
+ // console.log(loading, user);
   if (loading)
     return <Skeleton className="w-[800px] bg-black h-[300px] rounded-full" />;
   return (
