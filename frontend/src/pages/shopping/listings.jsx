@@ -1,4 +1,9 @@
 import Filtering from "@/components/ShoppingLayout/filtering";
+import { Button } from "@/components/ui/button";
+import { DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu";
+import { sortOptions } from "@/config/config";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { ArrowUpDownIcon } from "lucide-react";
 import React from "react";
 
 function Listings() {
@@ -25,7 +30,7 @@ function Listings() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-[200px]">
-                <DropdownMenuRadioGroup value={sort} onValueChange={handleSort}>
+                <DropdownMenuRadioGroup >
                   {sortOptions.map((sortItem) => (
                     <DropdownMenuRadioItem
                       value={sortItem.id}
