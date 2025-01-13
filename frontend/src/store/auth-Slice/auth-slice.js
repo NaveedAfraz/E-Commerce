@@ -7,6 +7,7 @@ const initialState = {
   loggedIn: false,
   loading: true ,
   error: null,
+  userName : ""
 };
 
 export const registerUser = createAsyncThunk(
