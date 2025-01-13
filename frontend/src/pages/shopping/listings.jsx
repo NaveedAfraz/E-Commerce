@@ -13,20 +13,32 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { ArrowUpDownIcon } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function Listings() {
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.shopProducts);
   console.log(productList);
+  const [sortBy, setSortBy] = useState(null);
+  const [filteredProducts, setFilteredProducts] = useState(null);
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, []);
+  const handleSortBy = (id) => {
+    console.log(id);
+  };
+  const handlefiltered = (label, category) => {
+    console.log(label, category);
+  };
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
-        <Filtering />
+        <Filtering
+          filteredProducts={filteredProducts}
+          setFilteredProducts={setFilteredProducts}
+          handlefiltered={handlefiltered}
+        />
         <div className="bg-background w-full rounded-lg shadow-sm">
           <div className="p-4 border-b flex items-center justify-between">
             <h2 className="text-lg font-extrabold">All Products</h2>
@@ -45,8 +57,14 @@ function Listings() {
                     <span>Sort by</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[200px]">
-                  <DropdownMenuRadioGroup>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-[200px] z-10 bg-white border rounded-sm shadow-lg my-2"
+                >
+                  <DropdownMenuRadioGroup
+                  onValueChange={handleSortBy}
+                    value={sortBy}
+                  >
                     {sortOptions.map((sortItem) => (
                       <DropdownMenuRadioItem
                         value={sortItem.id}

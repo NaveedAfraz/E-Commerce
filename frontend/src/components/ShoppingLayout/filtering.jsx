@@ -1,11 +1,11 @@
 import React from "react";
 import { filterOptions } from "@/config/config";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 
-function Filtering() {
+function Filtering({ filteredProducts, setFilteredProducts, handlefiltered }) {
   const categories = filterOptions.slice(0, 5);
-  const brands = filterOptions.slice(5); 
+  const brands = filterOptions.slice(5);
 
   return (
     <div className="bg-gray-50 rounded-lg shadow-sm">
@@ -25,7 +25,9 @@ function Filtering() {
                 key={option.id}
                 className="flex items-center gap-2 font-medium text-sm"
               >
-                <Checkbox />
+                <Checkbox
+                  onCheckedChange={() => handlefiltered(option.label, "category")}
+                />
                 {option.label}
               </label>
             ))}
@@ -33,7 +35,6 @@ function Filtering() {
         </div>
 
         <Separator />
-
 
         {/* Brand Filters */}
         <div>
@@ -44,7 +45,9 @@ function Filtering() {
                 key={option.id}
                 className="flex items-center gap-2 font-medium text-sm"
               >
-                <Checkbox />
+                <Checkbox
+                  onCheckedChange={() => handlefiltered(option.label, "category")}
+                />
                 {option.label}
               </label>
             ))}
@@ -54,6 +57,5 @@ function Filtering() {
     </div>
   );
 }
-
 
 export default Filtering;
