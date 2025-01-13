@@ -43,7 +43,9 @@ function ProductImageUpload({
     console.log(response, "response");
 
     if (response?.data?.success) {
-      setUploadedImageUrl(response.data.result.url);
+      setUploadedImageUrl(response.data.result.secure_url);
+      console.log(response.data.result.secure_url + "uploadImageUrl");
+
       setImageLoadingState(false);
     }
   }
@@ -63,7 +65,7 @@ function ProductImageUpload({
             onChange={handleImageFileChange}
             className="hidden"
             ref={inputref}
-            disabled={isEditMode} 
+            disabled={isEditMode}
           />
           {console.log(isEditMode, "isEditMode")}
           {!imageFile ? (

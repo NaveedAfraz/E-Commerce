@@ -69,9 +69,9 @@ export const authCheck = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   "auth/logout",
-  async (formData, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3006/auth/logout", {
+      const response = await axios.post("http://localhost:3006/auth/logout",{}, {
         withCredentials: true,
       });
       return response.data;
@@ -86,18 +86,18 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
-    },
-    setAuth: (state, action) => {
-      state.isAuthenticated = action.payload;
-    },
-    setLoggedIn: (state, action) => {
-      state.loggedIn = action.payload;
-    },
-    setLoading: (state, action) => {
-      state.loading = action.payload;
-    },
+    // setUser: (state, action) => {
+    //   state.user = action.payload;
+    // },
+    // setAuth: (state, action) => {
+    //   state.isAuthenticated = action.payload;
+    // },
+    // setLoggedIn: (state, action) => {
+    //   state.loggedIn = action.payload;
+    // },
+    // setLoading: (state, action) => {
+    //   state.loading = action.payload;
+    // },
   },
   extraReducers: (builder) => {
     //register user
@@ -182,5 +182,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, setAuth, setLoggedIn, setLoading } = authSlice.actions;
+// export const { setUser, setAuth, setLoggedIn, setLoading } = authSlice.actions;
 export default authSlice.reducer;

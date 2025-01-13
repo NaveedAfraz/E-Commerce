@@ -40,7 +40,7 @@ function ProductList() {
   const { productList } = useSelector((state) => state.adminProducts);
   const { toast } = useToast();
   console.log("currentedited ID", currentEditedId);
-
+  console.log("uploaded img url" + uploadedImageUrl);
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
@@ -48,6 +48,7 @@ function ProductList() {
     const formDataToSend = {
       ...formData,
       name: "productname",
+      image: uploadedImageUrl || formData.image,
     };
     console.log(formDataToSend);
     if (currentEditedId !== null) {
@@ -100,7 +101,6 @@ function ProductList() {
     console.log(uploadedImageUrl);
   }, [dispacth, uploadedImageUrl]);
 
- 
   function isFormValid() {
     return Object.keys(formData)
       .filter((currentKey) => currentKey !== "averageReview")

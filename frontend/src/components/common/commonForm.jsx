@@ -21,7 +21,7 @@ export const CommonForm = ({
 }) => {
   const renderComponentType = (formComponentDetail) => {
     //  console.log(formComponentDetail);
-     console.log(formData); 
+    //  console.log(formData); 
     // const nameChanged = {
     //   ...formData,
     //   category: formData.cat,
@@ -116,7 +116,7 @@ export const CommonForm = ({
               </>
             );
           })}
-          <Button type="submit" disabled={isBtnDisabled} className="w-full mt-4">
+          <Button type="submit" className="w-full mt-4">
             {buttonText}
           </Button>
         </div>

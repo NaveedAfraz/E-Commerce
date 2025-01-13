@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { authCheck } from "./store/auth-Slice/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton";
+import UnAuthorized from "./pages/authCheck/unAuthorized";
 
 export default function App() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -90,6 +91,10 @@ export default function App() {
         </Route>
 
         {/* error handling */}
+        <Route
+          path="/unauth-page"
+          element={<UnAuthorized></UnAuthorized>}
+        ></Route>
         <Route path="*" element={<h1>404 Not Found</h1>}></Route>
       </Routes>
     </Router>

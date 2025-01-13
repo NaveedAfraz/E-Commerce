@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
 import { deleteProduct, getAllProducts } from "@/store/admin-Slice/admin-slice";
+import { useEffect } from "react";
 
 function AdminProductTile({
   product,
@@ -11,21 +12,24 @@ function AdminProductTile({
   setCurrentEditedId,
   currentEditedId,
 }) {
-  //console.log("currentedited ID", currentEditedId);
-  console.log(product);
   const dispatch = useDispatch();
-  const nameChanged = {
-    ...product,
-    category: product?.cat,
-    description: product?.desc,
-  };
-  delete nameChanged.cat;
-  delete nameChanged.desc;
-  console.log(nameChanged);
+  //console.log("currentedited ID", currentEditedId);
+ // useEffect(() => {
+    console.log(product);
+    const nameChanged = {
+      ...product,
+      category: product?.cat,
+      description: product?.desc,
+    };
+    delete nameChanged.cat;
+    delete nameChanged.desc;
+    console.log(nameChanged);
+  // }, [currentEditedId]);
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div>
         <div className="relative">
+          {console.log(product?.image)}
           <img
             src={product?.image}
             alt={product?.title}
