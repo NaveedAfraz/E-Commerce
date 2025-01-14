@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Listings() {
   const dispatch = useDispatch();
-  const { productList, ProductDetails } = useSelector(
+  const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
   console.log(productList);
@@ -115,11 +115,11 @@ function Listings() {
     console.log(ID);
   };
   useEffect(() => {
-    if (ProductDetails) {
+    if (productDetails.length !== 0) {
       setOpenModal(true);
     }
-    console.log(ProductDetails);
-  }, [ProductDetails]);
+    console.log(productDetails);
+  }, [productDetails]);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -189,6 +189,7 @@ function Listings() {
         <ProductDetailsModal
           selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct}
+          productDetails={productDetails}
           openModal={openModal}
           setOpenModal={setOpenModal}
         />
