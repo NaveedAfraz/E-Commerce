@@ -27,6 +27,7 @@ function Filtering({ filteredProducts, setFilteredProducts, handlefiltered }) {
               >
                 <Checkbox
                   onCheckedChange={() => handlefiltered(option.label, "category")}
+                  checked={filteredProducts?.category?.includes(option.label)}
                 />
                 {option.label}
               </label>
@@ -47,6 +48,7 @@ function Filtering({ filteredProducts, setFilteredProducts, handlefiltered }) {
               >
                 <Checkbox
                   onCheckedChange={() => handlefiltered(option.label, "brand")}
+                  checked={filteredProducts?.brand?.includes(option.label)}
                 />
                 {option.label}
               </label>

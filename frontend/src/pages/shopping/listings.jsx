@@ -57,9 +57,46 @@ function Listings() {
     }
     console.log(cpyFilters);
     setFilteredProducts(cpyFilters);
+
+    const params = new URLSearchParams();
+    Object.entries(cpyFilters).forEach(([key, values]) => {
+      if (values.length > 0) {
+        params.append(key, values.join(","));
+      }
+    });
+    window.history.replaceState(null, "", `?${params.toString()}`);
+
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
   };
 
+
+  useEffect(() => {
+    setSortBy("price-lowtohigh");
+    setFilteredProducts(JSON.parse(sessionStorage.getItem("filters")) || {});
+  }, []);
+
+  useEffect(() => {
+    if (filteredProducts !== null && sortBy !== null)
+      dispatch(
+        fetchAllProducts({ filterParams: filteredProducts, sortParams: sortBy })
+      ).then((res) => {
+        console.log(res);
+      });
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   const params = new URLSearchParams(window.location.search);
+  //   const initialFilters = {};
+
+  //   params.forEach((value, key) => {
+  //     console.log(key, value);
+  //     initialFilters[key] = value.split(","); // Convert comma-separated values to an array
+  //   });
+
+  //   setFilteredProducts(initialFilters);
+  // console.log(filteredProducts);
+
+  // }, [filteredProducts]);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">

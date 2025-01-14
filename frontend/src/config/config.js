@@ -144,7 +144,7 @@ export const shoppingViewHeaderMenuItems = [
   },
 ];
 
-export const filterOptions = [
+export const filterOptions = [ 
   { id: "men", label: "Men" },
   { id: "women", label: "Women" },
   { id: "kids", label: "Kids" },
