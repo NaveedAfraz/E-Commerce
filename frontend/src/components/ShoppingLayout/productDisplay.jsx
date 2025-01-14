@@ -30,12 +30,12 @@ export default function ProductDisplay({ product }) {
         <CardContent className="p-4">
           <h2 className="text-xl font-bold mb-2">{}</h2>
           <div className="flex justify-between items-center mb-2">
-            {/* <span className="text-[16px] text-muted-foreground">
-                {categoryOptionsMap[product?.category]}
-              </span> */}
-            {/* <span className="text-[16px] text-muted-foreground">
-                {brandOptionsMap[product?.brand]}
-              </span> */}
+            <span className="text-[16px] text-muted-foreground">
+                {product?.cat.charAt(0).toUpperCase() + product?.cat.slice(1)}
+              </span>
+            <span className="text-[16px] text-muted-foreground">
+                {product?.brand.charAt(0).toUpperCase() + product?.brand.slice(1)}
+              </span>
           </div>
           <div className="flex justify-between items-center mb-2">
             <span

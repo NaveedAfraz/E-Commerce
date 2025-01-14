@@ -21,16 +21,45 @@ function Listings() {
   const { productList } = useSelector((state) => state.shopProducts);
   console.log(productList);
   const [sortBy, setSortBy] = useState(null);
-  const [filteredProducts, setFilteredProducts] = useState(null);
+  const [filteredProducts, setFilteredProducts] = useState({});
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, []);
   const handleSortBy = (id) => {
     console.log(id);
+    setSortBy(id);
+    if (id === "price-lowtohigh") {
+      setSortBy([...productList].sort((a, b) => a.price - b.price));
+    }
+    if (id === "price-hightolow") {
+      setSortBy([...productList].sort((a, b) => b.price - a.price));
+    }
+    console.log(sortBy);
   };
+
   const handlefiltered = (label, category) => {
     console.log(label, category);
+    let cpyFilters = { ...filteredProducts };
+    const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(category);
+
+    if (indexOfCurrentSection === -1) {
+      console.log("running1");
+      cpyFilters = {
+        ...cpyFilters,
+        [category]: [label],
+      };
+    } else {
+      const indexOfCurrentOption = cpyFilters[category].indexOf(label);
+      console.log("running2");
+
+      if (indexOfCurrentOption === -1) cpyFilters[category].push(label);
+      else cpyFilters[category].splice(indexOfCurrentOption, 1);
+    }
+    console.log(cpyFilters);
+    setFilteredProducts(cpyFilters);
+    sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
   };
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -62,7 +91,7 @@ function Listings() {
                   className="w-[200px] z-10 bg-white border rounded-sm shadow-lg my-2"
                 >
                   <DropdownMenuRadioGroup
-                  onValueChange={handleSortBy}
+                    onValueChange={handleSortBy}
                     value={sortBy}
                   >
                     {sortOptions.map((sortItem) => (

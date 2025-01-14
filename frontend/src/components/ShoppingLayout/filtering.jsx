@@ -46,7 +46,7 @@ function Filtering({ filteredProducts, setFilteredProducts, handlefiltered }) {
                 className="flex items-center gap-2 font-medium text-sm"
               >
                 <Checkbox
-                  onCheckedChange={() => handlefiltered(option.label, "category")}
+                  onCheckedChange={() => handlefiltered(option.label, "brand")}
                 />
                 {option.label}
               </label>
