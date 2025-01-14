@@ -1,10 +1,11 @@
-import { Dialog, DialogContent } from "@radix-ui/react-dialog";
+
 import React from "react";
 import { Button } from "../ui/button";
+import { Dialog, DialogContent } from "../ui/dialog";
 
-function ProductDetailsModal({ productDetails }) {
+function ProductDetailsModal({ productDetails ,openModal, setOpenModal }) {
   return (
-    <Dialog>
+    <Dialog open={openModal} onOpenChange={setOpenModal}>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
         <div className="relative overflow-hidden rounded-lg">
           <img

@@ -20,11 +20,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Listings() {
   const dispatch = useDispatch();
-  const { productList } = useSelector((state) => state.shopProducts);
+  const { productList, ProductDetails } = useSelector(
+    (state) => state.shopProducts
+  );
   console.log(productList);
+
   const [sortBy, setSortBy] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState();
   const [filteredProducts, setFilteredProducts] = useState({});
+  const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, []);
@@ -110,6 +114,12 @@ function Listings() {
     });
     console.log(ID);
   };
+  useEffect(() => {
+    if (ProductDetails) {
+      setOpenModal(true);
+    }
+    console.log(ProductDetails);
+  }, [ProductDetails]);
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -179,6 +189,8 @@ function Listings() {
         <ProductDetailsModal
           selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
         />
       </div>
     </>
