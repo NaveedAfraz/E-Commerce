@@ -1,4 +1,5 @@
 import Filtering from "@/components/ShoppingLayout/filtering";
+import ProductDetails from "@/components/ShoppingLayout/productDetails";
 import ProductDisplay from "@/components/ShoppingLayout/productDisplay";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +22,7 @@ function Listings() {
   const { productList } = useSelector((state) => state.shopProducts);
   console.log(productList);
   const [sortBy, setSortBy] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState();
   const [filteredProducts, setFilteredProducts] = useState({});
   useEffect(() => {
     dispatch(fetchAllProducts());
@@ -100,6 +102,11 @@ function Listings() {
   // console.log(filteredProducts);
 
   // }, [filteredProducts]);
+  const handleDetails = (ID) => {
+    setSelectedProduct(ID);
+    dispatch(fetchDetails(ID));
+    console.log(ID);
+  };
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -149,17 +156,27 @@ function Listings() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-            {productList && productList.length > 0
-              ? productList.map((productItem) => (
-                  <ProductDisplay
-                    // handleGetProductDetails={handleGetProductDetails}
-                    product={productItem}
-                    //handleAddtoCart={handleAddtoCart}
-                  />
-                ))
-              : null}
+            {productList?.length > 0 ? (
+              productList.map((productItem) => (
+                <ProductDisplay
+                  key={productItem.id}
+                  product={productItem}
+                  selectedProduct={selectedProduct}
+                  setSelectedProduct={setSelectedProduct}
+                  handleDetails={handleDetails}
+                />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-10 text-gray-500">
+                No products found
+              </div>
+            )}
           </div>
-        </div>{" "}
+        </div>
+        <ProductDetails
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+        />
       </div>
     </>
   );

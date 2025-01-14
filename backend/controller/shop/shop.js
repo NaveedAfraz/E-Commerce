@@ -1,24 +1,20 @@
 const promisePool = require("../../db.js");
 const getfilteredProducts = async (req, res) => {
   try {
-    const { category = "", brand = "", sortBy } = req.query;
+    const { category, brand, sortBy } = req.query;
     // const { sortByParams} = req.params;
     // console.log(sortByParams);
     console.log(sortBy);
     console.log(req.query);
 
     const lowercaseBrand = brand
-      ? brand
-          .split(",")
-          .map((b) => b.toLowerCase().trim())
-          .filter(Boolean)
+      ? brand.split(",").map((b) => b.toLowerCase().trim())
       : [];
     const lowercaseCategory = category
-      ? category
-          .split(",")
-          .map((c) => c.toLowerCase().trim())
-          .filter(Boolean)
+      ? category.split(",").map((c) => c.toLowerCase().trim())
       : [];
+    console.log(lowercaseBrand);
+    console.log(lowercaseCategory);
 
     let query = "SELECT * FROM productsAdmin";
     const queryParams = [];
@@ -79,4 +75,33 @@ const getfilteredProducts = async (req, res) => {
   }
 };
 
-module.exports = { getfilteredProducts };
+const fetchDetails = async (req, res) => {
+  try {
+    const { id } = req.query;
+    if (!id)
+      return res
+        .status(400)
+        .json({ success: false, message: "Product ID is required" });
+    const query = "SELECT * FROM products WHERE ProductID = ?";
+    const [Data] = await promisePool.execute(query, [id]);
+    if (Data) {
+      return res.status(200).json({
+        success: true,
+        data: Data,
+        message: "Product details fetched successfully",
+      });
+    }
+    return res.status(404).json({
+      success: false,
+      message: "Product not found",
+    });
+  } catch (error) {
+    console.error("Error in getfilteredProducts:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
+module.exports = { getfilteredProducts, fetchDetails };
