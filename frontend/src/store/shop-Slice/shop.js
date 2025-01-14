@@ -7,10 +7,23 @@ const initialState = {
 
 export const fetchAllProducts = createAsyncThunk(
   "/products/fetchAllproducts",
-  async () => {
-    const res = await axios.get("http://localhost:3006/shop/fetchAllProducts");
+  async ({filterParams}) => {
+    const { category, brand, sortBy = "price-lowtohigh" } = filterParams;
+    const queryParams = new URLSearchParams();
+
+    console.log("Filter Params: ", filterParams);
+    console.log("Category: ", category); 
+    console.log("Brand: ", brand);
+
+    if (category) queryParams.append("category", category);
+    if (brand) queryParams.append("brand", brand);
+    // if (sortBy) queryParams.append("sortBy", sortBy);
+
+    const res = await axios.get(
+      `http://localhost:3006/shop/fetchAllProducts?${queryParams}`
+    );
     return res.data;
-  } 
+  }
 );
 const shopProductsSlice = createSlice({
   name: "shopProducts",
@@ -26,7 +39,6 @@ const shopProductsSlice = createSlice({
       state.loading = false;
       state.productList = action?.payload?.data;
       console.log(state.productList);
-      
     });
     builder.addCase(fetchAllProducts.rejected, (state, action) => {
       state.loading = false;

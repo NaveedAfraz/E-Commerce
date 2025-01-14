@@ -1,31 +1,66 @@
 const promisePool = require("../../db.js");
 const getfilteredProducts = async (req, res) => {
-  const { category = "", brand = "", sortBy = "price-lowtohigh" } = req.query;
-
   try {
-    const q = "SELECT * FROM productsAdmin";
-    const [Data] = await promisePool.execute(q);
-
-    if (category || brand || sortBy) {
-      let q1 = "SELECT * FROM productsAdmin WHERE cat = ?";
-      let queryParams = [category];
-
-      if (brand) {
-        const brands = brand.split(",");
-        const brandPlaceholders = brands.map(() => "?").join(",");
-        query += ` AND brand IN (${brandPlaceholders})`;
-        queryParams.push(...brands);
-      }
-      const [data2] = await promisePool.execute(q1, queryParams);
-      console.log(data2);
-      return res.status(200).json({ sucess: true, data: data2 });
-    } else {
-      console.log(res);
-      return res.status(200).json({ sucess: true, data: Data });
+    const { category = "", brand = "", sortBy = "price-lowtohigh" } = req.query;
+    
+    const lowercaseBrand = brand ? brand.split(",").map(b => b.toLowerCase().trim()).filter(Boolean) : [];
+    const lowercaseCategory = category ? category.split(",").map(c => c.toLowerCase().trim()).filter(Boolean) : [];
+   
+    let query = "SELECT * FROM productsAdmin";
+    const queryParams = [];
+    const conditions = [];
+    
+    if (lowercaseCategory.length > 0) {
+      conditions.push(`LOWER(cat) IN (${lowercaseCategory.map(() => '?').join(',')})`);
+      console.log(conditions);
+      
+      queryParams.push(...lowercaseCategory);
     }
+    
+  
+    if (lowercaseBrand.length > 0) {
+      conditions.push(`LOWER(brand) IN (${lowercaseBrand.map(() => '?').join(',')})`);
+      console.log(conditions);
+      queryParams.push(...lowercaseBrand);
+    }
+    
+    if (conditions.length > 0) {
+      query += ` WHERE ${conditions.join(' AND ')}`;
+    }
+    
+    switch (sortBy) {
+      case 'price-lowtohigh':
+        query += ' ORDER BY price ASC';
+        break;
+      case 'price-hightolow':
+        query += ' ORDER BY price DESC';
+        break;
+      case 'newest':
+        query += ' ORDER BY created_at DESC';
+        break;
+      case 'popularity':
+        query += ' ORDER BY views DESC';
+        break;
+      default:
+        query += ' ORDER BY price ASC';
+    }
+    
+    const [products] = await promisePool.execute(query, queryParams);
+    
+    return res.status(200).json({
+      success: true,
+      count: products.length,
+      data: products
+    });
+    
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ sucess: false, message: "Internal Server Error" });
+    console.error('Error in getfilteredProducts:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
+
 module.exports = { getfilteredProducts };
