@@ -25,15 +25,19 @@ function Listings() {
   useEffect(() => {
     dispatch(fetchAllProducts());
   }, []);
+
   const handleSortBy = (id) => {
     console.log(id);
     setSortBy(id);
-    if (id === "price-lowtohigh") {
-      setSortBy([...productList].sort((a, b) => a.price - b.price));
-    }
-    if (id === "price-hightolow") {
-      setSortBy([...productList].sort((a, b) => b.price - a.price));
-    }
+    // console.log(productList);
+
+    // if (id === "price-lowtohigh") {
+    //   setSortBy([...productList].sort((a, b) => a.price - b.price));
+    // }
+    // if (id === "price-hightolow") {
+    //   setSortBy([...productList].sort((a, b) => b.price - a.price));
+    //   console.log([...productList].sort((a, (b) => b.price - a.price)));
+    // }
     console.log(sortBy);
   };
 
@@ -69,7 +73,6 @@ function Listings() {
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
   };
 
-
   useEffect(() => {
     setSortBy("price-lowtohigh");
     setFilteredProducts(JSON.parse(sessionStorage.getItem("filters")) || {});
@@ -82,7 +85,7 @@ function Listings() {
       ).then((res) => {
         console.log(res);
       });
-  }, [filteredProducts]);
+  }, [filteredProducts, sortBy]);
 
   // useEffect(() => {
   //   const params = new URLSearchParams(window.location.search);

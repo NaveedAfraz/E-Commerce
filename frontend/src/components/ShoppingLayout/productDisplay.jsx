@@ -28,7 +28,7 @@ export default function ProductDisplay({ product }) {
             ) : null}
         </div>
         <CardContent className="p-4">
-          <h2 className="text-xl font-bold mb-2">{}</h2>
+          <h2 className="text-xl font-bold mb-2">{product?.title}</h2>
           <div className="flex justify-between items-center mb-2">
             <span className="text-[16px] text-muted-foreground">
                 {product?.cat.charAt(0).toUpperCase() + product?.cat.slice(1)}
