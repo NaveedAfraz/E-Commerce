@@ -77,17 +77,30 @@ const getfilteredProducts = async (req, res) => {
 
 const fetchDetails = async (req, res) => {
   try {
-    const { id } = req.query;
-    if (!id)
+    //  console.log(req.params); // Check if id is present here
+
+    const { id } = req.params;
+    // console.log(id + "id");
+    if (!id) {
       return res
-        .status(400)
+        .status(404)
         .json({ success: false, message: "Product ID is required" });
-    const query = "SELECT * FROM products WHERE ProductID = ?";
-    const [Data] = await promisePool.execute(query, [id]);
-    if (Data) {
+    }
+    const query = "SELECT * FROM productsAdmin WHERE productID = ?";
+    const [result] = await promisePool.execute(query, [id]);
+    console.log(result);
+
+    if (result.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+    if (result) {
+      console.log("result" + result);
+
       return res.status(200).json({
         success: true,
-        data: Data,
+        data: result,
         message: "Product details fetched successfully",
       });
     }

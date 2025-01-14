@@ -2,7 +2,7 @@ import { Dialog, DialogContent } from "@radix-ui/react-dialog";
 import React from "react";
 import { Button } from "../ui/button";
 
-function ProductDetails({ productDetails }) {
+function ProductDetailsModal({ productDetails }) {
   return (
     <Dialog>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
@@ -69,4 +69,4 @@ function ProductDetails({ productDetails }) {
   );
 }
 
-export default ProductDetails;
+export default ProductDetailsModal;

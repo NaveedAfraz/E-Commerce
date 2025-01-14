@@ -1,4 +1,5 @@
 import Filtering from "@/components/ShoppingLayout/filtering";
+import ProductDetailsModal from "@/components/ShoppingLayout/productDetails";
 import ProductDetails from "@/components/ShoppingLayout/productDetails";
 import ProductDisplay from "@/components/ShoppingLayout/productDisplay";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ import {
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config/config";
-import { fetchAllProducts } from "@/store/shop-Slice/shop";
+import { fetchAllProducts, fetchProductDetails } from "@/store/shop-Slice/shop";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -104,7 +105,9 @@ function Listings() {
   // }, [filteredProducts]);
   const handleDetails = (ID) => {
     setSelectedProduct(ID);
-    dispatch(fetchDetails(ID));
+    dispatch(fetchProductDetails(ID)).then((res) => {
+      console.log(res);
+    });
     console.log(ID);
   };
   return (
@@ -173,7 +176,7 @@ function Listings() {
             )}
           </div>
         </div>
-        <ProductDetails
+        <ProductDetailsModal
           selectedProduct={selectedProduct}
           setSelectedProduct={setSelectedProduct}
         />
