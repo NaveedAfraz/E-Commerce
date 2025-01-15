@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
-
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Separator } from "../ui/separator";
+import { Label } from "@radix-ui/react-label";
 function ProductDetailsModal({ productDetails, openModal, setOpenModal }) {
+  const [reviewMsg, setReviewMsg] = useState("");
+  const [rating, setRating] = useState(0);
   console.log(productDetails);
   console.log(productDetails[0]?.salePrice);
 
@@ -59,35 +63,58 @@ function ProductDetailsModal({ productDetails, openModal, setOpenModal }) {
               <Button className="w-full">Add to Cart</Button>
             )}
           </div>
-        </div>
-        <Separator />
-        <div className="max-h-[300px] overflow-auto">
-          <h2 className="text-xl font-bold mb-4">Reviews</h2>
-          <div className="grid gap-6">
-            {reviews && reviews.length > 0 ? (
-              reviews.map((reviewItem) => (
-                <div className="flex gap-4">
-                  <Avatar className="w-10 h-10 border">
-                    <AvatarFallback>
-                      {reviewItem?.userName[0].toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-bold">{reviewItem?.userName}</h3>
+
+          <Separator />
+          <div className="max-h-[300px] overflow-auto">
+            <h2 className="text-xl font-bold mb-4">Reviews</h2>
+            <div className="grid gap-6">
+               {/* {reviews && reviews.length > 0 ? (
+                reviews.map((reviewItem) => (
+                  <div className="flex gap-4"> 
+                    <Avatar className="w-10 h-10 border">
+                      <AvatarFallback>
+                        {reviewItem?.userName[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="grid gap-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-bold">{reviewItem?.userName}</h3>
+                      </div>
+                      <div className="flex items-center gap-0.5">
+                        <StarRatingComponent rating={reviewItem?.reviewValue} />
+                      </div>
+                      <p className="text-muted-foreground">
+                        {reviewItem.reviewMessage}
+                      </p>
                     </div>
-                    <div className="flex items-center gap-0.5">
-                      <StarRatingComponent rating={reviewItem?.reviewValue} />
-                    </div>
-                    <p className="text-muted-foreground">
-                      {reviewItem.reviewMessage}
-                    </p>
                   </div>
-                </div>
-              ))
-            ) : (
-              <h1>No Reviews</h1>
-            )}
+                ))
+              ) : (
+                <h1>No Reviews</h1>
+              )} */}
+            </div>
+
+            <div className="mt-10 flex-col flex gap-2">
+              <Label>Write a review</Label>
+              <div className="flex gap-1">
+                {/* <StarRatingComponent
+                  rating={rating}
+                  handleRatingChange={handleRatingChange}
+                /> */}
+              </div>
+              {/* <Input
+                name="reviewMsg"
+                value={reviewMsg}
+                onChange={(event) => setReviewMsg(event.target.value)}
+                placeholder="Write a review..."
+              /> */}
+              <Button
+               // onClick={handleAddReview}
+               // disabled={reviewMsg.trim() === ""}
+              >
+                Submit
+              </Button>
+            </div>
           </div>
         </div>
       </DialogContent>
