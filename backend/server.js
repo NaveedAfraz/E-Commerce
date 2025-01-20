@@ -7,6 +7,9 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth/auth");
 const adminRouter = require("./routes/admin/products");
 const shopProductRouter = require("./routes/shop/product");
+const cartRouter = require("./routes/shop/cart");
+const addressRouter = require("./routes/shop/address");
+const ordersRouter = require("./routes/shop/orders");
 require("dotenv").config(require("dotenv").config({ path: "../.env" }));
 app.use(
   cors({
@@ -28,8 +31,10 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
-
+app.use("/cart", cartRouter);
 app.use("/shop", shopProductRouter);
+app.use("/orders", ordersRouter);
+app.use("/address", addressRouter);
 app.listen(3006, () => {
   console.log("Server is running on http://localhost:3006");
 });

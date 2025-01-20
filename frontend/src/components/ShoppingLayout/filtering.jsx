@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { filterOptions } from "@/config/config";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
+import { useLocation } from "react-router-dom";
 
 function Filtering({ filteredProducts, setFilteredProducts, handlefiltered }) {
   const categories = filterOptions.slice(0, 5);
   const brands = filterOptions.slice(5);
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categories = params.get("category")?.split(",") || [];
+    const brands = params.get("brand")?.split(",") || [];
+
+    setFilteredProducts({
+      category: categories,
+      brand: brands,
+    });
+  }, [location.search]);
 
   return (
     <div className="bg-gray-50 rounded-lg shadow-sm">
@@ -26,8 +37,10 @@ function Filtering({ filteredProducts, setFilteredProducts, handlefiltered }) {
                 className="flex items-center gap-2 font-medium text-sm"
               >
                 <Checkbox
-                  onCheckedChange={() => handlefiltered(option.label, "category")}
-                  checked={filteredProducts?.category?.includes(option.label)}
+                  checked={!!filteredProducts?.category?.includes(option.label)}
+                  onCheckedChange={() =>
+                    handlefiltered(option.label, "category")
+                  }
                 />
                 {option.label}
               </label>

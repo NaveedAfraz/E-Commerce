@@ -39,8 +39,9 @@ function ProductList() {
   const dispacth = useDispatch();
   const { productList } = useSelector((state) => state.adminProducts);
   const { toast } = useToast();
-  console.log("currentedited ID", currentEditedId);
-  console.log("uploaded img url" + uploadedImageUrl);
+  // console.log("currentedited ID", currentEditedId);
+  // console.log("uploaded img url" + uploadedImageUrl);
+  
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(formData);

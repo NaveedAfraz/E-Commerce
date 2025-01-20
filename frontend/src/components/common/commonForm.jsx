@@ -96,10 +96,10 @@ export const CommonForm = ({
         );
         break;
     }
-   // console.log(formData);
+    console.log(formData);
     return element;
   };
-  // console.log(formComponentDetails);
+   //console.log(formComponentDetails);
 
   return (
     <div>

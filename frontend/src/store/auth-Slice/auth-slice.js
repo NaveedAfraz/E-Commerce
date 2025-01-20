@@ -5,9 +5,10 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   loggedIn: false,
-  loading: true ,
+  loading: true,
   error: null,
-  userName : ""
+  userID: null,
+  userName: "",
 };
 
 export const registerUser = createAsyncThunk(
@@ -72,9 +73,13 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:3006/auth/logout",{}, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "http://localhost:3006/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (err) {
       console.log(err);
@@ -125,13 +130,15 @@ const authSlice = createSlice({
       state.loggedIn = false;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      console.log(action);
+      console.log(action.payload);
       const { message } = action.payload;
       state.loading = false;
       state.user = message ? action?.payload?.userInfo : null;
       state.isAuthenticated = message;
+      state.userID = action?.payload?.userInfo?.UserID;
       state.error = null;
       state.loggedIn = true;
+      console.log(state.userID);
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
@@ -146,11 +153,12 @@ const authSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(authCheck.fulfilled, (state, action) => {
-      //console.log(action)
+      //console.log(action);
       state.loading = false;
       state.user = action.payload;
       state.isAuthenticated = true;
       state.error = null;
+      state.userID = action?.payload?.UserID;
       state.loggedIn = true;
     });
     builder.addCase(authCheck.rejected, (state, action) => {
@@ -158,6 +166,8 @@ const authSlice = createSlice({
       state.loggedIn = false;
       state.user = null;
       state.isAuthenticated = false;
+      console.log(action);
+
       state.error = action.payload;
     });
     //logoutOutUser
@@ -166,7 +176,7 @@ const authSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(logout.fulfilled, (state, action) => {
-      console.log(action)
+      console.log(action);
       state.loading = false;
       state.user = action.payload;
       state.isAuthenticated = false;

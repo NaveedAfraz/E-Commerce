@@ -1,19 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Separator } from "../ui/separator";
 import { Label } from "@radix-ui/react-label";
-function ProductDetailsModal({ productDetails, openModal, setOpenModal }) {
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addProductToCart,
+  fetchcartDetails,
+} from "../../store/shop-Slice/cart";
+import { toast, useToast } from "@/hooks/use-toast";
+import { setProductDialog } from "@/store/shop-Slice/shop";
+
+function ProductDetailsModal({
+  productDetails,
+  openModal,
+  setOpenModal,
+  setShowDetails,
+}) {
+  // console.log(showDetails);
+
   const [reviewMsg, setReviewMsg] = useState("");
   const [rating, setRating] = useState(0);
-  console.log(productDetails);
-  console.log(productDetails[0]?.salePrice);
+
+  const { user } = useSelector((state) => state.auth);
+
+  // const UserID = useSelector((state) => state.auth?.UserID ?? null);
+  // console.log(user.userid);
+  console.log("renderedddd");
+  //  console.log(productDetails);
+
+  console.log(openModal);
+  useEffect(() => {
+    console.log("productDetails updated:", productDetails);
+
+    // setOpenModal((prev) => !prev); // Ensure this runs when productDetails changes
+  }, []); // Log when productDetails changes
+  console.log(user);
+
+  // setOpenModal(true);
+  // console.log(productDetails);
+  // console.log(productDetails[0]?.salePrice);
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+  const addToCart = () => {
+    dispatch(
+      addProductToCart({
+        productDetails: productDetails[0],
+        userid: user.userid,
+      })
+    ).then((res) => {
+      console.log(res);
+
+      if (res?.payload?.sucess) {
+        dispatch(fetchcartDetails(user.userid)).then((res) => {
+          console.log(res);
+          console.log("Product fetcheddd");
+          toast({ title: "Item added to cart successfully", duration: 1000 });
+        });
+      }
+      console.log(res);
+      // console.log("Product added to cart");
+    });
+  };
+
+  const handleCLoseDialog = () => {
+    console.log("close dialog");
+    setOpenModal(false);
+    // setShowDetails(false);
+    dispatch(setProductDialog());
+  };
 
   return (
     <Dialog
       open={openModal}
-      onOpenChange={setOpenModal}
+      onOpenChange={handleCLoseDialog}
       aria-labelledby="dialog-title"
       aria-describedby="dialog-description"
     >
@@ -60,7 +121,12 @@ function ProductDetailsModal({ productDetails, openModal, setOpenModal }) {
                 Out of Stock
               </Button>
             ) : (
-              <Button className="w-full">Add to Cart</Button>
+              <Button
+                onClick={() => addToCart(productDetails[0])}
+                className="w-full"
+              >
+                Add to Cart
+              </Button>
             )}
           </div>
 
@@ -68,7 +134,7 @@ function ProductDetailsModal({ productDetails, openModal, setOpenModal }) {
           <div className="max-h-[300px] overflow-auto">
             <h2 className="text-xl font-bold mb-4">Reviews</h2>
             <div className="grid gap-6">
-               {/* {reviews && reviews.length > 0 ? (
+              {/* {reviews && reviews.length > 0 ? (
                 reviews.map((reviewItem) => (
                   <div className="flex gap-4"> 
                     <Avatar className="w-10 h-10 border">
@@ -109,8 +175,8 @@ function ProductDetailsModal({ productDetails, openModal, setOpenModal }) {
                 placeholder="Write a review..."
               /> */}
               <Button
-               // onClick={handleAddReview}
-               // disabled={reviewMsg.trim() === ""}
+              // onClick={handleAddReview}
+              // disabled={reviewMsg.trim() === ""}
               >
                 Submit
               </Button>

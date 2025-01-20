@@ -105,37 +105,37 @@ export const shoppingViewHeaderMenuItems = [
   {
     id: "home",
     label: "Home",
-    path: "/shop/home",
+    path: "/shopping/home",
   },
   {
     id: "products",
     label: "Products",
-    path: "/shop/listing",
+    path: "/shopping/Listings",
   },
   {
     id: "men",
     label: "Men",
-    path: "/shop/listing",
+    path: "/shopping/Listings",
   },
   {
     id: "women",
     label: "Women",
-    path: "/shop/listing",
+    path: "/shopping/Listings",
   },
   {
     id: "kids",
     label: "Kids",
-    path: "/shop/listing",
+    path: "/shopping/Listings",
   },
   {
     id: "footwear",
     label: "Footwear",
-    path: "/shop/listing",
+    path: "/shopping/Listings",
   },
   {
     id: "accessories",
     label: "Accessories",
-    path: "/shop/listing",
+    path: "/shopping/Listings",
   },
   {
     id: "search",
@@ -144,7 +144,7 @@ export const shoppingViewHeaderMenuItems = [
   },
 ];
 
-export const filterOptions = [ 
+export const filterOptions = [
   { id: "men", label: "Men" },
   { id: "women", label: "Women" },
   { id: "kids", label: "Kids" },
@@ -182,3 +182,40 @@ export const brandOptionsMap = {
   zara: "Zara",
   "h&m": "H&M",
 };
+
+export const addressFormControls = [
+  {
+    label: "Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your address",
+  },
+  {
+    label: "City",
+    name: "city",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your city",
+  },
+  {
+    label: "Pincode",
+    name: "pincode",
+    componentType: "input",
+    type: "number",
+    placeholder: "Enter your pincode",
+  },
+  {
+    label: "Phone",
+    name: "phoneNO",
+    componentType: "input",
+    type: "number",
+    placeholder: "Enter your phone number",
+  },
+  {
+    label: "Notes",
+    name: "notes",
+    componentType: "textarea",
+    placeholder: "Enter any additional notes",
+  },
+];

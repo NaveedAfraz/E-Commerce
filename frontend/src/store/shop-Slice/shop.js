@@ -1,4 +1,3 @@
-
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const initialState = {
@@ -10,9 +9,10 @@ const initialState = {
 export const fetchAllProducts = createAsyncThunk(
   "/products/fetchAllproducts",
   async ({ filterParams, sortParams }) => {
+    
     const { category, brand } = filterParams;
     const queryParams = new URLSearchParams();
-    console.log("Sort Params: ", sortParams);
+    //console.log("Sort Params: ", sortParams);
     console.log("Filter Params: ", filterParams);
     console.log("Category: ", category);
     console.log("Brand: ", brand);
@@ -20,7 +20,7 @@ export const fetchAllProducts = createAsyncThunk(
     if (category) queryParams.append("category", category);
     if (brand) queryParams.append("brand", brand);
     // if (sortBy) queryParams.append("sortBy", sortBy);
-    console.log(sortParams);
+   // console.log(sortParams);
 
     if (sortParams) {
       queryParams.append("sortBy", sortParams);
@@ -48,17 +48,21 @@ export const fetchProductDetails = createAsyncThunk(
 const shopProductsSlice = createSlice({
   name: "shopProducts",
   initialState,
-  reducers: {},
+  reducers: {
+    setProductDialog: (state, action) => {
+      state.productDetails = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchAllProducts.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
     builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
-      console.log(action.payload);
+    //  console.log(action.payload);
       state.loading = false;
       state.productList = action?.payload?.data;
-      console.log(state.productList);
+    //  console.log(state.productList);
     });
     builder.addCase(fetchAllProducts.rejected, (state, action) => {
       state.loading = false;
@@ -85,4 +89,5 @@ const shopProductsSlice = createSlice({
   },
 });
 
+export const { setProductDialog } = shopProductsSlice.actions;
 export default shopProductsSlice.reducer;
