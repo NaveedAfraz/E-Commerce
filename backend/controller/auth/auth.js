@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 // login
 const Login = async (req, res) => {
   const { password, email } = req.body;
-  console.log(password, email);
+  //  console.log(password, email);
   // const { userName, password } = data;
   if (!password || !email) {
     return res.status(400).json({ message: "Missing email or password" });
@@ -18,7 +18,7 @@ const Login = async (req, res) => {
 
   try {
     const [data] = await promisePool.execute(q, [email]);
-    console.log("detsils", data);
+    //console.log("detsils", data);
     console.log("running login ");
     if (data.length === 0) {
       return res.status(404).json({ message: "User not found" });
@@ -37,7 +37,7 @@ const Login = async (req, res) => {
       console.log("Invalid password");
       return res.status(403).json({ message: "Invalid password" });
     }
-    console.log(data[0]?.role);
+    // console.log(data[0]?.role);
     console.log(data[0]);
     // Create a JWT token
     const token = jwt.sign(
@@ -53,9 +53,10 @@ const Login = async (req, res) => {
     );
     res
       .cookie("authToken", token, {
-        httpOnly: true, // Makes the cookie inaccessible to client-side JavaScript
-        sameSite: "Strict",
-        maxAge: 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: "None", // Required for cross-site cookies
+        secure: true, // Cookies are sent only over HTTPS
+        maxAge: 60 * 60 * 1000, // 1 hour
       })
       .status(200)
       .json({ message: "Logged in", userInfo: data[0] });
@@ -114,33 +115,38 @@ const logout = async (req, res) => {
 };
 //reCheckAuth
 const authCheck = async (req, res) => {
-  const { userName, password, email } = req.body;
-  console.log(userName, password, email);
   try {
-    const token = req.cookies.authToken;
+    const token = req.cookies.authToken; // Retrieve token from cookies
+    console.log("Token is here:", token);
+    console.log("Cookies received:", req.cookies);
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Unauthorized, token missing" });
     }
-    console.log(token);
-    const decoded = token && jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded) {
-      console.log(decoded);
-      console.log("heell");
-      
-      return res.status(200).json({
-        message: "Authorized",
-        userInfo: decoded.userName,
-        role: decoded.role,
-        password: decoded.password,
-        email: decoded.email,
-        userid: decoded.userid,
-      });
-    }
-    res
-      .status(200)
-      .json({ message: "Authorized", userInfo: userName, password, email });
+
+    // Verify the JWT token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded token:", decoded);
+
+    return res.status(200).json({
+      message: "Authorized",
+      userInfo: decoded.userName,
+      role: decoded.role,
+      email: decoded.email,
+      userid: decoded.userid,
+    });
   } catch (error) {
-    return res.status(404).json({ error: error.message, message: "Not Found" });
+    console.error("Error verifying token:", error.message);
+
+    // Provide specific feedback on the error
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    }
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 module.exports = { Register, Login, logout, authCheck };

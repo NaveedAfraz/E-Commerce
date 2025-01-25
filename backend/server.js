@@ -14,14 +14,17 @@ const adminOrdersRouter = require("./routes/admin/orders");
 const searchRouter = require("./routes/shop/search");
 const reviewRouter = require("./routes/shop/reviews");
 require("dotenv").config(require("dotenv").config({ path: "../.env" }));
-app.use(
-  cors({
-    origin: "https://e-commerce-psi-inky-93.vercel.app",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
-  })
-);
+const corsOptions = {
+  origin: [
+    "http://localhost:5173", // Local development
+    "https://e-commerce-psi-inky-93.vercel.app", // Production frontend
+  ],
+  credentials: true, // Allow cookies to be sent with requests
+  methods: ["GET", "POST", "PUT", "DELETE"], // Supported HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"], // Headers you allow
+};
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
