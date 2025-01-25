@@ -13,7 +13,7 @@ export const getAllOrdersForAdmin = createAsyncThunk(
   "/order/getAllOrdersForAdmin",
   async () => {
     const response = await axios.get(
-      `https://e-commerce-zfp2.onrender.comadminOrders/getAllOrders`
+      `https://e-commerce-zfp2.onrender.com/adminOrders/getAllOrders`
     );
 
     return response.data;
@@ -24,7 +24,7 @@ export const getOrderDetailsForAdmin = createAsyncThunk(
   "/order/getOrderDetailsForAdmin",
   async (id) => {
     const response = await axios.get(
-      `https://e-commerce-zfp2.onrender.comadminOrders/getSpecificOrderDetails/${id}`
+      `https://e-commerce-zfp2.onrender.com/adminOrders/getSpecificOrderDetails/${id}`
     );
 
     return response.data;
@@ -37,7 +37,7 @@ export const updateOrderStatus = createAsyncThunk(
     console.log(id);
 
     const response = await axios.put(
-      `https://e-commerce-zfp2.onrender.comadminOrders/update/${id}`,
+      `https://e-commerce-zfp2.onrender.com/adminOrders/update/${id}`,
       {
         orderStatus,
       }
@@ -53,7 +53,7 @@ export const productsSold = createAsyncThunk(
     console.log(cartDetails, user);
 
     const response = await axios.post(
-      `https://e-commerce-zfp2.onrender.comadminOrders/productsSold`,
+      `https://e-commerce-zfp2.onrender.com/adminOrders/productsSold`,
       {
         cartDetails,
         user,
@@ -67,7 +67,7 @@ export const topSellingProducts = createAsyncThunk(
   "/order/topSellingProducts",
   async () => {
     const response = await axios.get(
-      `https://e-commerce-zfp2.onrender.comadminOrders/topSellingProducts`
+      `https://e-commerce-zfp2.onrender.com/adminOrders/topSellingProducts`
     );
     return response.data;
   }

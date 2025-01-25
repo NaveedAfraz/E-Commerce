@@ -24,7 +24,7 @@ export default function Register() {
 
     console.log(formData);
     // try {
-    //   const res = await axios.post("https://e-commerce-zfp2.onrender.comauth/Register", {
+    //   const res = await axios.post("https://e-commerce-zfp2.onrender.com/auth/Register", {
     //     formData,
     //     withCredentials: true,
     //   });

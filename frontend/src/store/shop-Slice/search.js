@@ -8,7 +8,7 @@ export const SearchByKeyword = createAsyncThunk(
 
     try {
       const response = await axios.get(
-        `https://e-commerce-zfp2.onrender.comsearch/searchbar/${keyword}` // Include keyword dynamically
+        `https://e-commerce-zfp2.onrender.com/search/searchbar/${keyword}` // Include keyword dynamically
       );
       return response.data;
     } catch (error) {
