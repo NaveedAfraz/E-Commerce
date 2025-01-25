@@ -7,7 +7,7 @@ export const fetchAllAddresses = createAsyncThunk(
     console.log("userID", userID);
     try {
       const response = await axios.get(
-        `http://localhost:3006/address/fetchAllAddress/${userID}`
+        `https://e-commerce-zfp2.onrender.comaddress/fetchAllAddress/${userID}`
       );
       // const data = await response.json();
       return response.data;
@@ -25,7 +25,7 @@ export const addNewAddress = createAsyncThunk(
 
     try {
       const response = await axios.post(
-        "http://localhost:3006/address/addAddress",
+        "https://e-commerce-zfp2.onrender.comaddress/addAddress",
         {
           userID,
           addressData,
@@ -43,7 +43,7 @@ export const deleteAddress = createAsyncThunk(
   async ({ userID, addressID }, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3006/address/deleteAddress/${userID}/${addressID}`
+        `https://e-commerce-zfp2.onrender.comaddress/deleteAddress/${userID}/${addressID}`
       );
       return response.data;
     } catch (error) {
@@ -61,7 +61,7 @@ export const updateAddress = createAsyncThunk(
 
     try {
       const response = await axios.put(
-        `http://localhost:3006/address/updateAddress/${userID}`,
+        `https://e-commerce-zfp2.onrender.comaddress/updateAddress/${userID}`,
         { addressData }
       );
       return response.data;

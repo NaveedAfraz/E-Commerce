@@ -7,7 +7,7 @@ export const fetchcartDetails = createAsyncThunk(
     try {
       console.log(userID);
       const response = await axios.get(
-        `http://localhost:3006/cart/fetchCartDetails/${userID}`
+        `https://e-commerce-zfp2.onrender.comcart/fetchCartDetails/${userID}`
       );
       return response.data;
     } catch (error) {
@@ -22,7 +22,7 @@ export const addProductToCart = createAsyncThunk(
     console.log(productDetails, userid);
     try {
       const response = await axios.post(
-        "http://localhost:3006/cart/addToCart",
+        "https://e-commerce-zfp2.onrender.comcart/addToCart",
         {
           productDetails,
           userid,
@@ -43,7 +43,7 @@ export const updateProductQuantity = createAsyncThunk(
 
     try {
       const response = await axios.put(
-        `http://localhost:3006/cart/UpdateQuantity/${productID}`,
+        `https://e-commerce-zfp2.onrender.comcart/UpdateQuantity/${productID}`,
         {
           userid,
           productID,
@@ -65,7 +65,7 @@ export const deleteProduct = createAsyncThunk(
     console.log(userID, productID);
     try {
       const response = await axios.delete(
-        `http://localhost:3006/cart/deleteproduct/${userID}/${productID}`
+        `https://e-commerce-zfp2.onrender.comcart/deleteproduct/${userID}/${productID}`
       );
       return { ...response.data, deletedProductID: productID };
     } catch (error) {

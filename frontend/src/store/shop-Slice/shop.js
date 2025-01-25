@@ -9,7 +9,6 @@ const initialState = {
 export const fetchAllProducts = createAsyncThunk(
   "/products/fetchAllproducts",
   async ({ filterParams, sortParams }) => {
-    
     const { category, brand } = filterParams;
     const queryParams = new URLSearchParams();
     //console.log("Sort Params: ", sortParams);
@@ -20,13 +19,13 @@ export const fetchAllProducts = createAsyncThunk(
     if (category) queryParams.append("category", category);
     if (brand) queryParams.append("brand", brand);
     // if (sortBy) queryParams.append("sortBy", sortBy);
-   // console.log(sortParams);
+    // console.log(sortParams);
 
     if (sortParams) {
       queryParams.append("sortBy", sortParams);
     }
     const res = await axios.get(
-      `http://localhost:3006/shop/fetchAllProducts?${queryParams}`
+      `https://e-commerce-zfp2.onrender.comshop/fetchAllProducts?${queryParams}`
     );
     return res.data;
   }
@@ -38,7 +37,7 @@ export const fetchProductDetails = createAsyncThunk(
     console.log(id);
 
     const res = await axios.get(
-      `http://localhost:3006/shop/fetchProductDetails/${id}`
+      `https://e-commerce-zfp2.onrender.comshop/fetchProductDetails/${id}`
     );
 
     console.log(res);
@@ -59,10 +58,10 @@ const shopProductsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
-    //  console.log(action.payload);
+      //  console.log(action.payload);
       state.loading = false;
       state.productList = action?.payload?.data;
-    //  console.log(state.productList);
+      //  console.log(state.productList);
     });
     builder.addCase(fetchAllProducts.rejected, (state, action) => {
       state.loading = false;

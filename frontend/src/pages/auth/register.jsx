@@ -16,7 +16,7 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
-   const [formData, setFormData] = useState(intialState);
+  const [formData, setFormData] = useState(intialState);
   console.log(formData);
 
   const onSubmit = async (e) => {
@@ -24,7 +24,7 @@ export default function Register() {
 
     console.log(formData);
     // try {
-    //   const res = await axios.post("http://localhost:3006/auth/Register", {
+    //   const res = await axios.post("https://e-commerce-zfp2.onrender.comauth/Register", {
     //     formData,
     //     withCredentials: true,
     //   });

@@ -5,14 +5,14 @@ export const addReview = createAsyncThunk(
   "/shopping/review",
   async (
     { userID, productID, reviewMessage, reviewValue },
-    {rejectWithValue}
+    { rejectWithValue }
   ) => {
     console.log(reviewMessage, reviewValue);
     console.log("userID", userID);
     console.log("productID", productID);
     try {
       const response = await axios.post(
-        `http://localhost:3006/reviews/addReview/${userID}`,
+        `https://e-commerce-zfp2.onrender.comreviews/addReview/${userID}`,
         {
           reviewMessage,
           reviewValue,
@@ -35,7 +35,7 @@ export const getReviews = createAsyncThunk(
     console.log(productID);
     try {
       const res = await axios.get(
-        `http://localhost:3006/reviews/getReviews/${productID}`
+        `https://e-commerce-zfp2.onrender.comreviews/getReviews/${productID}`
       );
       console.log("res", res);
       return res.data;

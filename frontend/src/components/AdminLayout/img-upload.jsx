@@ -37,7 +37,7 @@ function ProductImageUpload({
     const data = new FormData();
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "http://localhost:3006/admin/upload-image",
+      "https://e-commerce-zfp2.onrender.comadmin/upload-image",
       data
     );
     console.log(response, "response");

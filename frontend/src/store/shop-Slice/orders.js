@@ -14,7 +14,7 @@ export const createNewOrder = createAsyncThunk(
   async (orderData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3006/orders/createOrders",
+        "https://e-commerce-zfp2.onrender.comorders/createOrders",
         orderData
       );
       return response.data;
@@ -30,7 +30,7 @@ export const capturePayment = createAsyncThunk(
     console.log(payerId, paymentId, orderId);
     try {
       const response = await axios.post(
-        "http://localhost:3006/orders/capturePayment",
+        "https://e-commerce-zfp2.onrender.comorders/capturePayment",
         {
           paymentId,
           payerId,
@@ -51,7 +51,7 @@ export const getAllOrderDetails = createAsyncThunk(
     console.log("orderId", orderId);
     try {
       const response = await axios.get(
-        `http://localhost:3006/orders/getAllOrders/${orderId}`
+        `https://e-commerce-zfp2.onrender.comorders/getAllOrders/${orderId}`
       );
       console.log("response", response);
       return response.data;
@@ -68,7 +68,7 @@ export const getSpecificOrderDetails = createAsyncThunk(
     console.log("orderId", orderId);
     try {
       const response = await axios.get(
-        `http://localhost:3006/orders/getSpecificOrderDetails/${orderId}`
+        `https://e-commerce-zfp2.onrender.comorders/getSpecificOrderDetails/${orderId}`
       );
       console.log("response", response);
       return response.data;

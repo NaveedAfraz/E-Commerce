@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk(
     };
     try {
       const res = await axios.post(
-        "http://localhost:3006/auth/Register",
+        "https://e-commerce-zfp2.onrender.comauth/Register",
         lowerCasedFormData,
         { withCredentials: true }
       );
@@ -41,7 +41,7 @@ export const loginUser = createAsyncThunk(
     };
     try {
       const response = await axios.post(
-        "http://localhost:3006/auth/login",
+        "https://e-commerce-zfp2.onrender.comauth/login",
         lowerCasedFormData,
         {
           withCredentials: true,
@@ -58,9 +58,12 @@ export const authCheck = createAsyncThunk(
   "auth/authCheck",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3006/auth/authCheck", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://e-commerce-zfp2.onrender.comauth/authCheck",
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (err) {
       console.log(err);
@@ -74,7 +77,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3006/auth/logout",
+        "https://e-commerce-zfp2.onrender.comauth/logout",
         {},
         {
           withCredentials: true,

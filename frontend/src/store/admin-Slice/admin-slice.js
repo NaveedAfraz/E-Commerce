@@ -12,7 +12,7 @@ export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
   async (formData) => {
     const res = await axios.post(
-      "http://localhost:3006/admin/addProduct",
+      "https://e-commerce-zfp2.onrender.comadmin/addProduct",
       formData,
       {
         headers: { "Content-Type": "application/json" },
@@ -25,9 +25,9 @@ export const addNewProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "/products/updateProduct",
   async ({ Id, formdata }) => {
-    console.log(Id,formdata)
+    console.log(Id, formdata);
     const res = await axios.put(
-      `http://localhost:3006/admin/editProduct/${Id}`,
+      `https://e-commerce-zfp2.onrender.comadmin/editProduct/${Id}`,
       formdata,
       {
         headers: { "Content-Type": "application/json" },
@@ -40,9 +40,9 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "/products/deleteProduct",
   async (id) => {
-    console.log(id)
+    console.log(id);
     const res = await axios.delete(
-      `http://localhost:3006/admin/deleteProduct/${id}`
+      `https://e-commerce-zfp2.onrender.comadmin/deleteProduct/${id}`
     );
     return res.data;
   }
@@ -50,7 +50,9 @@ export const deleteProduct = createAsyncThunk(
 export const getAllProducts = createAsyncThunk(
   "/products/getAllproducts",
   async () => {
-    const res = await axios.get("http://localhost:3006/admin/fetchProducts");
+    const res = await axios.get(
+      "https://e-commerce-zfp2.onrender.comadmin/fetchProducts"
+    );
     return res.data;
   }
 );
