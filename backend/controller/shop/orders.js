@@ -133,8 +133,10 @@ const createOrder = async (req, res) => {
         },
       ],
       application_context: {
-        return_url: "http://localhost:5173/shopping/paypal-return",
-        cancel_url: "http://localhost:5173/shopping/paypal-cancel",
+        return_url:
+          "https://e-commerce-psi-inky-93.vercel.app/shopping/paypal-return",
+        cancel_url:
+          "https://e-commerce-psi-inky-93.vercel.app/shopping/paypal-cancel",
       },
     });
 
