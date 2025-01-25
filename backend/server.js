@@ -16,7 +16,7 @@ const reviewRouter = require("./routes/shop/reviews");
 require("dotenv").config(require("dotenv").config({ path: "../.env" }));
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://e-commerce-psi-inky-93.vercel.app/",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
