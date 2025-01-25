@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "nodemon run dev"
+    "start": "npm run dev"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.7.2",

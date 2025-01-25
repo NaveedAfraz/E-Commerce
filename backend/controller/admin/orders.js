@@ -167,18 +167,24 @@ const ProductsSold = async (req, res) => {
     const orderID = orderResult[0].orderID;
 
     // Prepare the values dynamically for bulk insertion
-    const values = cartDetails.map(
-      (item) =>
-        `(${orderID}, ${item.productID}, '${item.title}', ${item.quantity}, '${item.price}', NOW(), '${item.image}' ,'${item.brand}')`
-    );
+    const placeholders = cartDetails
+      .map(() => "(?, ?, ?, ?, ?, NOW(), ?, ?)")
+      .join(", ");
+    const insertQuery = `INSERT INTO Sale (orderID, productID, Title, soldQuantity, price, sold_at, productImg, brand) VALUES ${placeholders}`;
 
-    // Construct the full SQL query dynamically
-    const insertQuery = `INSERT INTO Sale (orderID, productID, Title, soldQuantity, price, sold_at,productImg,brand) VALUES ${values.join(
-      ","
-    )}`;
+    // Prepare the values
+    const values = cartDetails.flatMap((item) => [
+      orderID,
+      item.productID,
+      item.title,
+      item.quantity,
+      item.price,
+      item.image,
+      item.brand,
+    ]);
 
     // Execute the query
-    const [response] = await pool.execute(insertQuery);
+    const [response] = await pool.execute(insertQuery, values);
 
     if (response.affectedRows > 0) {
       console.log("Products sold updated successfully");

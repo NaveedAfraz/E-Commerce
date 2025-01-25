@@ -33,29 +33,32 @@ export default function Paypalreturn() {
   useEffect(() => {
     if (paymentId && payerId && cartDetails.length > 0) {
       const orderId = JSON.parse(sessionStorage.getItem("currentOrderId"));
-      dispatch(capturePayment({ paymentId, payerId, orderId }))
-        .then((data) => {
-          console.log("Payment capture response:", data);
+      dispatch(capturePayment({ paymentId, payerId, orderId })).then((data) => {
+        console.log("Payment capture response:", data);
 
-          if (data?.payload?.success) {
-            dispatch(productsSold({ cartDetails, user })).then((res) => {
-              console.log("Products sold response:", res);
-              sessionStorage.removeItem("currentOrderId");
-              if (res?.error?.code) {
-                setError("Payment capture failed,Please Try Again later");
-              }
-              // Redirect to success page (optional)
-               window.location.href = "/shopping/payment-success";
-            });
-          } else {
-            setError(data?.payload);
-            console.log("kdkdkd");
-          }
-        })
-        // .catch((err) => {
-        //   console.error("Error in capturePayment:", err);
-        //   setError();
-        // });
+        if (data?.payload?.success) {
+          dispatch(productsSold({ cartDetails, user })).then((res) => {
+            console.log("Products sold response:", res);
+            sessionStorage.removeItem("currentOrderId");
+            if (res?.error?.code) {
+              setError("Payment capture failed,Please Try Again later");
+            }
+            //window.location.href = "/shopping/payment-success";
+            // Redirect to success page (optional)
+            if (res?.payload?.success) {
+              setError(res?.payload?.message) // which is success message not error message
+              navigate("/shopping/payment-success");
+            }
+          });
+        } else {
+          setError(data?.payload);
+          console.log("kdkdkd");
+        }
+      });
+      // .catch((err) => {
+      //   console.error("Error in capturePayment:", err);
+      //   setError();
+      // });
     }
   }, [paymentId, payerId, cartDetails, dispatch]);
 
