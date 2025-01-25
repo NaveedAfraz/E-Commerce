@@ -20,8 +20,8 @@ export const CommonForm = ({
   isBtnDisabled,
 }) => {
   const renderComponentType = (formComponentDetail) => {
-    //  console.log(formComponentDetail);
-    //  console.log(formData); 
+    console.log(formComponentDetail);
+    console.log(formData);
     // const nameChanged = {
     //   ...formData,
     //   category: formData.cat,
@@ -49,14 +49,13 @@ export const CommonForm = ({
         );
         break;
       case "select":
-        //   console.log(formComponentDetail);
-        //   console.log(formData);
+        console.log(formComponentDetail);
+        console.log(formData);
         element = (
           <Select
             onValueChange={(value) =>
               setFormData({
                 ...formData,
-
                 [formComponentDetail.name]: value,
               })
             }
@@ -99,7 +98,9 @@ export const CommonForm = ({
     console.log(formData);
     return element;
   };
-   //console.log(formComponentDetails);
+  console.log(formComponentDetails);
+console.log(isBtnDisabled);
+console.log(formData);
 
   return (
     <div>
@@ -110,13 +111,17 @@ export const CommonForm = ({
               <>
                 <div className="grid w-full gap-1.5" key={formDetail.name}>
                   <Label className="mb-1 text-l">{formDetail.label}</Label>
-               
+
                   {renderComponentType(formDetail)}
                 </div>
               </>
             );
           })}
-          <Button type="submit" className="w-full mt-4">
+          <Button
+            type="submit"
+            disabled={isBtnDisabled}
+            className="w-full mt-4"
+          >
             {buttonText}
           </Button>
         </div>

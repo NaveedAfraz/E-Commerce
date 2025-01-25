@@ -16,6 +16,7 @@ function AdminLayout() {
           <Outlet />
         </main>
       </div>
+      
     </div>
   );
 }

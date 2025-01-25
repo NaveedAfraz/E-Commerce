@@ -5,7 +5,7 @@ const getfilteredProducts = async (req, res) => {
     // const { sortByParams} = req.params;
     // console.log(sortByParams);
     //console.log(sortBy);
-    console.log(req.query);
+   // console.log(req.query);
 
     const lowercaseBrand = brand
       ? brand.split(",").map((b) => b.toLowerCase().trim())
@@ -14,8 +14,8 @@ const getfilteredProducts = async (req, res) => {
       ? category.split(",").map((c) => c.toLowerCase().trim())
       : [];
     // console.log(lowercaseBrand);
-    console.log(lowercaseCategory);
-    console.log("run");
+   // console.log(lowercaseCategory);
+  //  console.log("run");
 
     let query = "SELECT * FROM productsAdmin";
     const queryParams = [];
@@ -26,7 +26,7 @@ const getfilteredProducts = async (req, res) => {
         `LOWER(cat) IN (${lowercaseCategory.map(() => "?").join(",")})`
       );
       console.log(conditions);
-      console.log("RUN2");
+      //console.log("RUN2");
 
       queryParams.push(...lowercaseCategory);
     }
@@ -35,16 +35,16 @@ const getfilteredProducts = async (req, res) => {
       conditions.push(
         `LOWER(brand) IN (${lowercaseBrand.map(() => "?").join(",")})`
       );
-      console.log("RUN3");
-      console.log(conditions);
+    //  console.log("RUN3");
+    //  console.log(conditions);
       queryParams.push(...lowercaseBrand);
     }
 
     if (conditions.length > 0) {
-      console.log("RUN4");
+   //   console.log("RUN4");
       query += ` WHERE ${conditions.join(" AND ")}`;
     }
-    console.log("RUN5");
+ //   console.log("RUN5");
     switch (sortBy) {
       case "price-lowtohigh":
         query += " ORDER BY price ASC";
@@ -61,12 +61,12 @@ const getfilteredProducts = async (req, res) => {
       default:
         query += " ORDER BY price ASC";
     }
-    console.log("RUN6");
-    console.log(query);
+   // console.log("RUN6");
+    //console.log(query);
     if (category == "Products") {
       const q = "SELECT * FROM productsAdmin";
       const [products] = await promisePool.execute(q);
-      console.log(products);
+      //console.log(products);
       return res.status(200).json({
         success: true,
         count: products.length,
@@ -74,7 +74,7 @@ const getfilteredProducts = async (req, res) => {
       });
     }
     const [products] = await promisePool.execute(query, queryParams);
-    console.log(products);
+   // console.log(products);
 
     return res.status(200).json({
       success: true,
@@ -104,7 +104,7 @@ const fetchDetails = async (req, res) => {
     }
     const query = "SELECT * FROM productsAdmin WHERE productID = ?";
     const [result] = await promisePool.execute(query, [id]);
-    console.log(result);
+   // console.log(result);
 
     if (result.length === 0) {
       return res
@@ -112,7 +112,7 @@ const fetchDetails = async (req, res) => {
         .json({ success: false, message: "Product not found" });
     }
     if (result) {
-      console.log("result" + result);
+    //  console.log("result" + result);
 
       return res.status(200).json({
         success: true,

@@ -19,10 +19,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Router, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProductDisplay from "@/components/ShoppingLayout/productDisplay";
-import { fetchAllProducts } from "@/store/shop-Slice/shop";
+import { fetchAllProducts, fetchProductDetails } from "@/store/shop-Slice/shop";
 import Footer from "@/components/Home/footer";
 import HomePromotions from "@/components/Home/newsLetter";
-
+import { SliderImages } from "../../config/config";
+import ProductDetailsModal from "@/components/ShoppingLayout/productDetails";
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   // const { productList } = useSelector((state) => state.shopProducts);
@@ -59,11 +60,16 @@ export default function Home() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex === 4 ? 0 : prevIndex + 1));
+      setCurrentIndex((prevIndex) =>
+        prevIndex === SliderImages.length - 1 ? 0 : prevIndex + 1
+      );
     }, 5000);
 
     return () => clearInterval(interval);
   }, []);
+
+  // console.log(SliderImages.length - 1);
+
   const navigate = useNavigate();
   // const location = useLocation();
   const handleNavigateToListingPage = (getCurrentItem, category) => {
@@ -81,6 +87,21 @@ export default function Home() {
     navigate(`/shopping/Listings?${category}=${getCurrentItem.label}`);
   };
   const [show, setShow] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const { productList, productDetails } = useSelector(
+    (state) => state.shopProducts
+  );
+  const handleDetails = async (ID) => {
+    setSelectedProduct(ID);
+    dispatch(fetchProductDetails(ID));
+  };
+  console.log(selectedProduct);
+  useEffect(() => {
+    if (selectedProduct) {
+      setOpenModal(true);
+    }
+  }, [selectedProduct]);
   return (
     <>
       <div className="relative w-full max-w-[1200px] mx-auto overflow-hidden h-[500px] md:h-[400px] lg:h-[650px] hover:shadow-2xl transition-shadow my-3 rounded-2xl">
@@ -90,46 +111,16 @@ export default function Home() {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {/* Slides */}
-          <div className="w-full flex-shrink-0 h-full">
-            <img
-              src="/christian-gertenbach-AqCVniFulhY-unsplash.jpg"
-              alt="Slide 1"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center" }}
-            />
-          </div>
-          <div className="w-full flex-shrink-0 h-full">
-            <img
-              src="/malicki-m-beser-PKMvkg7vnUo-unsplash.jpg"
-              alt="Slide 2"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center" }}
-            />
-          </div>
-          <div className="w-full flex-shrink-0 h-full">
-            <img
-              src="/freestocks-_3Q3tsJ01nc-unsplash.jpg"
-              alt="Slide 3"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center" }}
-            />
-          </div>
-          <div className="w-full flex-shrink-0 h-full">
-            <img
-              src="/david-lezcano-NfZiOJzZgcg-unsplash.jpg"
-              alt="Slide 4"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center" }}
-            />
-          </div>
-          <div className="w-full flex-shrink-0 h-full">
-            <img
-              src="/force-majeure-00tlC0Clfrs-unsplash.jpg"
-              alt="Slide 5"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "center" }}
-            />
-          </div>
+          {SliderImages.map((img, index) => (
+            <div key={index} className="w-full flex-shrink-0 h-full">
+              <img
+                src={img}
+                alt={`Slide ${index + 1}`}
+                className="w-full h-full object-cover"
+                style={{ objectPosition: "center" }}
+              />
+            </div>
+          ))}
         </div>
 
         {/* Left Button */}
@@ -138,7 +129,7 @@ export default function Home() {
           aria-label="Previous Slide"
           onClick={() =>
             setCurrentIndex((prevIndex) =>
-              prevIndex === 0 ? 4 : prevIndex - 1
+              prevIndex === 0 ? SliderImages.length - 1 : prevIndex - 1
             )
           }
         >
@@ -151,7 +142,7 @@ export default function Home() {
           aria-label="Next Slide"
           onClick={() =>
             setCurrentIndex((prevIndex) =>
-              prevIndex === 4 ? 0 : prevIndex + 1
+              prevIndex === SliderImages.length - 1 ? 0 : prevIndex + 1
             )
           }
         >
@@ -160,7 +151,7 @@ export default function Home() {
 
         {/* Navigation Dots */}
         <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2 md:bottom-4">
-          {[...Array(5)].map((_, index) => (
+          {SliderImages.map((_, index) => (
             <button
               key={index}
               className={`w-[10px] h-[10px] md:w-[15px] md:h-[15px] rounded-full ${
@@ -204,12 +195,14 @@ export default function Home() {
           {products.slice(0, 4).map((product) => {
             return (
               <ProductDisplay
-                // handleGetProductDetails={handleGetProductDetails}
+                productDetails={productDetails}
+                handleDetails={handleDetails}
                 product={product}
                 text={"Details"}
                 show={show}
                 setShow={setShow}
               />
+
               // <Card
               //   key={product.id}
               //   className="cursor-pointer hover:shadow-lg transition-shadow"
@@ -223,6 +216,15 @@ export default function Home() {
           })}
         </div>
       </section>
+      {selectedProduct && (
+        <ProductDetailsModal
+          selectedProduct={selectedProduct}
+          setSelectedProduct={setSelectedProduct}
+          productDetails={productDetails}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+        />
+      )}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
@@ -242,7 +244,6 @@ export default function Home() {
         </div>
       </section>
       <HomePromotions />
-      <Footer />
     </>
   );
 }

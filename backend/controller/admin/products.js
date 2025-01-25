@@ -165,10 +165,11 @@ const editProduct = async (req, res) => {
 
       const q2 =
         "UPDATE productsAdmin SET image = ?, title = ?, `desc` = ?, `cat` = ?, brand = ?, price = ?, salePrice = ?, totalStock = ?, averageReview = ? WHERE ProductID = ?";
+     
 
       const [rows2] = await promisePool.execute(q2, [...values, id]);
       if (rows2.affectedRows > 0) {
-        // console.log(rows2.changedRows) 
+        // console.log(rows2.changedRows)
         const updatedProductQuery =
           "SELECT * FROM productsAdmin WHERE ProductID = ?";
         const [updatedProduct] = await promisePool.execute(

@@ -40,12 +40,12 @@ export const Address = ({
   const location = useLocation();
   console.log(location);
   useEffect(() => {
-    if (location.pathname.includes("account")) {
+    if (location.pathname.includes("address")) {
       console.log("it is account");
-      setShowAddressForm((prev) => !prev);
+      setShowAddressForm(true);
     }
   }, []);
-  useEffect(() => {
+  useEffect(() => {   
     dispatch(fetchAllAddresses(user.userid)).then((res) => {
       console.log(res);
       console.log("fetched user addresses");
@@ -66,6 +66,7 @@ export const Address = ({
 
       return;
     }
+
     currentEditedId !== null
       ? dispatch(
           updateAddress({ userID: user.userid, addressData: formData })
@@ -78,6 +79,7 @@ export const Address = ({
                 console.log("it is checkout");
                 setShowAddressForm((prev) => !prev);
               }
+
               setFormData(initialAddressFormData);
               toast({
                 title: "Address updated successfully",
@@ -112,6 +114,7 @@ export const Address = ({
         });
     console.log(formData);
   };
+  console.log(showAddressForm);
 
   const handleDeleteAddress = (addressId) => {
     console.log(addressId);
@@ -171,11 +174,11 @@ export const Address = ({
               // isBtnDisabled={!isFormValid()}
             />
           </CardContent>
-        </>
+        </>  
       ) : (
         <Button
           className="w-[94%] mx-3"
-          onClick={() => navigate("/shopping/account")}
+          onClick={() => navigate("/shopping/account/address")}
         >
           Add New Address
         </Button>

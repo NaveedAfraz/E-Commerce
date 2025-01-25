@@ -41,7 +41,7 @@ function ProductList() {
   const { toast } = useToast();
   // console.log("currentedited ID", currentEditedId);
   // console.log("uploaded img url" + uploadedImageUrl);
-  
+
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
@@ -104,10 +104,16 @@ function ProductList() {
 
   function isFormValid() {
     return Object.keys(formData)
-      .filter((currentKey) => currentKey !== "averageReview")
+      .filter(
+        (currentKey) =>
+          currentKey !== "averageReview" &&
+          currentKey !== "name" &&
+          currentKey !== "image"
+      )
       .map((key) => formData[key] !== "")
       .every((item) => item);
   }
+  console.log(isFormValid());
 
   return (
     <>

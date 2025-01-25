@@ -73,7 +73,7 @@ export const addProductFormElements = [
       { id: "nike", label: "Nike" },
       { id: "adidas", label: "Adidas" },
       { id: "puma", label: "Puma" },
-      { id: "levi", label: "Levi's" },
+      { id: "levi's", label: "Levi's" },
       { id: "zara", label: "Zara" },
       { id: "h&m", label: "H&M" },
     ],
@@ -140,7 +140,7 @@ export const shoppingViewHeaderMenuItems = [
   {
     id: "search",
     label: "Search",
-    path: "/shop/search",
+    path: "/shopping/search",
   },
 ];
 
@@ -178,7 +178,7 @@ export const brandOptionsMap = {
   nike: "Nike",
   adidas: "Adidas",
   puma: "Puma",
-  levi: "Levi",
+  levi: "Levi's",
   zara: "Zara",
   "h&m": "H&M",
 };
@@ -218,4 +218,14 @@ export const addressFormControls = [
     componentType: "textarea",
     placeholder: "Enter any additional notes",
   },
+];
+
+export const SliderImages = [
+  "/christian-gertenbach-AqCVniFulhY-unsplash.jpg",
+  "/malicki-m-beser-PKMvkg7vnUo-unsplash.jpg",
+  "/alyssa-strohmann-TS--uNw-JqE-unsplash.jpg",
+  "/freestocks-_3Q3tsJ01nc-unsplash.jpg",
+  "/force-majeure-Tqv3noCldRc-unsplash.jpg",
+  "/david-lezcano-NfZiOJzZgcg-unsplash.jpg",
+  "/force-majeure-00tlC0Clfrs-unsplash.jpg",
 ];

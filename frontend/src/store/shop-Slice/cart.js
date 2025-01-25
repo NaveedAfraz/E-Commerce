@@ -18,8 +18,8 @@ export const fetchcartDetails = createAsyncThunk(
 
 export const addProductToCart = createAsyncThunk(
   "cart/addProductToCart",
-  async ({productDetails ,userid}, { rejectWithValue }) => {
-    console.log(productDetails,userid);
+  async ({ productDetails, userid }, { rejectWithValue }) => {
+    console.log(productDetails, userid);
     try {
       const response = await axios.post(
         "http://localhost:3006/cart/addToCart",
@@ -92,6 +92,8 @@ const cartSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchcartDetails.fulfilled, (state, action) => {
+        console.log(action.payload);
+
         state.loading = false;
         state.cartItems = action.payload.data;
         state.error = null;

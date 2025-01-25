@@ -18,7 +18,14 @@ import React, { useEffect } from "react";
 import { authCheck } from "./store/auth-Slice/auth-slice";
 import { Skeleton } from "@/components/ui/skeleton";
 import UnAuthorized from "./pages/authCheck/unAuthorized";
-
+import Paypalreturn from "./pages/shopping/paypal-return";
+import PayPalCancel from "./pages/shopping/paypal-cancel";
+import PaymentSuccess from "./pages/shopping/payment-sucess";
+import ShoppingOrders from "./components/ShoppingLayout/ShoppingOrders";
+import { Address } from "./components/ShoppingLayout/address";
+import Search from "./pages/shopping/search";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 export default function App() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const { loading, user } = useSelector((state) => state.auth);
@@ -30,11 +37,19 @@ export default function App() {
         console.log("logged in successfully");
       }
     });
-  }, []);
+  }, [isAuth]);
 
   if (loading) {
-    return <Skeleton className="w-[800px] bg-black h-[300px] rounded-full" />;
+    return (
+      <div className="flex h-full my-80 w-full items-center justify-center">
+        <FontAwesomeIcon
+          icon={faSpinner}
+          className="text-gray-500 text-6xl animate-spin"
+        />
+      </div>
+    );
   }
+  
 
   return (
     <Router>
@@ -82,9 +97,16 @@ export default function App() {
         >
           <Route path="home" element={<Home />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="search" element={<Search />} />
           <Route path="listings" element={<Listings />} />
           {/* Fixed Account routes */}
-          <Route path="account" element={<Account />}></Route>
+          <Route path="account" element={<Account />}>
+            <Route path="orders" element={<ShoppingOrders />}></Route>
+            <Route path="address" element={<Address />}></Route>
+          </Route>
+          <Route path="paypal-return" element={<Paypalreturn />} />
+          <Route path="paypal-cancel" element={<PayPalCancel />} />
+          <Route path="payment-success" element={<PaymentSuccess />}></Route>
         </Route>
 
         {/* Error handling */}

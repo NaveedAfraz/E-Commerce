@@ -19,6 +19,17 @@ export default function CartContent({ cartItem }) {
   const { toast } = useToast();
   const handleUpdateQuantity = (cartItem, action) => {
     console.log(cartItem.productID, action);
+    if (
+      action === "plus" &&
+      cartItem.quantity >= cartItem.totalStock
+    ) {
+      toast({
+        title: "Cannot exceed available stock",
+        duration: 2000,
+        className: "bg-red-500 text-white",
+      });
+      return;
+    }
     dispatch(
       updateProductQuantity({
         userid: user.userid,

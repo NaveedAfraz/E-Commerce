@@ -9,7 +9,7 @@ export default function AddressCard({
   handleEditAddress,
   setCurrentSelectedAddress,
   selectedId,
-  setShowAddressForm
+  
 }) {
   console.log(selectedId, addressInfo);
   console.log("runiing");

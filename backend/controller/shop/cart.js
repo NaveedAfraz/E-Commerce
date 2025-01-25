@@ -12,8 +12,8 @@ const addtocart = async (req, res) => {
       salePrice,
       totalStock,
     } = productDetails;
-    console.log(productDetails);
-console.log(userid);
+    // console.log(productDetails);
+//console.log(userid);
 
     // const userid = productDetails.user.userid;
     //console.log(userid);
@@ -96,7 +96,7 @@ const fetchCartDetails = async (req, res) => {
     }
     const q = "SELECT * FROM cart WHERE userID = ?";
     const [response] = await promisePool.execute(q, [userID]);
-    console.log(response);
+   // console.log(response);
     if (response.length > 0) {
       return res
         .status(200)
@@ -173,12 +173,12 @@ const updateQuantity = async (req, res) => {
 
     const [fetchQuantity] = await promisePool.execute(q1, [userid, productID]);
 
-    console.log(fetchQuantity);
+   // console.log(fetchQuantity);
     if (fetchQuantity.length === 0) {
       return res.status(404).json({ message: "Product not found in cart" });
     }
     const currentQuantity = fetchQuantity[0].quantity;
-    console.log(currentQuantity);
+   // console.log(currentQuantity);
 
     if (currentQuantity >= 1) {
       let updateQuery;
@@ -202,7 +202,7 @@ const updateQuantity = async (req, res) => {
       if (updateResponse.affectedRows > 0) {
         const q3 = "SELECT * FROM cart WHERE userID = ? AND productId = ?";
         const [response3] = await promisePool.execute(q3, [userid, productID]);
-        console.log(response3);
+      //  console.log(response3);
 
         return res.status(200).json({
           message: "Quantity updated",

@@ -13,46 +13,46 @@ export default function ProductDisplay({
   setShow,
   text,
 }) {
+  // console.log(outofStock);
   //  console.log(text);
   const location = useLocation();
   // console.log(location);
   const navigate = useNavigate();
-  const handleHomeDetails = (product) => {
-    console.log(product);
+  // const handleHomeDetails = (product) => {
+  //   console.log(product);
 
-    const path = "/shopping/Listings";
-    const query = `?category=${product?.cat}`;
+  //   const path = "/shopping/Listings";
+  //   const query = `?category=${product?.cat}`;
 
-    const fullUrl = `${path}${query}`;
+  //   const fullUrl = `${path}${query}`;
 
-    // Retrieve the current array from session storage
-    const currentCategories =
-      JSON.parse(sessionStorage.getItem("categories")) || [];
-    console.log(currentCategories);
-    setShow(true);
-    // Append the new category if it doesn't already exist
-    if (!currentCategories.includes(product?.cat)) {
-      currentCategories.push(product?.cat);
-    }
-    const currentCategoriesCap = currentCategories.map(
-      (category) =>
-        category.charAt(0).toUpperCase() + category.slice(1)
-    );
-    console.log(currentCategoriesCap);
-    
-    // Save the updated array back to session storage
-    sessionStorage.setItem(
-      "filters",
-      JSON.stringify({ category: currentCategoriesCap })
-    );
-    console.log(show);
+  //   // Retrieve the current array from session storage
+  //   const currentCategories =
+  //     JSON.parse(sessionStorage.getItem("categories")) || [];
+  //   console.log(currentCategories);
+  //   setShow(true);
+  //   // Append the new category if it doesn't already exist
+  //   if (!currentCategories.includes(product?.cat)) {
+  //     currentCategories.push(product?.cat);
+  //   }
+  //   const currentCategoriesCap = currentCategories.map(
+  //     (category) => category.charAt(0).toUpperCase() + category.slice(1)
+  //   );
+  //   console.log(currentCategoriesCap);
 
-    // Navigate to the constructed URL
-    navigate(fullUrl);
-  };
+  //   // Save the updated array back to session storage
+  //   sessionStorage.setItem(
+  //     "filters",
+  //     JSON.stringify({ category: currentCategoriesCap })
+  //   );
+  //   console.log(show);
+
+  //   // Navigate to the constructed URL
+  //   navigate(fullUrl);
+  // };
 
   return (
-    <Card className="w-full max-w-sm mx-auto hover:shadow-2xl transition-shadow ">  
+    <Card className="w-full max-w-sm mx-auto hover:shadow-2xl transition-shadow ">
       <div onClick={() => handleDetails(product?.productID)}>
         <div className="relative">
           <img
@@ -116,7 +116,7 @@ export default function ProductDisplay({
             Add to cart
           </Button>
         ) : (
-          <Button className="w-full" onClick={() => handleHomeDetails(product)}>
+          <Button className="w-full" onClick={() => handleDetails(product?.productID)}>
             {text}
           </Button>
         )}

@@ -28,10 +28,12 @@ function Listings() {
   const [filteredProducts, setFilteredProducts] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.userCart);
+  console.log(cartItems);
   console.log(user);
   useEffect(() => {
     console.log("filteredProducts", filteredProducts);
-  
+
     dispatch(
       fetchAllProducts({ filterParams: filteredProducts, sortParams: sortBy })
     ).then((res) => {
@@ -51,7 +53,7 @@ function Listings() {
     if (productDetails.length > 0) {
       setOpenModal(true);
     }
-  }, [productDetails]);  
+  }, [productDetails]);
 
   const handleSortBy = (id) => {
     setSortBy(id);
@@ -61,12 +63,12 @@ function Listings() {
     let cpyFilters = JSON.parse(sessionStorage.getItem("filters")) || {};
 
     const indexOfCurrentSection = Object.keys(cpyFilters).indexOf(category);
+console.log(label,category);
 
     if (indexOfCurrentSection === -1) {
       cpyFilters = { ...cpyFilters, [category]: [label] };
     } else {
       const indexOfCurrentOption = cpyFilters[category].indexOf(label);
-
       if (indexOfCurrentOption === -1) {
         cpyFilters[category].push(label);
       } else {
@@ -92,17 +94,45 @@ function Listings() {
   };
 
   const handleAddtoCart = (productDetails) => {
-    dispatch(
-      addProductToCart({ productDetails: productDetails, userid: user.userid })
-    ).then((res) => {
-      console.log(res);
-      if (res?.payload?.sucess) {
-        toast({ title: "Item added to cart successfully", duration: 2000 });
-        dispatch(fetchcartDetails(user.userid)).then((res) => {
-          console.log(res);
+    console.log(productDetails);
+    // let quantity;
+    // cartItems.map((item, index) => {
+    //   if (item.productID === productDetails?.productID) {
+    //     quantity = productDetails?.totalStock - item.quantity;
+    //     console.log(quantity);
+    let remainingStock = productDetails?.totalStock;
+    const existingCartItem = cartItems.find(
+      (item) => item.productID === productDetails?.productID
+    );
+    if (existingCartItem) {
+      remainingStock = productDetails?.totalStock - existingCartItem.quantity;
+      if (remainingStock <= 0) {
+        toast({
+          title: "Cannot add more than available stock",
+          duration: 2000,
+          className: "bg-red-500 text-white",
         });
+        return;
       }
-    });
+    }
+    // console.log(quantity);
+
+    if (remainingStock > 0) {
+      dispatch(
+        addProductToCart({
+          productDetails: productDetails,
+          userid: user.userid,
+        })
+      ).then((res) => {
+        console.log(res);
+        if (res?.payload?.sucess) {
+          toast({ title: "Item added to cart successfully", duration: 2000 });
+          dispatch(fetchcartDetails(user.userid)).then((res) => {
+            console.log(res);
+          });
+        }
+      });
+    }
   };
 
   return (

@@ -17,11 +17,13 @@ export default function Cartwrapper({ cartItems, setOpenCartSheet }) {
         <SheetHeader>
           <SheetTitle>Your Cart</SheetTitle>
         </SheetHeader>
-        <div className="mt-8 space-y-4">
-          {cartItems && cartItems.length > 0
-            ? cartItems.map((item) => <CartContent cartItem={item} />)
-            : null}
-        </div>
+        <div className="mt-8 space-y-4 max-h-[580px] overflow-y-auto scrollbar scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-200">
+  {cartItems && cartItems.length > 0
+    ? cartItems.map((item) => <CartContent cartItem={item} />)
+    : null}
+</div>
+
+
         <div className="mt-8 space-y-4">
           <div className="mt-8 space-y-4">
             <div className="flex justify-between">
@@ -34,6 +36,7 @@ export default function Cartwrapper({ cartItems, setOpenCartSheet }) {
               navigate("/shopping/checkout");
               setOpenCartSheet(false);
             }}
+            disabled={cartItems.length === 0}
             className="w-full mt-6"
           >
             Checkout

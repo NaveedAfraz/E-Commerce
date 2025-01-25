@@ -26,27 +26,27 @@ import { Label } from "../ui/label";
 import Cartwrapper from "./cartwrapper";
 import { fetchAllProducts } from "@/store/shop-Slice/shop";
 
-function MenuItems() {
+function MenuItems({ onMenuItemClick }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const [path, setPath] = useState({});
+
   function handleNavigate(getCurrentMenuItem) {
     sessionStorage.removeItem("filters"); // Remove the existing filters (if needed)
 
-    console.log(getCurrentMenuItem);
-
-    // Capitalize the first letter of the current menu item
+    console.log(getCurrentMenuItem.path);
+    //  navigate(getCurrentMenuItem.path);
     const path =
       getCurrentMenuItem.id.slice(0, 1).toUpperCase() +
       getCurrentMenuItem.id.slice(1).toLowerCase();
     console.log(path);
-
-    // Set the current path in the state
+    if (onMenuItemClick) {
+      onMenuItemClick();
+    }
     setPath({ category: [path] });
 
-    // Create a new filter object
     const currentFilter =
       getCurrentMenuItem.id !== "home" &&
       getCurrentMenuItem.id !== "products" &&
@@ -55,30 +55,29 @@ function MenuItems() {
             category: [path],
           }
         : null;
-    console.log(currentFilter);
 
-    // Retrieve the existing filters from sessionStorage
     const existingFilters = JSON.parse(sessionStorage.getItem("filters")) || {};
 
-    // If the currentFilter is not null, append to the existing filters
     if (currentFilter) {
       existingFilters.category = [
         ...(existingFilters.category || []),
         ...currentFilter.category,
       ];
-      sessionStorage.setItem("filters", JSON.stringify(existingFilters)); // Save the updated filters to sessionStorage
+      sessionStorage.setItem("filters", JSON.stringify(existingFilters));
     }
 
-    // Check if the current URL includes "Listing" and update the search params if necessary
     location.pathname.includes("Listing") && currentFilter !== null
       ? setSearchParams(new URLSearchParams(`?category=${path}`))
       : navigate(getCurrentMenuItem.path);
+
+    if (onMenuItemClick) {
+      onMenuItemClick(); // Close the sidebar
+    }
   }
 
   useEffect(() => {
     dispatch(fetchAllProducts({ filterParams: path })).then((res) => {
-      console.log("header fecth all products");
-
+      console.log("header fetch all products");
       console.log(res);
     });
   }, [path, dispatch]);
@@ -98,22 +97,27 @@ function MenuItems() {
   );
 }
 
-function HeaderRightContent() {
+function HeaderRightContent({
+  onMenuItemClick,
+  openCartSheet,
+  setOpenCartSheet,
+}) {
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.userCart);
-  const [openCartSheet, setOpenCartSheet] = useState(false);
+  //  const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log(user, "user");
 
   function handleLogout() {
     console.log("logout");
     dispatch(logout()).then((res) => {
       console.log(res);
+      if (onMenuItemClick) onMenuItemClick();
     });
   }
-
+  console.log(user.userid, "userID");
   useEffect(() => {
-    //console.log(user.userid, "userID");
     // console.log(cartItems);
     dispatch(fetchcartDetails(user.userid));
   }, [dispatch]);
@@ -133,25 +137,30 @@ function HeaderRightContent() {
   // };
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-      <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+      <Sheet
+        open={openCartSheet}
+        onOpenChange={(isOpen) => {
+          setOpenCartSheet(isOpen);
+          if (isOpen && onMenuItemClick) {
+            onMenuItemClick(); // Close the left sidebar when the cart opens
+          }
+        }}
+      >
         <Button
-          onClick={() => {setOpenCartSheet(true)
-            
+          onClick={() => {
+            setOpenCartSheet(true);
+            if (onMenuItemClick) onMenuItemClick();
           }}
           variant="outline"
           size="icon"
           className="relative"
         >
-          <ShoppingCart
-            className="w-6 h-6"
-            
-          />
+          <ShoppingCart className="w-6 h-6" />
           <span className="absolute top-[-5px] right-[2px] font-bold text-sm">
             {cartItems?.length !== undefined
               ? cartItems.length
               : previousCountRef.current}
           </span>
-          <span className="sr-only">User cart</span>
         </Button>
         <Cartwrapper
           setOpenCartSheet={setOpenCartSheet}
@@ -163,14 +172,19 @@ function HeaderRightContent() {
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
             <AvatarFallback className="bg-black text-white font-extrabold">
-              {user?.userInfo?.toUpperCase()}
+              {user?.userInfo?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" className="w-56">
           <DropdownMenuLabel>Logged in as {user?.userInfo}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/shopping/account")}>
+          <DropdownMenuItem
+            onClick={() => {
+              navigate("/shopping/account");
+              if (onMenuItemClick) onMenuItemClick();
+            }}
+          >
             <UserCog className="mr-2 h-4 w-4" />
             Account
           </DropdownMenuItem>
@@ -186,16 +200,20 @@ function HeaderRightContent() {
 }
 
 function ShoppingHeader() {
-  //  const { isAuthenticated } = useSelector((state) => state.auth);
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const [openCartSheet, setOpenCartSheet] = useState(false);
 
   return (
-    <header className="sticky top-0  z-40 w-full bg-background">
+    <header className="sticky top-0 z-40 w-full bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
+        {/* Logo */}
         <Link to="/shopping/home" className="flex items-center gap-2">
           <HousePlug className="h-6 w-6" />
-          <span className="font-bold">Ecommerce</span>
+          <span className="font-bold">EliteWardrobe</span>
         </Link>
-        <Sheet>
+
+        {/* Left Sidebar */}
+        <Sheet open={openSidebar} onOpenChange={setOpenSidebar}>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="lg:hidden">
               <Menu className="h-6 w-6" />
@@ -203,16 +221,24 @@ function ShoppingHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-full max-w-xs">
-            <MenuItems />
-            <HeaderRightContent />
+            <MenuItems onMenuItemClick={() => setOpenSidebar(false)} />
+            <HeaderRightContent
+              onMenuItemClick={() => setOpenSidebar(false)}
+              openCartSheet={openCartSheet}
+              setOpenCartSheet={setOpenCartSheet}
+            />
           </SheetContent>
         </Sheet>
+
+        {/* Desktop Menus */}
         <div className="hidden lg:block">
           <MenuItems />
         </div>
-
         <div className="hidden lg:block">
-          <HeaderRightContent />
+          <HeaderRightContent
+            openCartSheet={openCartSheet}
+            setOpenCartSheet={setOpenCartSheet}
+          />
         </div>
       </div>
     </header>

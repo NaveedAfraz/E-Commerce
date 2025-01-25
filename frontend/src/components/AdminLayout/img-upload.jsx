@@ -65,7 +65,7 @@ function ProductImageUpload({
             onChange={handleImageFileChange}
             className="hidden"
             ref={inputref}
-            disabled={isEditMode}
+            // disabled={isEditMode}
           />
           {console.log(isEditMode, "isEditMode")}
           {!imageFile ? (
@@ -79,7 +79,7 @@ function ProductImageUpload({
               <span>Click to upload image</span>
             </Label>
           ) : imageLoadingState ? (
-            <Skeleton className="h-10 bg-gray-100" />
+            <Skeleton className="h-20 border-gray-800  border-4 rounded-md" />
           ) : (
             <div className="flex items-center justify-between">
               <div className="flex items-center">

@@ -5,6 +5,9 @@ import shopProductsReducer from "./shop-Slice/shop";
 import cartReducer from "./shop-Slice/cart";
 import addressReducer from "./shop-Slice/address";
 import shoppingOrderReducer from "./shop-Slice/orders";
+import SearchBarReducer from "./shop-Slice/search";
+import adminOrdersReducer from "./admin-Slice/admin-Order";
+import reviewsReducer from "./shop-Slice/reviews";
 const store = configureStore({
   reducer: {
     auth: authReducers,
@@ -13,6 +16,9 @@ const store = configureStore({
     userCart: cartReducer,
     addresses: addressReducer,
     shoppingOrder: shoppingOrderReducer,
+    AdminOrders: adminOrdersReducer,
+    searchBar: SearchBarReducer,
+    reviews: reviewsReducer,
   },
 });
 
