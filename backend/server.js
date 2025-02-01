@@ -20,7 +20,8 @@ const corsOptions = {
     "https://e-commerce-psi-inky-93.vercel.app", // Production frontend
     "https://e-commerce-91azd9nse-naveed-afrazs-projects.vercel.app", // Production frontend
     "https://e-commerce-naveed-afrazs-projects.vercel.app/",
-    "https://e-commerce-git-main-naveed-afrazs-projects.vercel.app/"
+    "https://e-commerce-1owc04fl0-naveed-afrazs-projects.vercel.app/",
+    "https://e-commerce-git-main-naveed-afrazs-projects.vercel.app/",
   ],
   credentials: true, // Allow cookies to be sent with requests
   methods: ["GET", "POST", "PUT", "DELETE"], // Supported HTTP methods
