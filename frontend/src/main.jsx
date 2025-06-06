@@ -10,8 +10,7 @@ import { Skeleton } from "./components/ui/skeleton";
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <App />
-    
     <Toaster />
-    <Skeleton/>
+    <Skeleton />
   </Provider>
 );
