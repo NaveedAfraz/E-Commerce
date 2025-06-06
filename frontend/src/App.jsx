@@ -23,7 +23,7 @@ import Paypalreturn from "./pages/shopping/paypal-return";
 import PayPalCancel from "./pages/shopping/paypal-cancel";
 import PaymentSuccess from "./pages/shopping/payment-sucess";
 import ShoppingOrders from "./components/ShoppingLayout/ShoppingOrders";
-import { Address } from "./components/ShoppingLtayout/address";
+import { Address } from "./components/ShoppingLayout/address";
 import Search from "./pages/shopping/search";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
