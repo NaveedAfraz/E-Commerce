@@ -25,7 +25,9 @@ export const fetchAllProducts = createAsyncThunk(
       queryParams.append("sortBy", sortParams);
     }
     const res = await axios.get(
-      `https://e-commerce-zfp2.onrender.com/shop/fetchAllProducts?${queryParams}`
+      `${
+        import.meta.env.VITE_BACKEND_API_URL
+      }/shop/fetchAllProducts?${queryParams}`
     );
     return res.data;
   }
@@ -37,7 +39,7 @@ export const fetchProductDetails = createAsyncThunk(
     console.log(id);
 
     const res = await axios.get(
-      `https://e-commerce-zfp2.onrender.com/shop/fetchProductDetails/${id}`
+      `${import.meta.env.VITE_BACKEND_API_URL}/shop/fetchProductDetails/${id}`
     );
 
     console.log(res);

@@ -52,6 +52,7 @@ export default function App() {
   
 
   return (
+    <> </>
     <Router>
       <Routes>
         {/* Auth Routes */}

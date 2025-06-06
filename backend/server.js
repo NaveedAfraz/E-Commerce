@@ -13,7 +13,7 @@ const ordersRouter = require("./routes/shop/orders");
 const adminOrdersRouter = require("./routes/admin/orders");
 const searchRouter = require("./routes/shop/search");
 const reviewRouter = require("./routes/shop/reviews");
-require("dotenv").config(require("dotenv").config({ path: "../.env" }));
+require("dotenv").config(require("dotenv").config({ path: "./env" }));
 const corsOptions = {
   origin: [
     "http://localhost:5173", // Local development

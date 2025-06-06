@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk(
     };
     try {
       const res = await axios.post(
-        "https://e-commerce-zfp2.onrender.com/auth/Register",
+        `${import.meta.env.VITE_BACKEND_API_URL}/auth/Register`,
         lowerCasedFormData,
         { withCredentials: true }
       );
@@ -41,7 +41,7 @@ export const loginUser = createAsyncThunk(
     };
     try {
       const response = await axios.post(
-        "https://e-commerce-zfp2.onrender.com/auth/login",
+        `${import.meta.env.VITE_BACKEND_API_URL}/auth/login`,
         lowerCasedFormData,
         {
           withCredentials: true,
@@ -59,7 +59,7 @@ export const authCheck = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "https://e-commerce-zfp2.onrender.com/auth/authCheck",
+        `${import.meta.env.VITE_BACKEND_API_URL}/auth/authCheck`,
         {
           withCredentials: true,
         }
@@ -77,7 +77,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "https://e-commerce-zfp2.onrender.com/auth/logout",
+        `${import.meta.env.VITE_BACKEND_API_URL}/auth/logout`,
         {},
         {
           withCredentials: true,

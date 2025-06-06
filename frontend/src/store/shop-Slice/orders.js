@@ -14,7 +14,7 @@ export const createNewOrder = createAsyncThunk(
   async (orderData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "https://e-commerce-zfp2.onrender.com/orders/createOrders",
+        `${import.meta.env.VITE_BACKEND_API_URL}/orders/createOrders`,
         orderData
       );
       return response.data;
@@ -30,7 +30,7 @@ export const capturePayment = createAsyncThunk(
     console.log(payerId, paymentId, orderId);
     try {
       const response = await axios.post(
-        "https://e-commerce-zfp2.onrender.com/orders/capturePayment",
+        `${import.meta.env.VITE_BACKEND_API_URL}/orders/capturePayment`,
         {
           paymentId,
           payerId,
@@ -51,7 +51,7 @@ export const getAllOrderDetails = createAsyncThunk(
     console.log("orderId", orderId);
     try {
       const response = await axios.get(
-        `https://e-commerce-zfp2.onrender.com/orders/getAllOrders/${orderId}`
+        `${import.meta.env.VITE_BACKEND_API_URL}/orders/getAllOrders/${orderId}`
       );
       console.log("response", response);
       return response.data;
@@ -68,7 +68,9 @@ export const getSpecificOrderDetails = createAsyncThunk(
     console.log("orderId", orderId);
     try {
       const response = await axios.get(
-        `https://e-commerce-zfp2.onrender.com/orders/getSpecificOrderDetails/${orderId}`
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/orders/getSpecificOrderDetails/${orderId}`
       );
       console.log("response", response);
       return response.data;

@@ -12,7 +12,7 @@ export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
   async (formData) => {
     const res = await axios.post(
-      "https://e-commerce-zfp2.onrender.com/admin/addProduct",
+      `${import.meta.env.VITE_BACKEND_API_URL}/admin/addProduct`,
       formData,
       {
         headers: { "Content-Type": "application/json" },
@@ -27,7 +27,7 @@ export const updateProduct = createAsyncThunk(
   async ({ Id, formdata }) => {
     console.log(Id, formdata);
     const res = await axios.put(
-      `https://e-commerce-zfp2.onrender.com/admin/editProduct/${Id}`,
+      `${import.meta.env.VITE_BACKEND_API_URL}/admin/editProduct/${Id}`,
       formdata,
       {
         headers: { "Content-Type": "application/json" },
@@ -42,7 +42,7 @@ export const deleteProduct = createAsyncThunk(
   async (id) => {
     console.log(id);
     const res = await axios.delete(
-      `https://e-commerce-zfp2.onrender.com/admin/deleteProduct/${id}`
+      `${import.meta.env.VITE_BACKEND_API_URL}/admin/deleteProduct/${id}`
     );
     return res.data;
   }
@@ -51,7 +51,7 @@ export const getAllProducts = createAsyncThunk(
   "/products/getAllproducts",
   async () => {
     const res = await axios.get(
-      "https://e-commerce-zfp2.onrender.com/admin/fetchProducts"
+      `${import.meta.env.VITE_BACKEND_API_URL}/admin/fetchProducts`
     );
     return res.data;
   }

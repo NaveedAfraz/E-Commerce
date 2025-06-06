@@ -37,7 +37,7 @@ function ProductImageUpload({
     const data = new FormData();
     data.append("my_file", imageFile);
     const response = await axios.post(
-      "https://e-commerce-zfp2.onrender.com/admin/upload-image",
+      `${import.meta.env.VITE_BACKEND_API_URL}/admin/upload-image`,
       data
     );
     console.log(response, "response");
@@ -65,15 +65,14 @@ function ProductImageUpload({
             onChange={handleImageFileChange}
             className="hidden"
             ref={inputref}
-            // disabled={isEditMode}
+          // disabled={isEditMode}
           />
           {console.log(isEditMode, "isEditMode")}
           {!imageFile ? (
             <Label
               htmlFor="image"
-              className={`${
-                isEditMode ? "cursor-not-allowed" : ""
-              } flex flex-col items-center justify-center h-32 cursor-pointer`}
+              className={`${isEditMode ? "cursor-not-allowed" : ""
+                } flex flex-col items-center justify-center h-32 cursor-pointer`}
             >
               <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
               <span>Click to upload image</span>

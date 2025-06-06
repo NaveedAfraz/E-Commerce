@@ -7,7 +7,9 @@ export const fetchcartDetails = createAsyncThunk(
     try {
       console.log(userID);
       const response = await axios.get(
-        `https://e-commerce-zfp2.onrender.com/cart/fetchCartDetails/${userID}`
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/cart/fetchCartDetails/${userID}`
       );
       return response.data;
     } catch (error) {
@@ -22,7 +24,7 @@ export const addProductToCart = createAsyncThunk(
     console.log(productDetails, userid);
     try {
       const response = await axios.post(
-        "https://e-commerce-zfp2.onrender.com/cart/addToCart",
+        `${import.meta.env.VITE_BACKEND_API_URL}/cart/addToCart`,
         {
           productDetails,
           userid,
@@ -43,7 +45,9 @@ export const updateProductQuantity = createAsyncThunk(
 
     try {
       const response = await axios.put(
-        `https://e-commerce-zfp2.onrender.com/cart/UpdateQuantity/${productID}`,
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/cart/UpdateQuantity/${productID}`,
         {
           userid,
           productID,
@@ -65,7 +69,9 @@ export const deleteProduct = createAsyncThunk(
     console.log(userID, productID);
     try {
       const response = await axios.delete(
-        `https://e-commerce-zfp2.onrender.com/cart/deleteproduct/${userID}/${productID}`
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/cart/deleteproduct/${userID}/${productID}`
       );
       return { ...response.data, deletedProductID: productID };
     } catch (error) {

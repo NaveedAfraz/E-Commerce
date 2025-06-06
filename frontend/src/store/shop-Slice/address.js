@@ -7,7 +7,9 @@ export const fetchAllAddresses = createAsyncThunk(
     console.log("userID", userID);
     try {
       const response = await axios.get(
-        `https://e-commerce-zfp2.onrender.com/address/fetchAllAddress/${userID}`
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/address/fetchAllAddress/${userID}`
       );
       // const data = await response.json();
       return response.data;
@@ -25,7 +27,7 @@ export const addNewAddress = createAsyncThunk(
 
     try {
       const response = await axios.post(
-        "https://e-commerce-zfp2.onrender.com/address/addAddress",
+        `${import.meta.env.VITE_BACKEND_API_URL}/address/addAddress`,
         {
           userID,
           addressData,
@@ -43,7 +45,9 @@ export const deleteAddress = createAsyncThunk(
   async ({ userID, addressID }, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `https://e-commerce-zfp2.onrender.com/address/deleteAddress/${userID}/${addressID}`
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/address/deleteAddress/${userID}/${addressID}`
       );
       return response.data;
     } catch (error) {
@@ -61,7 +65,9 @@ export const updateAddress = createAsyncThunk(
 
     try {
       const response = await axios.put(
-        `https://e-commerce-zfp2.onrender.com/address/updateAddress/${userID}`,
+        `${
+          import.meta.env.VITE_BACKEND_API_URL
+        }/address/updateAddress/${userID}`,
         { addressData }
       );
       return response.data;
