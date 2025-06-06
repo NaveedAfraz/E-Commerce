@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Analytics } from "@vercel/analytics/react"
 import React, { useEffect } from "react";
 import { authCheck } from "./store/auth-Slice/auth-slice";
-import { Skeleton } from "@/components/ui/skeleon";
 import UnAuthorized from "./pages/authCheck/unAuthorized";
 import Paypalreturn from "./pages/shopping/paypal-return";
 import PayPalCancel from "./pages/shopping/paypal-cancel";
