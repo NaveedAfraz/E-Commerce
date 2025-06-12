@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const intialState = {
-  userName: "",
-  password: "",
-  email: "",
+  userName: "demo",
+  password: "demo",
+  email: "demo@gmail.com",
 };
 
 function login() {
