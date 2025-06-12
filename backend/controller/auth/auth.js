@@ -110,9 +110,14 @@ const Register = async (req, res) => {
 };
 //logout
 const logout = async (req, res) => {
-  res.clearCookie("authToken");
+  res.clearCookie("authToken", {
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
+  });
   res.status(200).json({ message: "Logged out" });
 };
+
 //reCheckAuth
 const authCheck = async (req, res) => {
   try {
