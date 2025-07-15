@@ -17,6 +17,7 @@ require("dotenv").config({ path: "./env" });
 const corsOptions = {
   origin: [
     "https://e-commerce-psi-inky-93.vercel.app", // Production frontend
+    "https://e-commerce-qs7t.onrender.com", // Production frontend
   ],
   credentials: true, // Allow cookies to be sent with requests
   methods: ["GET", "POST", "PUT", "DELETE"], // Supported HTTP methods
