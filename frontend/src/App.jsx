@@ -41,7 +41,7 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="flex h-full my-80 w-full items-center justify-center">
+      <div className="flex h-screen w-full items-center justify-center">
         <FontAwesomeIcon
           icon={faSpinner}
           className="text-gray-500 text-6xl animate-spin"

@@ -13,9 +13,10 @@ const ordersRouter = require("./routes/shop/orders");
 const adminOrdersRouter = require("./routes/admin/orders");
 const searchRouter = require("./routes/shop/search");
 const reviewRouter = require("./routes/shop/reviews");
-require("dotenv").config({ path: "./env" });
+require("dotenv").config({ path: "./.env" });
 const corsOptions = {
   origin: [
+    "http://localhost:5173",
     "https://e-commerce-psi-inky-93.vercel.app", // Production frontend
     "https://e-commerce-qs7t.onrender.com", // Production frontend
   ],
@@ -31,7 +32,6 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/api/health", (req, res) => {
   res.json({ message: "Welcome to the server" });
 });
-
 
 // app.get("/auth",Register)
 // app.post("/auth",Login)
